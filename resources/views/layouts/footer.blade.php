@@ -1,12 +1,10 @@
-<div class="container">
-    <footer class="py-3 my-4">
-      <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Features</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Pricing</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
-      </ul>
-      <p class="text-center text-muted">© 2021 Company, Inc</p>
-    </footer>
-</div>
+<footer class="footer">
+  <div class="row g-0 justify-content-between fs--1 mt-4 mb-3">
+    <div class="col-12 col-sm-auto text-center">
+      <p class="mb-0 text-600">Thank you for creating with Falcon <span class="d-none d-sm-inline-block">| </span><br class="d-sm-none" /> 2022 &copy; <a href="https://themewagon.com">Themewagon</a></p>
+    </div>
+    <div class="col-12 col-sm-auto text-center">
+      <p class="mb-0 text-600">v3.9.0</p>
+    </div>
+  </div>
+</footer>
