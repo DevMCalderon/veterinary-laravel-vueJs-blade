@@ -18,7 +18,8 @@ class UserSeeder extends Seeder
             'name'=>"Eber Reta",
             'email'=>"eber.retabaeza@gmail.com",
             'password'=>bcrypt("eber123123"),
-            'email_verified_at'=>date('Y-m-d H:i:s')
+            'email_verified_at'=>date('Y-m-d H:i:s'),
+            'role_id' => RoleSeeder::SUPERADMIN_ID
         ]);
     }
 }
