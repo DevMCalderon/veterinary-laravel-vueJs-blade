@@ -19,7 +19,6 @@ class ClientFactory extends Factory
             'name' => $this->faker->name(),
             'email' => $this->faker->email(),
             'phone' => $this->faker->phoneNumber(),
-            'state' => 3,
             'city' => 19,
             'address' => $this->faker->streetAddress(),
         ];

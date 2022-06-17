@@ -18,8 +18,7 @@ class CreateClientsTable extends Migration
             $table->string('name');
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
-            $table->string('state')->nullable();
-            $table->string('city')->nullable();
+            $table->unsignedBigInteger('city')->nullable();
             $table->string('address')->nullable();
             $table->string('rfc')->nullable();
             $table->timestamps();
