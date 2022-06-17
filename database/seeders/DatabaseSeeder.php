@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             CitySeeder::class,
             ClientSeeder::class,
             ProductCategorySeeder::class,
+            PetTypeSeeder::class
         ]);
     }
 }
