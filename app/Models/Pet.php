@@ -5,16 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Client extends Model
+class Pet extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
-        'email',
-        'phone',
-        'city',
-        'address',
-        'rfc',
+        'fecha_nacimiento',
+        'color',
+        'comentarios',
+        'alergias',
+        'pet_type_id',
+        'raza_id',
+        'client_id',        
     ];
+    
 }
