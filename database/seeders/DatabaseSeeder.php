@@ -17,7 +17,9 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             StateSeeder::class,
             CitySeeder::class,
-            ClientSeeder::class
+            ClientSeeder::class,
+            ProductoSeeder::class,
+            VentaSeeder::class,
         ]);
     }
 }

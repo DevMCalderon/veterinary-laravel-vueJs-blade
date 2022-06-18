@@ -31,4 +31,7 @@ class HomeController extends Controller
             return redirect('/login');
         }
     }
+    public function vistaCaja(){
+        return view('venta');
+    }
 }

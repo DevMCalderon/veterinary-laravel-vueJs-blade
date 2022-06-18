@@ -20,5 +20,11 @@ class UserSeeder extends Seeder
             'password'=>bcrypt("eber123123"),
             'email_verified_at'=>date('Y-m-d H:i:s')
         ]);
+        User::create([
+            'name'=>"José Rodríguez",
+            'email'=>"a@a.com",
+            'password'=>bcrypt("a"),
+            'email_verified_at'=>date('Y-m-d H:i:s')
+        ]);
     }
 }
