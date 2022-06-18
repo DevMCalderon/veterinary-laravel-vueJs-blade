@@ -46,7 +46,8 @@ class UserSeeder extends Seeder
             'name'=>"José Rodríguez",
             'email'=>"a@a.com",
             'password'=>bcrypt("a"),
-            'email_verified_at'=>date('Y-m-d H:i:s')
+            'email_verified_at'=>date('Y-m-d H:i:s'),
+            'role_id' => RoleSeeder::SUPERADMIN_ID
         ]);
     }
 }
