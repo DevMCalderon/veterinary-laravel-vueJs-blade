@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,4 +21,5 @@ Auth::routes();
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('vistaCaja', [HomeController::class, 'vistaCaja'])->name('vistaCaja');
+Route::post('buscarProducto', [ProductoController::class, 'buscarProducto'])->name('buscarProducto');
 

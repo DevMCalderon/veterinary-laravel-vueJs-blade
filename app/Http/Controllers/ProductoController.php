@@ -16,6 +16,15 @@ class ProductoController extends Controller
     {
         //
     }
+    public function buscarProducto(Request $request){
+        $dato = $request->all();
+        $producto = Producto::where('code',$dato['codigo'])->first();
+        if ($producto) {
+            return response()->json(['status'=>true,'producto'=>$producto]);
+        }else{
+            return response()->json(['status'=>false,'msg'=>'Articulo no encontrado']);
+        }
+    }
 
     /**
      * Show the form for creating a new resource.

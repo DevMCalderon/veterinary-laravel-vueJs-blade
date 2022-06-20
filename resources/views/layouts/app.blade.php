@@ -60,6 +60,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('styles')
 </head>
 <body>
     <div id="app">
@@ -86,5 +87,6 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
     <script src="{{ asset('/assets/vendors/list.js/list.min.js') }}"></script>
     <script src="{{ asset('/assets/js/theme.js') }}"></script>
+    @yield('scripts')
 </body>
 </html>
