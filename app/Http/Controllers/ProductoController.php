@@ -25,6 +25,26 @@ class ProductoController extends Controller
             return response()->json(['status'=>false,'msg'=>'Articulo no encontrado']);
         }
     }
+    public function searchProducto($nombre){
+        if (isset($nombre)) {
+            $Query = Producto::where('name', 'LIKE', "%$nombre%")->get();
+
+            $li = '';
+            foreach ($Query as $key => $Result) {
+                $resp = (object) $Result;
+                $li.="
+                    <a class='list-group-item list-group-item-action cursor-pointer' onclick=\"fillCode($resp->code)\">
+                        $resp->name
+                    </a>
+                ";
+            }
+            echo "
+                <div class='list-group'>
+                    $li
+                </div>
+            ";
+        }
+    }
 
     /**
      * Show the form for creating a new resource.

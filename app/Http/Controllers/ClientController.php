@@ -17,6 +17,26 @@ class ClientController extends Controller
     {
         //
     }
+    public function searchClient($nombre){
+        if (isset($nombre)) {
+            $Query = Client::where('name', 'LIKE', "%$nombre%")->get();
+
+            $li = '';
+            foreach ($Query as $key => $Result) {
+                $resp = (object) $Result;
+                $li.="
+                    <a class='list-group-item list-group-item-action cursor-pointer' onclick=\"fill($resp->id)\">
+                        $resp->name
+                    </a>
+                ";
+            }
+            echo "
+                <div class='list-group'>
+                    $li
+                </div>
+            ";
+        }
+    }
 
     /**
      * Show the form for creating a new resource.

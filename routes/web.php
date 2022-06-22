@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductoController;
 use Illuminate\Support\Facades\Route;
@@ -22,4 +23,6 @@ Auth::routes();
 Route::get('/', [HomeController::class, 'index']);
 Route::get('vistaCaja', [HomeController::class, 'vistaCaja'])->name('vistaCaja');
 Route::post('buscarProducto', [ProductoController::class, 'buscarProducto'])->name('buscarProducto');
+Route::get('searchClient/{nombre}', [ClientController::class, 'searchClient'])->name('searchClient');
+Route::get('searchProducto/{nombre}', [ProductoController::class, 'searchProducto'])->name('searchProducto');
 

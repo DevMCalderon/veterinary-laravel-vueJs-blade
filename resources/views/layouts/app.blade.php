@@ -9,9 +9,6 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -28,8 +25,6 @@
     <link rel="manifest" href="{{ asset('assets/img/favicons/manifest.json') }}">
     <meta name="msapplication-TileImage" content="{{ asset('assets/img/favicons/mstile-150x150.png') }}">
     <meta name="theme-color" content="#ffffff">
-    <script src="{{ asset('/assets/js/config.js') }}"></script>
-    <script src="{{ asset('/assets/vendors/overlayscrollbars/OverlayScrollbars.min.js') }}"></script>
 
 
     <!-- ===============================================-->
@@ -78,6 +73,9 @@
     <!-- ===============================================-->
     <!--    JavaScripts-->
     <!-- ===============================================-->
+    <script src="{{ asset('/js/app.js') }}"></script>
+    <script src="{{ asset('/assets/js/config.js') }}"></script>
+    <script src="{{ asset('/assets/vendors/overlayscrollbars/OverlayScrollbars.min.js') }}"></script>
     <script src="{{ asset('/assets/vendors/popper/popper.min.js') }}"></script>
     <script src="{{ asset('/assets/vendors/bootstrap/bootstrap.min.js') }}"></script>
     <script src="{{ asset('/assets/vendors/anchorjs/anchor.min.js') }}"></script>
@@ -87,6 +85,7 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
     <script src="{{ asset('/assets/vendors/list.js/list.min.js') }}"></script>
     <script src="{{ asset('/assets/js/theme.js') }}"></script>
+       
     @yield('scripts')
 </body>
 </html>
