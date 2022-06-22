@@ -10,7 +10,6 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -60,6 +59,18 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <script>
+    var isFluid = JSON.parse(localStorage.getItem('isFluid'));
+    if (isFluid) {
+      var container = document.querySelector('[data-layout]');
+      container.classList.remove('container');
+      container.classList.add('container-fluid');
+    }
+  </script>
+
+  
+    
 </head>
 <body>
     <div id="app">
@@ -86,5 +97,15 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
     <script src="{{ asset('/assets/vendors/list.js/list.min.js') }}"></script>
     <script src="{{ asset('/assets/js/theme.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}" ></script>
+
+    <script>
+      var navbarStyle = localStorage.getItem("navbarStyle");
+      if (navbarStyle && navbarStyle !== 'transparent') {
+        document.querySelector('.navbar-vertical').classList.add(`navbar-${navbarStyle}`);
+      }
+    </script>
+    
+    @yield('scripts')
 </body>
 </html>

@@ -21,3 +21,5 @@ Auth::routes();
 Route::get('/', [HomeController::class, 'index']);
 Route::get('vistaCaja', [HomeController::class, 'vistaCaja'])->name('vistaCaja');
 
+Route::get('productos', [HomeController::class, 'productosList'])->name('productos-list');
+

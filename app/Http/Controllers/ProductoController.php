@@ -82,4 +82,13 @@ class ProductoController extends Controller
     {
         //
     }
+
+    public function list(){
+        $products = Producto::with('category')->get();
+
+        return response([
+            'status' => true,
+            'products' => $products
+        ]);
+    }
 }
