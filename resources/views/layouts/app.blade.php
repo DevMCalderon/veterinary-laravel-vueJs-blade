@@ -85,7 +85,6 @@
     <!-- ===============================================-->
     <!--    JavaScripts-->
     <!-- ===============================================-->
-    <script src="{{ asset('/js/app.js') }}"></script>
     <script src="{{ asset('/assets/js/config.js') }}"></script>
     <script src="{{ asset('/assets/vendors/overlayscrollbars/OverlayScrollbars.min.js') }}"></script>
     <script src="{{ asset('/assets/vendors/popper/popper.min.js') }}"></script>
