@@ -7,9 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Scripts -->
+    <title>{{ config('app.name', 'Vetsoft') }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -27,8 +25,6 @@
     <link rel="manifest" href="{{ asset('assets/img/favicons/manifest.json') }}">
     <meta name="msapplication-TileImage" content="{{ asset('assets/img/favicons/mstile-150x150.png') }}">
     <meta name="theme-color" content="#ffffff">
-    <script src="{{ asset('/assets/js/config.js') }}"></script>
-    <script src="{{ asset('/assets/vendors/overlayscrollbars/OverlayScrollbars.min.js') }}"></script>
 
 
     <!-- ===============================================-->
@@ -71,6 +67,7 @@
 
   
     
+    @yield('styles')
 </head>
 <body>
     <div id="app">
@@ -88,6 +85,9 @@
     <!-- ===============================================-->
     <!--    JavaScripts-->
     <!-- ===============================================-->
+    <script src="{{ asset('/js/app.js') }}"></script>
+    <script src="{{ asset('/assets/js/config.js') }}"></script>
+    <script src="{{ asset('/assets/vendors/overlayscrollbars/OverlayScrollbars.min.js') }}"></script>
     <script src="{{ asset('/assets/vendors/popper/popper.min.js') }}"></script>
     <script src="{{ asset('/assets/vendors/bootstrap/bootstrap.min.js') }}"></script>
     <script src="{{ asset('/assets/vendors/anchorjs/anchor.min.js') }}"></script>

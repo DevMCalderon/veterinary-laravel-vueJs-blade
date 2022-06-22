@@ -29,3 +29,7 @@ Vue.component('products-list', require('./components/ProductosList.vue').default
 const app = new Vue({
     el: '#app',
 });
+
+axios = require('axios').default;
+$ = require( "jquery" );
+Swal = require( "sweetalert2" );
