@@ -24,7 +24,7 @@
                             <div class="dropdown-menu dropdown-menu-end border py-0">
                                 <div class="bg-white py-2">
                                     <a class="dropdown-item" href="#!">Editar</a>
-                                    <a class="dropdown-item text-danger" href="#!">Eliminar</a>
+                                    <a class="dropdown-item text-danger" @click="confirmDelete(product)" href="#!">Eliminar</a>
                                 </div>
                             </div>
                         </div>
@@ -40,6 +40,11 @@
                 </tr>
             </tbody>
         </table>
+        
+        <p class="text-right">
+
+        <small>{{ products.length }} productos</small>
+        </p>
     </div>
 </template>
 
@@ -65,7 +70,47 @@ export default {
                     this.products = resp.data.products
                 }
             });
+        },
+        confirmDelete(product){
+            Swal.fire({
+                html: `¿Desea eliminar el producto <b>${product.name}</b>?`,
+                icon: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Eliminar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.deleteProduct(product)
+                }
+            })
+        },
+        deleteProduct(product){
+            axios.delete(`/api/product/${product.id}`).then(resp => {
+                if(resp.data.status){
+                    Swal.fire(
+                        'Eliminado',
+                        `El producto <b>${product.name}</b> ha sido eliminado`,
+                        'success'
+                    ).then(resp => {
+                        this.getProducts();
+                    })
+                }else{
+                    Swal.fire(
+                        'Ocurrio un error',
+                        resp.data.msg,
+                        'error'
+                    )
+                }
+            });
+
         }
     }
 }
 </script>
+
+
+<style scoped>
+    .text-right{
+        text-align: right
+    }
+</style>

@@ -114,9 +114,18 @@ class ProductoController extends Controller
      * @param  \App\Models\Producto  $producto
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Producto $producto)
+    public function destroy(Producto $product)
     {
-        //
+        if($product->delete()){
+            return response([
+                'status'=> true
+            ]);
+        }else{
+            return response([
+                'status'=> false,
+                'msg' => "No fue posible eliminar el producto"
+            ]);
+        }
     }
 
     public function list(){
