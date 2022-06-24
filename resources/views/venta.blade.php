@@ -11,10 +11,58 @@
                 <div class="">
                     <label class="form-label" for="exampleFormControlInput1">Codigo de producto</label>
                     <div class="input-group mb-3">
-                        <input class="form-control" type="text" placeholder="Introducir codigo" aria-label="Introducir codigo" aria-describedby="basic-addon2" id="inputSearch"/>
+                        <input class="form-control" type="text" placeholder="Introducir codigo" aria-label="Introducir codigo" aria-describedby="basic-addon2" id="inputSearch" autocomplete="off"/>
                         <button class="input-group-button btn btn-primary" id="buttonSearch"><i class="fas fa-search"></i></button>
                     </div>
                     <small class="float-end cursor-pointer" data-bs-toggle="modal" data-bs-target="#search-product-modal">Buscar producto</small>
+                </div>
+                
+            </div>
+            <div class="mt-5">
+                <div class="card-header">
+                    <div class="row justify-content-between">
+                        <div class="col-md-auto">
+                            <h5 class="mb-3 mb-md-0">Carrito de compras (<span class="cantProd">0</span> productos)</h5>
+                        </div>
+                        <div class="col-md-auto">
+                            <a class="btn btn-sm btn-primary" href="../../app/e-commerce/checkout.html">Pagar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="row gx-card mx-0 text-900 fs--1 fw-semi-bold" id="divCliente" style="display: none">
+                        Cliente: <span id="nomCliente"> </span>
+                    </div>
+                    <div class="row gx-card mx-0 bg-200 text-900 fs--1 fw-semi-bold">
+                        <div class="col-9 col-md-8 py-2">Nombre</div>
+                        <div class="col-3 col-md-4">
+                            <div class="row">
+                                <div class="col-md-8 py-2 d-none d-md-block text-center">Cantidad</div>
+                                <div class="col-12 col-md-4 text-end py-2">Precio</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="contCarrito">
+                        
+                    </div>
+
+                    <div class="row fw-bold gx-card mx-0">
+                        <div class="col-9 col-md-8 py-2 text-end text-900">Total</div>
+                        <div class="col px-0">
+                            <div class="row gx-card mx-0">
+                                <div class="col-md-8 py-2 d-none d-md-block text-center"><span class="cantProd">0</span> (productos)</div>
+                                <div class="col-12 col-md-4 text-end py-2">$<span class="totalVent">0</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-light d-flex justify-content-end">
+                    <form class="me-3">
+                        <div class="input-group input-group-sm">
+                            <input class="form-control" type="text" placeholder="Codigo promocional" />
+                            <button class="btn btn-outline-secondary border-300 btn-sm" type="submit">Aplicar</button>
+                        </div>
+                    </form><a class="btn btn-sm btn-primary" href="../../app/e-commerce/checkout.html">Pagar</a>
                 </div>
             </div>
         </div>
@@ -23,7 +71,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">
             <div class="modal-content position-relative">
                 <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
-                    <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
+                    <button id="btnCloseClient" class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
                         data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-0">
@@ -34,7 +82,7 @@
                         <form>
                             <div class="mb-3">
                                 <label class="col-form-label" for="search">Nombre del cliente:</label>
-                                <input class="form-control" id="search" type="text" />
+                                <input class="form-control" id="search" type="text" autocomplete="off"/>
                                 <div id="display"></div>
                             </div>
                         </form>
@@ -42,7 +90,7 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
-                    <button class="btn btn-primary" type="button">Understood </button>
+                    {{-- <button class="btn btn-primary" type="button">Understood </button> --}}
                 </div>
             </div>
         </div>
@@ -51,7 +99,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">
             <div class="modal-content position-relative">
                 <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
-                    <button class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
+                    <button id="btnCloseProduct" class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
                         data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-0">
@@ -62,7 +110,7 @@
                         <form>
                             <div class="mb-3">
                                 <label class="col-form-label" for="searchProducto">Nombre del producto:</label>
-                                <input class="form-control" id="searchProducto" type="text" />
+                                <input class="form-control" id="searchProducto" type="text" autocomplete="off"/>
                                 <div id="displayProduct"></div>
                             </div>
                         </form>
@@ -70,7 +118,7 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
-                    <button class="btn btn-primary" type="button">Understood </button>
+                    {{-- <button class="btn btn-primary" type="button">Understood </button> --}}
                 </div>
             </div>
         </div>
@@ -108,10 +156,52 @@
         }
     });
     var buttonSearch = document.getElementById('buttonSearch');
+    var carrito = {};
     buttonSearch.addEventListener("click", function(event) {
         axios.post('buscarProducto',{'codigo':$('#inputSearch').val()}).then((resp)=>{
             if (resp.data.status) {
+                $('#inputSearch').val('');
                 
+                if (carrito[resp.data.producto.id]) {
+                    carrito[resp.data.producto.id]['cant']=carrito[resp.data.producto.id]['cant']+resp.data.cant
+                    $('#cant'+resp.data.producto.id).val(carrito[resp.data.producto.id]['cant'])
+                    $('#price'+resp.data.producto.id).text(carrito[resp.data.producto.id]['cant']*carrito[resp.data.producto.id]['price'])
+                }else{
+                    carrito[resp.data.producto.id]={'cant':resp.data.cant,'price':resp.data.producto.price}
+                    $('#contCarrito').append(`
+                        <div class="row gx-card mx-0 align-items-center border-bottom border-200">
+                            <div class="col-8 py-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex-1">
+                                        <h5 class="fs-0"><a class="text-900">${resp.data.producto.name}</a></h5>
+                                        <div class="fs--2 fs-md--1"><a class="text-danger" href="#!">Remove</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4 py-3">
+                                <div class="row align-items-center">
+                                    <div
+                                        class="col-md-8 d-flex justify-content-end justify-content-md-center order-1 order-md-0">
+                                        <div>
+                                            <div class="input-group input-group-sm flex-nowrap"
+                                                data-quantity="data-quantity">
+                                                <button class="btn btn-sm btn-outline-secondary border-300 px-2"
+                                                    data-type="minus">-</button>
+                                                <input id="cant${resp.data.producto.id}" class="form-control text-center px-2 input-spin-none" type="number"
+                                                    min="1" value="${resp.data.cant}" aria-label="Amount (to the nearest dollar)"
+                                                    style="width: 50px" />
+                                                <button class="btn btn-sm btn-outline-secondary border-300 px-2"
+                                                    data-type="plus">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 text-end ps-0 order-0 order-md-1 mb-2 mb-md-0 text-600">$<span id="price${resp.data.producto.id}">${resp.data.producto.price*resp.data.cant}</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                }
+                $('.cantProd').text(Object.keys(carrito).length)
             } else {
                 Swal.fire({
                     title: 'Error!',
@@ -126,16 +216,19 @@
 
 
     //Getting value from "ajax.php".
-
-    function fill(Value) {
-        $('#search').val(Value);
+    var idClient
+    function fill(id,name) {
+        idClient = id;
+        $('#nomCliente').text(name);
         $('#display').hide();
+        $('#btnCloseClient').click();
+        $("#divCliente").css('display','block')
     }
     function fillCode(Value) {
         $('#inputSearch').val(Value);
         $('#searchProducto').val('');
-        $('#search-product-modal').modal('hide');
         $('#displayProduct').hide();
+        $('#btnCloseProduct').click();
     }
     
 </script>

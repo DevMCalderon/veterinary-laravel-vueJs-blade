@@ -25,7 +25,7 @@ class ClientController extends Controller
             foreach ($Query as $key => $Result) {
                 $resp = (object) $Result;
                 $li.="
-                    <a class='list-group-item list-group-item-action cursor-pointer' onclick=\"fill($resp->id)\">
+                    <a class='list-group-item list-group-item-action cursor-pointer' onclick=\"fill(`$resp->id`,`$resp->name`)\">
                         $resp->name
                     </a>
                 ";

@@ -18,9 +18,16 @@ class ProductoController extends Controller
     }
     public function buscarProducto(Request $request){
         $dato = $request->all();
-        $producto = Producto::where('code',$dato['codigo'])->first();
+        $codeDs = explode('*',$dato['codigo']);
+        if (count($codeDs)==1) {
+            $cant=1;
+            $producto = Producto::where('code',$codeDs[0])->first();
+        }else{
+            $cant=(int)$codeDs[0];
+            $producto = Producto::where('code',$codeDs[1])->first();
+        }
         if ($producto) {
-            return response()->json(['status'=>true,'producto'=>$producto]);
+            return response()->json(['status'=>true,'producto'=>$producto,'cant'=>$cant]);
         }else{
             return response()->json(['status'=>false,'msg'=>'Articulo no encontrado']);
         }
