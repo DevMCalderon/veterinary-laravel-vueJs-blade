@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\ProductCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductoFactory extends Factory
@@ -16,9 +17,9 @@ class ProductoFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'code' => $this->faker->creditCardNumber(),
-            'price' => $this->faker->randomNumber(2),
+            'price' => $this->faker->randomNumber(2).".".$this->faker->randomNumber(2),
             'image' => 'sin imagen',
-            'category_id' => $this->faker->randomNumber(2),
+            'category_id' => ProductCategory::inRandomOrder()->first()->id,
         ];
     }
 }

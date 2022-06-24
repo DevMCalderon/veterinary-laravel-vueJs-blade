@@ -34,4 +34,8 @@ class HomeController extends Controller
     public function vistaCaja(){
         return view('venta');
     }
+
+    public function productosList(){
+        return view('productos-list');
+    }
 }
