@@ -52,6 +52,34 @@ class ProductoController extends Controller
             ";
         }
     }
+    public function comprobarTotal(Request $carrito){
+        $productos = $carrito->all();
+        $total=0;
+        foreach ($productos['carrito'] as $key => $value) {
+            $producto = Producto::where('id',$key)->first();
+            $total = $producto->price * $value['cant'];
+        }
+        return $total;
+    }
+    public function pago(Request $datos){
+        $datos = $datos->all();
+        $total=0;
+        foreach ($datos['carrito'] as $key => $value) {
+            $producto = Producto::where('id',$key)->first();
+            $total = $producto->price * $value['cant'];
+        }
+        if (($total-$datos['datos']['dineroRecibido']) == 0) {
+            return response()->json(array('estado'=>true,'msg'=>'pago exitoso'));
+
+        }else{
+            if (($total-$datos['datos']['dineroRecibido']) > 0) {
+                return response()->json(array('estado'=>'faltante','msg'=>'Faltan: '.($total-$datos['datos']['dineroRecibido'])));
+            }else{
+                return response()->json(array('estado'=>'cambio','msg'=>'Debe entregar: '.abs($total-$datos['datos']['dineroRecibido'])));
+            }
+        }
+
+    }
 
     /**
      * Show the form for creating a new resource.

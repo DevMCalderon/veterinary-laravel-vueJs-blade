@@ -26,5 +26,8 @@ Route::post('buscarProducto', [ProductoController::class, 'buscarProducto'])->na
 Route::get('searchClient/{nombre}', [ClientController::class, 'searchClient'])->name('searchClient');
 Route::get('searchProducto/{nombre}', [ProductoController::class, 'searchProducto'])->name('searchProducto');
 
+Route::post('comprobarTotal', [ProductoController::class, 'comprobarTotal'])->name('comprobarTotal');
+Route::post('pagar', [ProductoController::class, 'pago'])->name('pagar');
+
 Route::get('productos', [HomeController::class, 'productosList'])->name('productos-list');
 
