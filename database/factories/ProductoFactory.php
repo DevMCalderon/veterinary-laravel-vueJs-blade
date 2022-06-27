@@ -18,7 +18,7 @@ class ProductoFactory extends Factory
             'name' => $this->faker->name(),
             'code' => $this->faker->creditCardNumber(),
             'price' => $this->faker->randomNumber(2).".".$this->faker->randomNumber(2),
-            'image' => 'sin imagen',
+            'image' => '',
             'category_id' => ProductCategory::inRandomOrder()->first()->id,
         ];
     }

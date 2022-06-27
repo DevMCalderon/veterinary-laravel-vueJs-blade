@@ -15,7 +15,12 @@ class ProductCategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = ProductCategory::all();
+
+        return response([
+            'status' => true,
+            'categories' => $categories
+        ]);
     }
 
     /**

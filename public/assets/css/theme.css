@@ -4972,15 +4972,15 @@ fieldset:disabled .tox .tox-dialog__footer .tox-button--secondary,
 
 .btn-success {
   color: #fff;
-  background-color: #00d27a;
-  border-color: #00d27a;
+  background-color: #2ab37a;
+  border-color: #2ab37a;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 .btn-success:hover {
   color: #fff;
-  background-color: #00b368;
-  border-color: #00a862;
+  background-color: #009154;
+  border-color: #009154;
 }
 .btn-check:focus + .btn-success, .btn-success:focus {
   color: #fff;
@@ -29480,3 +29480,5 @@ div[data-collapse] + .kanban-item,
   padding-left: 0.5rem !important;
 }
 /*# sourceMappingURL=theme.css.map */
+
+

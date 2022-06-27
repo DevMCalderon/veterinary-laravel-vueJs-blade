@@ -30,4 +30,5 @@ Route::post('comprobarTotal', [ProductoController::class, 'comprobarTotal'])->na
 Route::post('pagar', [ProductoController::class, 'pago'])->name('pagar');
 
 Route::get('productos', [HomeController::class, 'productosList'])->name('productos-list');
+Route::get('productos/crear', [HomeController::class, 'productosCrear'])->name('productos-crear');
 

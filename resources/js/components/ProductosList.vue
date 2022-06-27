@@ -3,7 +3,7 @@
         <table class="table table-sm  table-hover">
             <thead>
                 <tr class="btn-reveal-trigger">
-                    <th>Imagen</th>
+                    <th style="width:120px">Imagen</th>
                     <th>Código</th>
                     <th>Producto</th>
                     <th>Precio</th>
@@ -13,7 +13,10 @@
             </thead>
             <tbody v-if="products && products.length > 0">
                 <tr class="btn-reveal-trigger" v-for="product in products" :key="product.id">
-                    <td>{{ product.image }}</td>
+                    <td>
+                        <img v-if="product.image" :src="product.image" :alt="product.name" class="img-fluid img-product" onerror="this.onerror=null;this.src='/img/image-not-found.png';">
+                        <span v-else>Sin imagen</span>
+                    </td>
                     <td>{{ product.code }}</td>
                     <td>{{ product.name }}</td>
                     <td>${{ product.price }} <small>MXN</small></td>
@@ -24,7 +27,7 @@
                             <div class="dropdown-menu dropdown-menu-end border py-0">
                                 <div class="bg-white py-2">
                                     <a class="dropdown-item" href="#!">Editar</a>
-                                    <a class="dropdown-item text-danger" href="#!">Eliminar</a>
+                                    <a class="dropdown-item text-danger" @click="confirmDelete(product)" href="#!">Eliminar</a>
                                 </div>
                             </div>
                         </div>
@@ -40,6 +43,11 @@
                 </tr>
             </tbody>
         </table>
+        
+        <p class="text-right">
+
+        <small>{{ products.length }} productos</small>
+        </p>
     </div>
 </template>
 
@@ -65,7 +73,54 @@ export default {
                     this.products = resp.data.products
                 }
             });
+        },
+        confirmDelete(product){
+            Swal.fire({
+                html: `¿Desea eliminar el producto <b>${product.name}</b>?`,
+                icon: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Eliminar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.deleteProduct(product)
+                }
+            })
+        },
+        deleteProduct(product){
+            axios.delete(`/api/product/${product.id}`).then(resp => {
+                if(resp.data.status){
+                    Swal.fire(
+                        'Eliminado',
+                        `El producto <b>${product.name}</b> ha sido eliminado`,
+                        'success'
+                    ).then(resp => {
+                        this.getProducts();
+                    })
+                }else{
+                    Swal.fire(
+                        'Ocurrio un error',
+                        resp.data.msg,
+                        'error'
+                    )
+                }
+            });
+        },
+        loadErorrImage(e){
+            console.log({e});
+            e.target.src = "/img/image-not-found.png";
         }
     }
 }
 </script>
+
+
+<style scoped>
+    .text-right{
+        text-align: right
+    }
+    .img-product{
+        max-width: 80px;
+
+    }
+</style>

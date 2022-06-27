@@ -38,4 +38,8 @@ class HomeController extends Controller
     public function productosList(){
         return view('productos-list');
     }
+
+    public function productosCrear(){
+        return view('productos-crear');
+    }
 }
