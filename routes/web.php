@@ -27,4 +27,5 @@ Route::get('searchClient/{nombre}', [ClientController::class, 'searchClient'])->
 Route::get('searchProducto/{nombre}', [ProductoController::class, 'searchProducto'])->name('searchProducto');
 
 Route::get('productos', [HomeController::class, 'productosList'])->name('productos-list');
+Route::get('productos/crear', [HomeController::class, 'productosCrear'])->name('productos-crear');
 

@@ -3,7 +3,7 @@
         <table class="table table-sm  table-hover">
             <thead>
                 <tr class="btn-reveal-trigger">
-                    <th>Imagen</th>
+                    <th style="width:120px">Imagen</th>
                     <th>Código</th>
                     <th>Producto</th>
                     <th>Precio</th>
@@ -13,7 +13,10 @@
             </thead>
             <tbody v-if="products && products.length > 0">
                 <tr class="btn-reveal-trigger" v-for="product in products" :key="product.id">
-                    <td>{{ product.image }}</td>
+                    <td>
+                        <img v-if="product.image" :src="product.image" :alt="product.name" class="img-fluid img-product" onerror="this.onerror=null;this.src='/img/image-not-found.png';">
+                        <span v-else>Sin imagen</span>
+                    </td>
                     <td>{{ product.code }}</td>
                     <td>{{ product.name }}</td>
                     <td>${{ product.price }} <small>MXN</small></td>
@@ -102,7 +105,10 @@ export default {
                     )
                 }
             });
-
+        },
+        loadErorrImage(e){
+            console.log({e});
+            e.target.src = "/img/image-not-found.png";
         }
     }
 }
@@ -112,5 +118,9 @@ export default {
 <style scoped>
     .text-right{
         text-align: right
+    }
+    .img-product{
+        max-width: 80px;
+
     }
 </style>

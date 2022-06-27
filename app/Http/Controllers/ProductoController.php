@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProductRequest;
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use App\Traits\FileTrait;
 
 class ProductoController extends Controller
 {
+    use FileTrait;
     /**
      * Display a listing of the resource.
      *
@@ -69,9 +72,32 @@ class ProductoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        //
+        $data = $request->all();
+
+        
+        $imagePath =  ($data['image'] && $data['image'] != 'undefined' )? $this->storeImage($data['image'],'products')  : "";
+
+        $product = Producto::create([
+            'name' => $data['name'],
+            'code' => $data['code'],
+            'price' => $data['price'],
+            'image' => $imagePath,
+            'category_id' => $data['category_id'],
+        ]);
+
+        if($product){
+            return response([
+                'status' => true,
+                'product' => $product,
+            ]);
+        }else{
+            return response([
+                'status' => false,
+                'msg' => 'Ocurrio un error al intentar crear el producto'
+            ]);
+        }
     }
 
     /**
@@ -117,6 +143,11 @@ class ProductoController extends Controller
     public function destroy(Producto $product)
     {
         if($product->delete()){
+            
+            if($product->image){
+                $imageDeleted = $this->deleteFile($product->image);
+            }
+
             return response([
                 'status'=> true
             ]);
