@@ -21,13 +21,17 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', [HomeController::class, 'index']);
-Route::get('vistaCaja', [HomeController::class, 'vistaCaja'])->name('vistaCaja');
-Route::post('buscarProducto', [ProductoController::class, 'buscarProducto'])->name('buscarProducto');
-Route::get('searchClient/{nombre}', [ClientController::class, 'searchClient'])->name('searchClient');
-Route::get('searchProducto/{nombre}', [ProductoController::class, 'searchProducto'])->name('searchProducto');
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('vistaCaja', [HomeController::class, 'vistaCaja'])->name('vistaCaja');
+    Route::post('buscarProducto', [ProductoController::class, 'buscarProducto'])->name('buscarProducto');
+    Route::get('searchClient/{nombre}', [ClientController::class, 'searchClient'])->name('searchClient');
+    Route::get('searchProducto/{nombre}', [ProductoController::class, 'searchProducto'])->name('searchProducto');
+    Route::post('comprobarTotal', [ProductoController::class, 'comprobarTotal'])->name('comprobarTotal');
+    Route::post('pagar', [ProductoController::class, 'pago'])->name('pagar');
+
     Route::get('productos', [HomeController::class, 'productosList'])->name('productos-list');
     Route::get('productos/crear', [HomeController::class, 'productosCrear'])->name('productos-crear');
     Route::get('product/{product}/editar', [HomeController::class, 'productosUpdate'])->name('productos-update');
+
 });
