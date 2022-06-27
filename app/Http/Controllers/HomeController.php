@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,21 +26,29 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
-        if($user){
+        if ($user) {
             return view('home');
-        }else {
+        } else {
             return redirect('/login');
         }
     }
-    public function vistaCaja(){
+    public function vistaCaja()
+    {
         return view('venta');
     }
 
-    public function productosList(){
+    public function productosList()
+    {
         return view('productos-list');
     }
 
-    public function productosCrear(){
+    public function productosCrear()
+    {
         return view('productos-crear');
+    }
+
+    public function productosUpdate(Producto $product)
+    {
+        return view('productos-update', compact('product'));
     }
 }

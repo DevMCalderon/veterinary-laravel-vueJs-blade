@@ -26,6 +26,8 @@ Route::post('buscarProducto', [ProductoController::class, 'buscarProducto'])->na
 Route::get('searchClient/{nombre}', [ClientController::class, 'searchClient'])->name('searchClient');
 Route::get('searchProducto/{nombre}', [ProductoController::class, 'searchProducto'])->name('searchProducto');
 
-Route::get('productos', [HomeController::class, 'productosList'])->name('productos-list');
-Route::get('productos/crear', [HomeController::class, 'productosCrear'])->name('productos-crear');
-
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('productos', [HomeController::class, 'productosList'])->name('productos-list');
+    Route::get('productos/crear', [HomeController::class, 'productosCrear'])->name('productos-crear');
+    Route::get('product/{product}/editar', [HomeController::class, 'productosUpdate'])->name('productos-update');
+});

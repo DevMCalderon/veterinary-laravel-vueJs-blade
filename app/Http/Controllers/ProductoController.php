@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductoRequest;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 use App\Traits\FileTrait;
@@ -100,38 +101,59 @@ class ProductoController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Producto  $producto
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Producto $producto)
+    public function show(Producto $product)
     {
-        //
+        if($product){
+            return response([
+                'status'=> true,
+                'product' => $product
+            ]);
+        }else{
+            return response([
+                'status'=> true,
+                'msg' => 'No se pudo encontrar la información del producto'
+            ]);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Producto  $producto
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Producto $producto)
-    {
-        //
-    }
+   
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Producto  $producto
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Producto $producto)
+    public function update(UpdateProductoRequest $request, Producto $product)
     {
-        //
+        if($product){
+            $data = $request->all();
+            if($data['image'] && $data['image'] != 'undefined' ){
+                $oldImage = $product->image;
+                $imagePath = $this->storeImage($data['image'],'products');
+            }else{
+                $imagePath = $product->image;
+
+            }
+
+            $product->name        = $data['name'];
+            $product->code        = $data['code'];
+            $product->price       = $data['price'];
+            $product->image       = $imagePath;
+            $product->category_id = $data['category_id'];
+    
+            if($product->save()){
+                $this->deleteFile($oldImage);
+                return response([
+                    'status' => true,
+                    'product' => $product,
+                ]);
+            }else{
+                return response([
+                    'status' => false,
+                    'msg' => 'Ocurrio un error al intentar actualizar el producto'
+                ]);
+            }
+        }else{
+            return response([
+                'status' => false,
+                'msg' => 'No se pudo obtener la información del producto'
+            ]);
+        }
     }
 
     /**

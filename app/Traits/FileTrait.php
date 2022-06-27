@@ -37,6 +37,7 @@ trait FileTrait
     }
 
     public function deleteFile($file){
-        return unlink(storage_path('app/public'. $file));
+        if($file)
+            return unlink(storage_path('app/public'. $file));
     }
 }

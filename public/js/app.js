@@ -2164,8 +2164,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['productId'],
   data: function data() {
     return {
+      id: undefined,
       name: '',
       code: '',
       price: '0',
@@ -2176,7 +2178,11 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.getCategory();
+    this.getCategories();
+
+    if (this.productId) {
+      this.getProduct(this.productId);
+    }
   },
   methods: {
     localSave: function localSave() {
@@ -2186,7 +2192,7 @@ __webpack_require__.r(__webpack_exports__);
         this.image = undefined;
       }
     },
-    getCategory: function getCategory() {
+    getCategories: function getCategories() {
       var _this = this;
 
       this.categories = [];
@@ -2198,9 +2204,37 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    save: function save(e) {
+    clearForm: function clearForm() {
+      this.id = undefined;
+      this.name = "";
+      this.code = "";
+      this.price = "";
+      this.image = "";
+      this.category_id = "";
+    },
+    getProduct: function getProduct(productId) {
       var _this2 = this;
 
+      this.clearForm();
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/product/".concat(productId)).then(function (resp) {
+        if (resp.data.status) {
+          _this2.id = resp.data.product.id;
+          _this2.name = resp.data.product.name;
+          _this2.code = resp.data.product.code;
+          _this2.price = resp.data.product.price;
+          _this2.image = resp.data.product.image;
+          _this2.category_id = resp.data.product.category_id;
+        } else {
+          Swal.fire('Ocurrio un error', resp.data.msg, 'error');
+        }
+      })["catch"](function (error) {
+        console.log({
+          error: error
+        });
+        Swal.fire('', "Ocurrio un error al intentar obtener información del producto", 'error');
+      });
+    },
+    save: function save(e) {
       e.preventDefault();
 
       if (this.$refs.productForm.reportValidity()) {
@@ -2211,27 +2245,50 @@ __webpack_require__.r(__webpack_exports__);
         formData.append('code', this.code);
         formData.append('price', this.price);
         formData.append('category_id', this.category_id);
-        axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/product', formData).then(function (resp) {
-          if (resp.data.status) {
-            var productName = resp.data.product && resp.data.product.name || "";
-            Swal.fire('', "El producto <b>".concat(productName, "</b> ha sido agregado"), 'success').then(function (resp) {
-              location.href = "/productos";
-            });
-          } else {
-            Swal.fire('Ocurrio un error', resp.data.msg, 'error');
-          }
-        })["catch"](function (error) {
-          var errorStatus = error.response.status;
 
-          if (errorStatus == 422) {
-            console.log("errorStatus: 422");
-            console.log({
-              errors: error.response.data
-            });
-            _this2.errors = error.response.data.errors;
-          }
-        });
+        if (this.productId) {
+          formData.append('id', this.id);
+          this.updateProduct(this.id, formData);
+        } else {
+          this.storeProduct(formData);
+        }
       }
+    },
+    updateProduct: function updateProduct(id, product) {
+      var _this3 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/product/' + id, product).then(function (resp) {
+        if (resp.data.status) {
+          var productName = resp.data.product && resp.data.product.name || "";
+          Swal.fire('', "Informaci\xF3n actualizada", 'success').then(function (resp) {
+            location.href = "/productos";
+          });
+        } else {
+          Swal.fire('Ocurrio un error', resp.data.msg, 'error');
+        }
+      })["catch"](function (error) {
+        if (error.response.status == 422) {
+          _this3.errors = error.response.data.errors;
+        }
+      });
+    },
+    storeProduct: function storeProduct(product) {
+      var _this4 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/product', product).then(function (resp) {
+        if (resp.data.status) {
+          var productName = resp.data.product && resp.data.product.name || "";
+          Swal.fire('', "El producto <b>".concat(productName, "</b> ha sido agregado"), 'success').then(function (resp) {
+            location.href = "/productos";
+          });
+        } else {
+          Swal.fire('Ocurrio un error', resp.data.msg, 'error');
+        }
+      })["catch"](function (error) {
+        if (error.response.status == 422) {
+          _this4.errors = error.response.data.errors;
+        }
+      });
     }
   }
 });
@@ -18562,7 +18619,9 @@ var render = function () {
                                 "a",
                                 {
                                   staticClass: "dropdown-item",
-                                  attrs: { href: "#!" },
+                                  attrs: {
+                                    href: "/product/" + product.id + "/editar",
+                                  },
                                 },
                                 [_vm._v("Editar")]
                               ),
