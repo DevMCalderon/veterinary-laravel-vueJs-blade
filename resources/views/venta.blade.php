@@ -25,7 +25,7 @@
                             <h5 class="mb-3 mb-md-0">Carrito de compras (<span class="cantProd">0</span> productos)</h5>
                         </div>
                         <div class="col-md-auto">
-                            <a class="btn btn-sm btn-primary" href="../../app/e-commerce/checkout.html">Pagar</a>
+                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal-pagar" onclick="comprobarTotal()">Pagar</button>
                         </div>
                     </div>
                 </div>
@@ -191,6 +191,7 @@
     });
     var buttonSearch = document.getElementById('buttonSearch');
     var carrito = {};
+    var cliente = 0;
     buttonSearch.addEventListener("click", function(event) {
         axios.post('buscarProducto',{'codigo':$('#inputSearch').val()}).then((resp)=>{
             if (resp.data.status) {
@@ -252,9 +253,8 @@
 
 
     //Getting value from "ajax.php".
-    var idClient
     function fill(id,name) {
-        idClient = id;
+        cliente = id;
         $('#nomCliente').text(name);
         $('#display').hide();
         $('#btnCloseClient').click();
@@ -297,17 +297,29 @@
         })
     }
     function pagar(params) {
-        axios.post('pagar',{'carrito':carrito,'datos':{'dineroRecibido':$('#dineroRecibido').val(),'tipoPago':$('#tipoPago').val()}}).then((resp)=>{
+        axios.post('pagar',{'carrito':carrito,'datos':{'dineroRecibido':$('#dineroRecibido').val(),'tipoPago':$('#tipoPago').val(),'cliente':cliente}}).then((resp)=>{
             let icono;
             let titulo;
             switch (resp.data.estado) {
                 case true:
                     icono = 'success'
                     titulo = 'Venta exitosa'
+                    carrito = {};
+                    $('#dineroRecibido').val('')
+                    $('#totalPagar').text(0)
+                    $('.cantProd').text(0)
+                    $('#totalVent').text(0)
+                    $("#contCarrito").empty()
                     break;
                 case 'cambio':
                     icono = 'info'
                     titulo = 'Venta exitosa con cambio pendiente'
+                    carrito = {};
+                    $('#dineroRecibido').val('')
+                    $('#totalPagar').text(0)
+                    $('.cantProd').text(0)
+                    $('#totalVent').text(0)
+                    $("#contCarrito").empty()
                     break;
                 case false:
                 case 'faltante':

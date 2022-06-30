@@ -17,4 +17,7 @@ class Venta extends Model
         'status',
         'vendedor_id',
     ];
+    public function productos(){
+        return $this->belongsToMany(Producto::class);
+    }
 }
