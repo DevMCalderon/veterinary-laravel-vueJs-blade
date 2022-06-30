@@ -128,7 +128,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">
             <div class="modal-content position-relative">
                 <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
-                    <button id="btnCloseProduct" class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
+                    <button id="btnClosePagar" class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
                         data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-0">
@@ -297,43 +297,56 @@
         })
     }
     function pagar(params) {
-        axios.post('pagar',{'carrito':carrito,'datos':{'dineroRecibido':$('#dineroRecibido').val(),'tipoPago':$('#tipoPago').val(),'cliente':cliente}}).then((resp)=>{
-            let icono;
-            let titulo;
-            switch (resp.data.estado) {
-                case true:
-                    icono = 'success'
-                    titulo = 'Venta exitosa'
-                    carrito = {};
-                    $('#dineroRecibido').val('')
-                    $('#totalPagar').text(0)
-                    $('.cantProd').text(0)
-                    $('#totalVent').text(0)
-                    $("#contCarrito").empty()
-                    break;
-                case 'cambio':
-                    icono = 'info'
-                    titulo = 'Venta exitosa con cambio pendiente'
-                    carrito = {};
-                    $('#dineroRecibido').val('')
-                    $('#totalPagar').text(0)
-                    $('.cantProd').text(0)
-                    $('#totalVent').text(0)
-                    $("#contCarrito").empty()
-                    break;
-                case false:
-                case 'faltante':
-                    icono = 'error'
-                    titulo = 'Estas ingresando una cantidad menor a tu venta'
-                    break;
-            }
-            Swal.fire({
-                title: titulo,
-                text: resp.data.msg,
-                icon: icono,
-                confirmButtonText: 'Enterado'
+        if (Object.keys(carrito).length>0) {
+            axios.post('pagar',{'carrito':carrito,'datos':{'dineroRecibido':$('#dineroRecibido').val(),'tipoPago':$('#tipoPago').val(),'cliente':cliente}}).then((resp)=>{
+                let icono;
+                let titulo;
+                switch (resp.data.estado) {
+                    case true:
+                        icono = 'success'
+                        titulo = 'Venta exitosa'
+                        carrito = {};
+                        $('#dineroRecibido').val('')
+                        $('#totalPagar').text(0)
+                        $('.cantProd').text(0)
+                        $('#totalVent').text(0)
+                        $("#contCarrito").empty()
+                        $("#btnClosePagar").click()
+                        break;
+                    case 'cambio':
+                        icono = 'info'
+                        titulo = 'Venta exitosa con cambio pendiente'
+                        carrito = {};
+                        $('#dineroRecibido').val('')
+                        $('#totalPagar').text(0)
+                        $('.cantProd').text(0)
+                        $('#totalVent').text(0)
+                        $("#contCarrito").empty()
+                        $("#btnClosePagar").click()
+                        break;
+                    case false:
+                    case 'faltante':
+                        icono = 'error'
+                        titulo = 'Estas ingresando una cantidad menor a tu venta'
+                        break;
+                    case 'sin':
+                        icono = 'error'
+                        titulo = 'Sin productos'
+                        break;
+                }
+                Swal.fire({
+                    title: titulo,
+                    text: resp.data.msg,
+                    icon: icono,
+                    confirmButtonText: 'Enterado'
+                })
             })
-        })
+        }else{
+            Swal.fire({
+                title: 'Productos no agregados',
+                icon: 'error',
+            })
+        }
     }
     
 </script>
