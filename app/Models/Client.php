@@ -17,4 +17,8 @@ class Client extends Model
         'address',
         'rfc',
     ];
+
+    public function ciudad(){
+        return $this->hasOne(City::class,'id','city');
+    }
 }

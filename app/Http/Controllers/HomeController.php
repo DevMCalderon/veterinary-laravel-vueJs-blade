@@ -41,6 +41,10 @@ class HomeController extends Controller
     {
         return view('productos-list');
     }
+    public function clientList()
+    {
+        return view('client-list');
+    }
 
     public function productosCrear()
     {
