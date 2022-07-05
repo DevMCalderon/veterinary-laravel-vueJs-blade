@@ -45,6 +45,14 @@
                       <span class="nav-link-text ps-1">Productos</span>
                 </div>
               </a>
+             <a class="nav-link" href="{{ route('client-list') }}" role="button" data-bs-toggle="" aria-expanded="false">
+                <div class="d-flex align-items-center">
+                      <span class="nav-link-icon">
+                          <span class="fas fa-users"></span>
+                      </span>
+                      <span class="nav-link-text ps-1">Clientes</span>
+                </div>
+              </a>
           </li>
           <li class="nav-item">
             <!-- label-->

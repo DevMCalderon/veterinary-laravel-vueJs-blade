@@ -19,4 +19,7 @@ class Producto extends Model
     public function category(){
         return $this->belongsTo(ProductCategory::class);
     }
+    public function autores(){
+        return $this->belongsToMany(Venta::class);
+    }
 }

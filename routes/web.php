@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('vistaCaja', [HomeController::class, 'vistaCaja'])->name('vistaCaja');
     Route::post('buscarProducto', [ProductoController::class, 'buscarProducto'])->name('buscarProducto');
     Route::get('searchClient/{nombre}', [ClientController::class, 'searchClient'])->name('searchClient');
+    Route::get('clientes', [HomeController::class, 'clientList'])->name('client-list');
     Route::get('searchProducto/{nombre}', [ProductoController::class, 'searchProducto'])->name('searchProducto');
     Route::post('comprobarTotal', [ProductoController::class, 'comprobarTotal'])->name('comprobarTotal');
     Route::post('pagar', [ProductoController::class, 'pago'])->name('pagar');
@@ -36,6 +37,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('productos', [HomeController::class, 'productosList'])->name('productos-list');
     Route::get('productos/crear', [HomeController::class, 'productosCrear'])->name('productos-crear');
     Route::get('product/{product}/editar', [HomeController::class, 'productosUpdate'])->name('productos-update');
+    Route::get('client/{product}/editar', [HomeController::class, 'clientesUpdate'])->name('clientes-update');
 
     Route::get('auth/facebook', [SocialAuthController::class, 'redirectFacebook'])->name('facebook.auth');
     Route::get('auth/facebook/callback', [SocialAuthController::class, 'callbackFacebook']);

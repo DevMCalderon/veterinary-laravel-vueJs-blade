@@ -99,8 +99,26 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Client $client)
-    {
-        //
+    public function destroy(Client $product){
+        if($product->delete()){
+
+            return response([
+                'status'=> true
+            ]);
+        }else{
+            return response([
+                'status'=> false,
+                'msg' => "No fue posible eliminar el cliente"
+            ]);
+        }
+    }
+
+    public function list(){
+        $products = Client::with('ciudad')->get();
+
+        return response([
+            'status' => true,
+            'clients' => $products
+        ]);
     }
 }

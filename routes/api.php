@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductoController;
 use App\Models\ProductCategory;
@@ -23,9 +24,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::get('/products', [ProductoController::class, 'list']);
+Route::get('/clients', [ClientController::class, 'list']);
 Route::post('/product', [ProductoController::class, 'store']);
 Route::get('/product/{product}', [ProductoController::class, 'show']);
 Route::post('/product/{product}', [ProductoController::class, 'update']);
 Route::delete('/product/{product}', [ProductoController::class, 'destroy']);
+Route::delete('/client/{product}', [ClientController::class, 'destroy']);
 
 Route::get('/categories', [ProductCategoryController::class, 'index']);

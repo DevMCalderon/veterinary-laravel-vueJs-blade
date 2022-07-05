@@ -14,7 +14,10 @@ class Venta extends Model
         'client_id',
         'total',
         'iva',
-        'status',
+        'tipo_pago',
         'vendedor_id',
     ];
+    public function productos(){
+        return $this->belongsToMany(Producto::class);
+    }
 }

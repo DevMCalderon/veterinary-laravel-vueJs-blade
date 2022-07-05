@@ -25,7 +25,7 @@
                             <h5 class="mb-3 mb-md-0">Carrito de compras (<span class="cantProd">0</span> productos)</h5>
                         </div>
                         <div class="col-md-auto">
-                            <a class="btn btn-sm btn-primary" href="../../app/e-commerce/checkout.html">Pagar</a>
+                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal-pagar" onclick="comprobarTotal()">Pagar</button>
                         </div>
                     </div>
                 </div>
@@ -128,7 +128,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px">
             <div class="modal-content position-relative">
                 <div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
-                    <button id="btnCloseProduct" class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
+                    <button id="btnClosePagar" class="btn-close btn btn-sm btn-circle d-flex flex-center transition-base"
                         data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-0">
@@ -191,6 +191,7 @@
     });
     var buttonSearch = document.getElementById('buttonSearch');
     var carrito = {};
+    var cliente = 0;
     buttonSearch.addEventListener("click", function(event) {
         axios.post('buscarProducto',{'codigo':$('#inputSearch').val()}).then((resp)=>{
             if (resp.data.status) {
@@ -252,9 +253,8 @@
 
 
     //Getting value from "ajax.php".
-    var idClient
     function fill(id,name) {
-        idClient = id;
+        cliente = id;
         $('#nomCliente').text(name);
         $('#display').hide();
         $('#btnCloseClient').click();
@@ -297,31 +297,56 @@
         })
     }
     function pagar(params) {
-        axios.post('pagar',{'carrito':carrito,'datos':{'dineroRecibido':$('#dineroRecibido').val(),'tipoPago':$('#tipoPago').val()}}).then((resp)=>{
-            let icono;
-            let titulo;
-            switch (resp.data.estado) {
-                case true:
-                    icono = 'success'
-                    titulo = 'Venta exitosa'
-                    break;
-                case 'cambio':
-                    icono = 'info'
-                    titulo = 'Venta exitosa con cambio pendiente'
-                    break;
-                case false:
-                case 'faltante':
-                    icono = 'error'
-                    titulo = 'Estas ingresando una cantidad menor a tu venta'
-                    break;
-            }
-            Swal.fire({
-                title: titulo,
-                text: resp.data.msg,
-                icon: icono,
-                confirmButtonText: 'Enterado'
+        if (Object.keys(carrito).length>0) {
+            axios.post('pagar',{'carrito':carrito,'datos':{'dineroRecibido':$('#dineroRecibido').val(),'tipoPago':$('#tipoPago').val(),'cliente':cliente}}).then((resp)=>{
+                let icono;
+                let titulo;
+                switch (resp.data.estado) {
+                    case true:
+                        icono = 'success'
+                        titulo = 'Venta exitosa'
+                        carrito = {};
+                        $('#dineroRecibido').val('')
+                        $('#totalPagar').text(0)
+                        $('.cantProd').text(0)
+                        $('#totalVent').text(0)
+                        $("#contCarrito").empty()
+                        $("#btnClosePagar").click()
+                        break;
+                    case 'cambio':
+                        icono = 'info'
+                        titulo = 'Venta exitosa con cambio pendiente'
+                        carrito = {};
+                        $('#dineroRecibido').val('')
+                        $('#totalPagar').text(0)
+                        $('.cantProd').text(0)
+                        $('#totalVent').text(0)
+                        $("#contCarrito").empty()
+                        $("#btnClosePagar").click()
+                        break;
+                    case false:
+                    case 'faltante':
+                        icono = 'error'
+                        titulo = 'Estas ingresando una cantidad menor a tu venta'
+                        break;
+                    case 'sin':
+                        icono = 'error'
+                        titulo = 'Sin productos'
+                        break;
+                }
+                Swal.fire({
+                    title: titulo,
+                    text: resp.data.msg,
+                    icon: icono,
+                    confirmButtonText: 'Enterado'
+                })
             })
-        })
+        }else{
+            Swal.fire({
+                title: 'Productos no agregados',
+                icon: 'error',
+            })
+        }
     }
     
 </script>
