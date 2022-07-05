@@ -34,6 +34,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('productos', [HomeController::class, 'productosList'])->name('productos-list');
     Route::get('productos/crear', [HomeController::class, 'productosCrear'])->name('productos-crear');
     Route::get('product/{product}/editar', [HomeController::class, 'productosUpdate'])->name('productos-update');
-    Route::get('client/{product}/editar', [HomeController::class, 'clientesUpdate'])->name('clientes-update');
+    Route::get('client/{client}/editar', [HomeController::class, 'clientesUpdate'])->name('clientes-update');
 
 });
