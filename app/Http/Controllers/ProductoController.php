@@ -63,38 +63,42 @@ class ProductoController extends Controller
         $total=0;
         foreach ($productos['carrito'] as $key => $value) {
             $producto = Producto::where('id',$key)->first();
-            $total = $producto->price * $value['cant'];
+            $total += ($producto->price * $value['cant']);
         }
         return $total;
     }
     public function pago(Request $datos){
-        $datos = $datos->all();
-        $total=0;
-        foreach ($datos['carrito'] as $key => $value) {
-            $producto = Producto::where('id',$key)->first();
-            $total = $producto->price * $value['cant'];
-        }
-        if (($total-$datos['datos']['dineroRecibido']) > 0) {
-            $venta = Venta::create([
-                'date'=>date('Y'),
-                'time'=>date('h:m:s'),
-                'client_id' => $datos['datos']['cliente'],
-                'total' => $total,
-                'iva' => 0,
-                'tipo_pago' => $datos['datos']['tipoPago'],
-                'vendedor_id' => Auth::user()->id,
-            ]);
+        if (count($datos['carrito'])>0) {
+            $datos = $datos->all();
+            $total=0;
             foreach ($datos['carrito'] as $key => $value) {
-                $venta->productos()->attach($producto->id,['price' => $producto->price,'cant'=>$value['cant']]);
+                $producto = Producto::where('id',$key)->first();
+                $total += $producto->price * $value['cant'];
             }
-            
-            if (($total-$datos['datos']['dineroRecibido']) == 0) {
-                return response()->json(array('estado'=>true,'msg'=>'pago exitoso'));
+            if (($total-$datos['datos']['dineroRecibido']) > 0) {
+                return response()->json(array('estado'=>'faltante','msg'=>'No se pudo completar el pago. Dinero faltan: '.($total-$datos['datos']['dineroRecibido'])));
             }else{
-                return response()->json(array('estado'=>'cambio','msg'=>'Debe entregar: '.abs($total-$datos['datos']['dineroRecibido'])));
+                $venta = Venta::create([
+                    'date'=>date('Y'),
+                    'time'=>date('h:m:s'),
+                    'client_id' => $datos['datos']['cliente'],
+                    'total' => $total,
+                    'iva' => 0,
+                    'tipo_pago' => $datos['datos']['tipoPago'],
+                    'vendedor_id' => Auth::user()->id,
+                ]);
+                foreach ($datos['carrito'] as $key => $value) {
+                    $venta->productos()->attach($producto->id,['price' => $producto->price,'cant'=>$value['cant']]);
+                }
+                
+                if (($total-$datos['datos']['dineroRecibido']) == 0) {
+                    return response()->json(array('estado'=>true,'msg'=>'pago exitoso'));
+                }else{
+                    return response()->json(array('estado'=>'cambio','msg'=>'Debe entregar: '.abs($total-$datos['datos']['dineroRecibido'])));
+                }
             }
         }else{
-            return response()->json(array('estado'=>'faltante','msg'=>'No se pudo completar el pago. Dinero faltan: '.($total-$datos['datos']['dineroRecibido'])));
+            return response()->json(array('estado'=>'sin','msg'=>'No se pudo completar el pago, sin productos para pagar'));
         }
 
 

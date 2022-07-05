@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->unsignedBigInteger('role_id')->default(RoleSeeder::EMPLEADO_ID);
+            $table->string('FB_id');
             $table->rememberToken();
             $table->timestamps();
             

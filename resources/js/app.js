@@ -19,7 +19,9 @@ window.Vue = require('vue').default;
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('products-list', require('./components/ProductosList.vue').default);
+Vue.component('client-list', require('./components/ClientList.vue').default);
 Vue.component('producto-form', require('./components/ProductoForm.vue').default);
+Vue.component('client-form', require('./components/ClientForm.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

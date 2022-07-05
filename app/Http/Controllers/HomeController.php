@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,6 +42,10 @@ class HomeController extends Controller
     {
         return view('productos-list');
     }
+    public function clientList()
+    {
+        return view('client-list');
+    }
 
     public function productosCrear()
     {
@@ -50,5 +55,8 @@ class HomeController extends Controller
     public function productosUpdate(Producto $product)
     {
         return view('productos-update', compact('product'));
+    }
+    public function clientesUpdate(Client $client){
+        return view('client-update', compact('client'));
     }
 }

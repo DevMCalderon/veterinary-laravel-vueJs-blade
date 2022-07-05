@@ -65,9 +65,18 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function show(Client $client)
-    {
-        //
+    public function show(Client $client){
+        if($client){
+            return response([
+                'status'=> true,
+                'client' => $client
+            ]);
+        }else{
+            return response([
+                'status'=> true,
+                'msg' => 'No se pudo encontrar la información del cliente'
+            ]);
+        }
     }
 
     /**
@@ -88,9 +97,35 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateClientRequest $request, Client $client)
-    {
-        //
+    public function update(UpdateClientRequest $request, Client $client){
+        echo 'prueba';exit;
+        if($client){
+            $data = $request->all();
+
+            $client->name        = $data['name'];
+            $client->email        = $data['email'];
+            $client->phone        = $data['phone'];
+            $client->city        = $data['city'];
+            $client->address        = $data['address'];
+            $client->rfc        = $data['rfc'];
+    
+            if($client->save()){
+                return response([
+                    'status' => true,
+                    'client' => $client,
+                ]);
+            }else{
+                return response([
+                    'status' => false,
+                    'msg' => 'Ocurrio un error al intentar actualizar al cliente'
+                ]);
+            }
+        }else{
+            return response([
+                'status' => false,
+                'msg' => 'No se pudo obtener la información del cliente'
+            ]);
+        }
     }
 
     /**
@@ -99,8 +134,26 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Client $client)
-    {
-        //
+    public function destroy(Client $client){
+        if($client->delete()){
+
+            return response([
+                'status'=> true
+            ]);
+        }else{
+            return response([
+                'status'=> false,
+                'msg' => "No fue posible eliminar el cliente"
+            ]);
+        }
+    }
+    
+    public function list(){
+        $client = Client::with('ciudad')->get();
+
+        return response([
+            'status' => true,
+            'clients' => $client
+        ]);
     }
 }

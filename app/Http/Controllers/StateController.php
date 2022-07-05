@@ -15,7 +15,12 @@ class StateController extends Controller
      */
     public function index()
     {
-        //
+        $estados = State::all();
+
+        return response([
+            'status' => true,
+            'estados' => $estados
+        ]);
     }
 
     /**
