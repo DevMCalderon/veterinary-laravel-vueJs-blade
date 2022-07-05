@@ -70,7 +70,7 @@
     @yield('styles')
 </head>
 <body>
-    <div id="app">
+   <div id="app">
         <main class="main content" id="top">
             <div class="container" data-layout="container">
                 @include('layouts.navbar')

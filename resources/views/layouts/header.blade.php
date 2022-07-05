@@ -5,8 +5,8 @@
         aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                 class="toggle-line"></span></span></button>
     <a class="navbar-brand me-1 me-sm-3" href="../index.html">
-        <div class="d-flex align-items-center"><img class="me-2" src="../assets/img/icons/spot-illustrations/falcon.png"
-                alt="" width="40" /><span class="font-sans-serif">falcon</span>
+        <div class="d-flex align-items-center"><img class="me-2" 
+                alt="" width="40" /><span class="font-sans-serif">Vet-Soft</span>
         </div>
     </a>
     <ul class="navbar-nav align-items-center d-none d-lg-block">
@@ -85,7 +85,7 @@
                                 <div class="file-thumbnail me-2"><img class="img-fluid"
                                         src="../assets/img/icons/zip.png" alt="" /></div>
                                 <div class="flex-1">
-                                    <h6 class="mb-0 title">Falcon v1.8.2</h6>
+                                    <h6 class="mb-0 title">Vet-Soft v1.8.2</h6>
                                     <p class="fs--2 mb-0 d-flex"><span class="fw-semi-bold">John</span><span
                                             class="fw-medium text-600 ms-2">30 Sep at 12:30 PM</span></p>
                                 </div>
