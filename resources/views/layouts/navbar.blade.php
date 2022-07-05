@@ -6,7 +6,7 @@
         <button class="btn navbar-toggler-humburger-icon navbar-vertical-toggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
 
       </div><a class="navbar-brand" href="/">
-        <div class="d-flex align-items-center py-3"><img class="me-2" src="../assets/img/icons/spot-illustrations/falcon.png" alt="" width="40" /><span class="font-sans-serif">falcon</span>
+        <div class="d-flex align-items-center py-3"><span class="font-sans-serif">Vet-Soft</span>
         </div>
       </a>
     </div>
@@ -29,7 +29,7 @@
               </div>
             </div>
              <!-- parent pages-->
-             <a class="nav-link" href="{{ route('vistaCaja') }}" role="button" data-bs-toggle="" aria-expanded="false">
+             <a class="nav-link {{ (Route::is('vistaCaja'))?'active': ''}}" href="{{ route('vistaCaja') }}" role="button" data-bs-toggle="" aria-expanded="false">
                 <div class="d-flex align-items-center">
                       <span class="nav-link-icon">
                           <span class="fas fa-shopping-cart"></span>
@@ -37,7 +37,7 @@
                       <span class="nav-link-text ps-1">Caja</span>
                 </div>
               </a>
-             <a class="nav-link" href="{{ route('productos-list') }}" role="button" data-bs-toggle="" aria-expanded="false">
+              <a class="nav-link {{ (Route::is('productos-list'))?'active': ''}}" href="{{ route('productos-list') }}" role="button" data-bs-toggle="" aria-expanded="false" >
                 <div class="d-flex align-items-center">
                       <span class="nav-link-icon">
                           <span class="fas fa-bone"></span>
