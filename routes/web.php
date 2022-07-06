@@ -38,6 +38,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('productos/crear', [HomeController::class, 'productosCrear'])->name('productos-crear');
     Route::get('product/{product}/editar', [HomeController::class, 'productosUpdate'])->name('productos-update');
     Route::get('client/{client}/editar', [HomeController::class, 'clientesUpdate'])->name('clientes-update');
+    Route::get('cliente/{client}', [ClientController::class, 'showOne'])->name('cliente');
 
     Route::get('auth/facebook', [SocialAuthController::class, 'redirectFacebook'])->name('facebook.auth');
     Route::get('auth/facebook/callback', [SocialAuthController::class, 'callbackFacebook']);

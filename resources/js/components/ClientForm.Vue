@@ -63,7 +63,7 @@
 
         <div class="text-right">
 
-            <button type="button" class="btn btn-sm btn-secondary mr-5">Cancelar</button>
+            <a type="button" href="/clientes" class="btn btn-sm btn-secondary mr-5">Cancelar</a>
             <button class="btn btn-sm btn-success ml-3">Guardar</button>
 
         </div>
@@ -165,7 +165,7 @@ export default {
                 if(resp.data.status){
 
                     Swal.fire('',`Información actualizada`,'success').then(resp => {
-                        location.href = "/clients"
+                        location.href = "/clientes"
                     });
 
                 }else{
@@ -185,7 +185,7 @@ export default {
                         `El producto <b>${clientName}</b> ha sido agregado`,
                         'success'
                     ).then(resp => {
-                        location.href = "/clients"
+                        location.href = "/clientes"
                     })
                 }else{
                     Swal.fire('Ocurrio un error',resp.data.msg,'error')

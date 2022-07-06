@@ -17,6 +17,9 @@ class ClientController extends Controller
     {
         //
     }
+    public function showOne(Client $client){
+        return view('cliente-detalle', compact('client'));
+    }
     public function searchClient($nombre){
         if (isset($nombre)) {
             $Query = Client::where('name', 'LIKE', "%$nombre%")->get();
@@ -98,7 +101,6 @@ class ClientController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateClientRequest $request, Client $client){
-        echo 'prueba';exit;
         if($client){
             $data = $request->all();
 
