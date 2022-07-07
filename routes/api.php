@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductoController;
@@ -35,3 +36,4 @@ Route::post('/client/{client}', [ClientController::class, 'update']);
 
 Route::get('/categories', [ProductCategoryController::class, 'index']);
 Route::get('/estado', [StateController::class, 'index']);
+Route::get('/ciudades/{id}', [CityController::class, 'index']);

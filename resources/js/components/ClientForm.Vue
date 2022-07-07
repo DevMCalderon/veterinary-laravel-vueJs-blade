@@ -48,16 +48,26 @@
             </div>
         </div>
 
-        <!-- <div class="row">
+        <div class="row">
             <div class="col-md-10 col-lg-6 mb-3">
                 <label for="estado">Estados</label>
-                <select id="estado" class="form-control" v-model="state_id" required>
+                <select id="estado" class="form-control" v-model="state_id" @change="changeEstado" required>
                     <option value="" selected disabled>Seleccione</option>
                     <option :value="estado.id" v-for="estado in estados" :key="estado.id">{{ estado.name }}</option>
                 </select>
                 <small class="text-danger" v-if="errors && errors.state_id">{{ errors.state_id[0] }}</small>
             </div>
-        </div> -->
+        </div>
+        <div class="row">
+            <div class="col-md-10 col-lg-6 mb-3">
+                <label for="estado">Ciudad</label>
+                <select id="estado" class="form-control" v-model="city" required>
+                    <option value="" selected disabled>Seleccione</option>
+                    <option :value="ciudad.id" v-for="ciudad in ciudades" :key="ciudad.id">{{ ciudad.name }}</option>
+                </select>
+                <small class="text-danger" v-if="errors && errors.state_id">{{ errors.state_id[0] }}</small>
+            </div>
+        </div>
 
         <hr>
 
@@ -87,9 +97,16 @@ export default {
             rfc: '',
             state_id:'',
             estados:[],
+            ciudades:[],
             errors: undefined
            
         }
+    },
+    watch:{
+        state_id(newQuestion, oldQuestion) {
+            this.changeEstado();
+        }
+
     },
     mounted() {
         this.getEstado();
@@ -106,6 +123,16 @@ export default {
                     this.estados = resp.data.estados;
                 }else{
                     this.estados = []
+                }
+            })
+        },
+        changeEstado(){
+            this.ciudades = []
+            axios.get(`/api/ciudades/${this.state_id}`).then(resp => {
+                if(resp.data.status){
+                    this.ciudades = resp.data.ciudades;
+                }else{
+                    this.ciudades = []
                 }
             })
         },
@@ -130,6 +157,7 @@ export default {
                     this.city        = resp.data.client.city;
                     this.address        = resp.data.client.address;
                     this.rfc        = resp.data.client.rfc;
+                    this.state_id        = resp.data.client.ciudad.state_id;
                 }else{
                     Swal.fire('Ocurrio un error',resp.data.msg,'error')
                 }

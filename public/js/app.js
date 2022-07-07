@@ -2081,8 +2081,14 @@ __webpack_require__.r(__webpack_exports__);
       rfc: '',
       state_id: '',
       estados: [],
+      ciudades: [],
       errors: undefined
     };
+  },
+  watch: {
+    state_id: function state_id(newQuestion, oldQuestion) {
+      this.changeEstado();
+    }
   },
   mounted: function mounted() {
     this.getEstado();
@@ -2104,6 +2110,18 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
+    changeEstado: function changeEstado() {
+      var _this2 = this;
+
+      this.ciudades = [];
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/ciudades/".concat(this.state_id)).then(function (resp) {
+        if (resp.data.status) {
+          _this2.ciudades = resp.data.ciudades;
+        } else {
+          _this2.ciudades = [];
+        }
+      });
+    },
     clearForm: function clearForm() {
       this.id = undefined;
       this.name = '';
@@ -2115,18 +2133,19 @@ __webpack_require__.r(__webpack_exports__);
       this.state_id = '';
     },
     getClient: function getClient(clientId) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.clearForm();
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/client/".concat(clientId)).then(function (resp) {
         if (resp.data.status) {
-          _this2.id = resp.data.client.id;
-          _this2.name = resp.data.client.name;
-          _this2.email = resp.data.client.email;
-          _this2.phone = resp.data.client.phone;
-          _this2.city = resp.data.client.city;
-          _this2.address = resp.data.client.address;
-          _this2.rfc = resp.data.client.rfc;
+          _this3.id = resp.data.client.id;
+          _this3.name = resp.data.client.name;
+          _this3.email = resp.data.client.email;
+          _this3.phone = resp.data.client.phone;
+          _this3.city = resp.data.client.city;
+          _this3.address = resp.data.client.address;
+          _this3.rfc = resp.data.client.rfc;
+          _this3.state_id = resp.data.client.ciudad.state_id;
         } else {
           Swal.fire('Ocurrio un error', resp.data.msg, 'error');
         }
@@ -2159,7 +2178,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     updateProduct: function updateProduct(id, client) {
-      var _this3 = this;
+      var _this4 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/client/' + id, client).then(function (resp) {
         if (resp.data.status) {
@@ -2171,12 +2190,12 @@ __webpack_require__.r(__webpack_exports__);
         }
       })["catch"](function (error) {
         if (error.response.status == 422) {
-          _this3.errors = error.response.data.errors;
+          _this4.errors = error.response.data.errors;
         }
       });
     },
     storeProduct: function storeProduct(client) {
-      var _this4 = this;
+      var _this5 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/client', client).then(function (resp) {
         if (resp.data.status) {
@@ -2189,7 +2208,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       })["catch"](function (error) {
         if (error.response.status == 422) {
-          _this4.errors = error.response.data.errors;
+          _this5.errors = error.response.data.errors;
         }
       });
     }
@@ -2731,7 +2750,99 @@ var render = function render() {
     }
   }), _vm._v(" "), _vm.errors && _vm.errors.rfc ? _c("small", {
     staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.rfc[0]))]) : _vm._e()])]), _vm._v(" "), _c("hr"), _vm._v(" "), _vm._m(0)]);
+  }, [_vm._v(_vm._s(_vm.errors.rfc[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-10 col-lg-6 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "estado"
+    }
+  }, [_vm._v("Estados")]), _vm._v(" "), _c("select", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.state_id,
+      expression: "state_id"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      id: "estado",
+      required: ""
+    },
+    on: {
+      change: [function ($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
+          return o.selected;
+        }).map(function (o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val;
+        });
+        _vm.state_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
+      }, _vm.changeEstado]
+    }
+  }, [_c("option", {
+    attrs: {
+      value: "",
+      selected: "",
+      disabled: ""
+    }
+  }, [_vm._v("Seleccione")]), _vm._v(" "), _vm._l(_vm.estados, function (estado) {
+    return _c("option", {
+      key: estado.id,
+      domProps: {
+        value: estado.id
+      }
+    }, [_vm._v(_vm._s(estado.name))]);
+  })], 2), _vm._v(" "), _vm.errors && _vm.errors.state_id ? _c("small", {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.errors.state_id[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-10 col-lg-6 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "estado"
+    }
+  }, [_vm._v("Ciudad")]), _vm._v(" "), _c("select", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.city,
+      expression: "city"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      id: "estado",
+      required: ""
+    },
+    on: {
+      change: function change($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
+          return o.selected;
+        }).map(function (o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val;
+        });
+        _vm.city = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
+      }
+    }
+  }, [_c("option", {
+    attrs: {
+      value: "",
+      selected: "",
+      disabled: ""
+    }
+  }, [_vm._v("Seleccione")]), _vm._v(" "), _vm._l(_vm.ciudades, function (ciudad) {
+    return _c("option", {
+      key: ciudad.id,
+      domProps: {
+        value: ciudad.id
+      }
+    }, [_vm._v(_vm._s(ciudad.name))]);
+  })], 2), _vm._v(" "), _vm.errors && _vm.errors.state_id ? _c("small", {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.errors.state_id[0]))]) : _vm._e()])]), _vm._v(" "), _c("hr"), _vm._v(" "), _vm._m(0)]);
 };
 
 var staticRenderFns = [function () {

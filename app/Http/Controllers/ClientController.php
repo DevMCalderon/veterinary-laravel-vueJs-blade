@@ -69,6 +69,7 @@ class ClientController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Client $client){
+        $client['ciudad'] = $client->ciudad;
         if($client){
             return response([
                 'status'=> true,
