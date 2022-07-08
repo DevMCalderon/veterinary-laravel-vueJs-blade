@@ -34,6 +34,17 @@
             </div>
         </div>
     </div>
+    <hr>
+    <div class="d-flex justify-content-between">
+        <div style="padding: 1rem 1.25rem;">
+            Mascotas
+        </div>
+    </div>
+    <div style="padding: 1rem 1.25rem;">
+        <div class="row">
+            <list-mascota id-client="{{ $client->id }}"></list-mascota>
+        </div>
+    </div>
 </div>
 @endsection
 

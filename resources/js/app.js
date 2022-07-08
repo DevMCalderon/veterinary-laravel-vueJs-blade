@@ -22,6 +22,7 @@ Vue.component('products-list', require('./components/ProductosList.vue').default
 Vue.component('client-list', require('./components/ClientList.vue').default);
 Vue.component('producto-form', require('./components/ProductoForm.vue').default);
 Vue.component('client-form', require('./components/ClientForm.vue').default);
+Vue.component('list-mascota',require('./components/PetList.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

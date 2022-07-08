@@ -103,7 +103,7 @@ export default {
         }
     },
     watch:{
-        state_id(newQuestion, oldQuestion) {
+        state_id(newVal, oldVal) {
             this.changeEstado();
         }
 
