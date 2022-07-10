@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductoController;
@@ -24,6 +25,9 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', [HomeController::class, 'index']);
+
+Route::get('login/{provider}', [SocialAuthController::class,'redirectToGoogle']);
+Route::get('{provider}/callback', [SocialAuthController::class,'handleGoogleCallback']);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('vistaCaja', [HomeController::class, 'vistaCaja'])->name('vistaCaja');
