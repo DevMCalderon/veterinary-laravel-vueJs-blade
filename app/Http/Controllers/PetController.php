@@ -41,9 +41,24 @@ class PetController extends Controller
      * @param  \App\Http\Requests\StorePetRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePetRequest $request)
-    {
-        //
+    public function store(StorePetRequest $request){
+        $data = $request->all();
+
+        
+
+        $pet = Pet::create($data);
+
+        if($pet){
+            return response([
+                'status' => true,
+                'pet' => $pet,
+            ]);
+        }else{
+            return response([
+                'status' => false,
+                'msg' => 'Ocurrio un error al intentar guardar la mascota'
+            ]);
+        }
     }
 
     /**

@@ -1,5 +1,6 @@
 <template>
     <div>
+
         <div v-if="pets.length">
             <div class="fs--1 col-md-4" style="display: inline-block;" v-for="pet in pets" v-bind:key="pet.id">
                 <a class="notification" :href="`/pet/${pet.id}`">

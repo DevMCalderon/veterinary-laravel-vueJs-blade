@@ -15,7 +15,12 @@ class PetTypeController extends Controller
      */
     public function index()
     {
-        //
+        $PetType = PetType::all();
+
+        return response([
+            'status' => true,
+            'pet_type' => $PetType
+        ]);
     }
 
     /**

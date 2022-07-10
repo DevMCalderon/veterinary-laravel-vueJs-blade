@@ -42,5 +42,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('auth/facebook', [SocialAuthController::class, 'redirectFacebook'])->name('facebook.auth');
     Route::get('auth/facebook/callback', [SocialAuthController::class, 'callbackFacebook']);
+
+    Route::get('/agregar/mascota/{client}', [HomeController::class, 'petCrear']);
+
     
 });

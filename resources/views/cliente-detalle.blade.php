@@ -38,6 +38,7 @@
     <div class="d-flex justify-content-between">
         <div style="padding: 1rem 1.25rem;">
             Mascotas
+            <a href="/agregar/mascota/{{ $client->id }}" class="btn btn-primary btn-sm">Agregar</a>
         </div>
     </div>
     <div style="padding: 1rem 1.25rem;">
