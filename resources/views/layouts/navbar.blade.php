@@ -6,7 +6,7 @@
         <button class="btn navbar-toggler-humburger-icon navbar-vertical-toggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
 
       </div><a class="navbar-brand" href="/">
-        <div class="d-flex align-items-center py-3"><span class="font-sans-serif">Vet-Soft</span>
+        <div class="d-flex align-items-center py-3"><span class="font-sans-serif">VetSoft</span>
         </div>
       </a>
     </div>
@@ -14,7 +14,7 @@
       <div class="navbar-vertical-content scrollbar">
         <ul class="navbar-nav flex-column mb-3" id="navbarVerticalNav">
           <li class="nav-item">
-            <!-- parent pages--><a class="nav-link" href="/" role="button" aria-expanded="false">
+            <!-- parent pages--><a class="nav-link {{ (Route::is('/'))?'active': ''}}" href="/" role="button" aria-expanded="false">
               <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-chart-pie"></span></span><span class="nav-link-text ps-1">Dashboard</span>
               </div>
             </a>
@@ -45,7 +45,7 @@
                       <span class="nav-link-text ps-1">Productos</span>
                 </div>
               </a>
-             <a class="nav-link" href="{{ route('client-list') }}" role="button" data-bs-toggle="" aria-expanded="false">
+             <a class="nav-link {{ (Route::is('client-list'))?'active': ''}}" href="{{ route('client-list') }}" role="button" data-bs-toggle="" aria-expanded="false">
                 <div class="d-flex align-items-center">
                       <span class="nav-link-icon">
                           <span class="fas fa-users"></span>

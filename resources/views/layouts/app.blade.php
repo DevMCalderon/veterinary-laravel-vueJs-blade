@@ -72,7 +72,7 @@
 <body>
    <div id="app">
         <main class="main content" id="top">
-            <div class="container" data-layout="container">
+            <div class="container-fluid" data-layout="container">
                 @include('layouts.navbar')
                 <div class="content">
                     @include('layouts.header')

@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('vistaCaja', [HomeController::class, 'vistaCaja'])->name('vistaCaja');
