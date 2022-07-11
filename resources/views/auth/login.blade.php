@@ -45,7 +45,7 @@
     <div class="divider-content-center">o iniciar con</div>
 </div>
 <div class="row g-2 mt-2">
-    <div class="col-sm-6"><a class="btn btn-outline-google-plus btn-sm d-block w-100" href="#"><span class="fab fa-google-plus-g me-2" data-fa-transform="grow-8"></span> Google</a></div>
-    <div class="col-sm-6"><a class="btn btn-outline-facebook btn-sm d-block w-100" href="{{ url('facebook.auth') }}"><span class="fab fa-facebook-square me-2" data-fa-transform="grow-8"></span> Facebook</a></div>
+    <div class="col-sm-6"><a class="btn btn-outline-google-plus btn-sm d-block w-100" href="{{ url('/login/google') }}"><span class="fab fa-google-plus-g me-2" data-fa-transform="grow-8"></span> Google</a></div>
+    <div class="col-sm-6"><a class="btn btn-outline-facebook btn-sm d-block w-100" href="{{ route('facebook.auth', 'facebook') }}"><span class="fab fa-facebook-square me-2" data-fa-transform="grow-8"></span> Facebook</a></div>
 </div>
 @endsection

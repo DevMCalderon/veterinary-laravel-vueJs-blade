@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductoController;
@@ -25,6 +26,9 @@ Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
+Route::get('login/{provider}', [SocialAuthController::class,'redirectToGoogle']);
+Route::get('{provider}/callback', [SocialAuthController::class,'handleGoogleCallback']);
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('vistaCaja', [HomeController::class, 'vistaCaja'])->name('vistaCaja');
     Route::post('buscarProducto', [ProductoController::class, 'buscarProducto'])->name('buscarProducto');
@@ -37,9 +41,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('productos', [HomeController::class, 'productosList'])->name('productos-list');
     Route::get('productos/crear', [HomeController::class, 'productosCrear'])->name('productos-crear');
     Route::get('product/{product}/editar', [HomeController::class, 'productosUpdate'])->name('productos-update');
-    Route::get('client/{product}/editar', [HomeController::class, 'clientesUpdate'])->name('clientes-update');
+    Route::get('client/{client}/editar', [HomeController::class, 'clientesUpdate'])->name('clientes-update');
+    Route::get('cliente/{client}', [ClientController::class, 'showOne'])->name('cliente');
 
     Route::get('auth/facebook', [SocialAuthController::class, 'redirectFacebook'])->name('facebook.auth');
     Route::get('auth/facebook/callback', [SocialAuthController::class, 'callbackFacebook']);
+
+    Route::get('/agregar/mascota/{client}', [HomeController::class, 'petCrear']);
+
     
 });

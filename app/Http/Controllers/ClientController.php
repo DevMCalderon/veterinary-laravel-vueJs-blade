@@ -17,6 +17,9 @@ class ClientController extends Controller
     {
         //
     }
+    public function showOne(Client $client){
+        return view('cliente-detalle', compact('client'));
+    }
     public function searchClient($nombre){
         if (isset($nombre)) {
             $Query = Client::where('name', 'LIKE', "%$nombre%")->get();
@@ -65,9 +68,19 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function show(Client $client)
-    {
-        //
+    public function show(Client $client){
+        $client['ciudad'] = $client->ciudad;
+        if($client){
+            return response([
+                'status'=> true,
+                'client' => $client
+            ]);
+        }else{
+            return response([
+                'status'=> true,
+                'msg' => 'No se pudo encontrar la información del cliente'
+            ]);
+        }
     }
 
     /**
@@ -88,9 +101,34 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateClientRequest $request, Client $client)
-    {
-        //
+    public function update(UpdateClientRequest $request, Client $client){
+        if($client){
+            $data = $request->all();
+
+            $client->name        = $data['name'];
+            $client->email        = $data['email'];
+            $client->phone        = $data['phone'];
+            $client->city        = $data['city'];
+            $client->address        = $data['address'];
+            $client->rfc        = $data['rfc'];
+    
+            if($client->save()){
+                return response([
+                    'status' => true,
+                    'client' => $client,
+                ]);
+            }else{
+                return response([
+                    'status' => false,
+                    'msg' => 'Ocurrio un error al intentar actualizar al cliente'
+                ]);
+            }
+        }else{
+            return response([
+                'status' => false,
+                'msg' => 'No se pudo obtener la información del cliente'
+            ]);
+        }
     }
 
     /**
@@ -99,8 +137,8 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Client $product){
-        if($product->delete()){
+    public function destroy(Client $client){
+        if($client->delete()){
 
             return response([
                 'status'=> true
@@ -112,13 +150,13 @@ class ClientController extends Controller
             ]);
         }
     }
-
+    
     public function list(){
-        $products = Client::with('ciudad')->get();
+        $client = Client::with('ciudad')->get();
 
         return response([
             'status' => true,
-            'clients' => $products
+            'clients' => $client
         ]);
     }
 }

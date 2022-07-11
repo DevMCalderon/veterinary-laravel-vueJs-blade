@@ -1,8 +1,13 @@
 <?php
 
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\PetController;
+use App\Http\Controllers\PetTypeController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\RazaController;
+use App\Http\Controllers\StateController;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,10 +30,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/products', [ProductoController::class, 'list']);
 Route::get('/clients', [ClientController::class, 'list']);
+Route::get('/pets/{client}', [PetController::class, 'list']);
+Route::delete('/pet/{pet}', [PetController::class, 'destroy']);
+Route::post('/pet', [PetController::class, 'store']);
 Route::post('/product', [ProductoController::class, 'store']);
 Route::get('/product/{product}', [ProductoController::class, 'show']);
 Route::post('/product/{product}', [ProductoController::class, 'update']);
 Route::delete('/product/{product}', [ProductoController::class, 'destroy']);
-Route::delete('/client/{product}', [ClientController::class, 'destroy']);
+Route::get('/client/{client}', [ClientController::class, 'show']);
+Route::post('/client/{client}', [ClientController::class, 'update']);
 
 Route::get('/categories', [ProductCategoryController::class, 'index']);
+Route::get('/estado', [StateController::class, 'index']);
+Route::get('/ciudades/{id}', [CityController::class, 'index']);
+Route::get('/petType', [PetTypeController::class, 'index']);
+Route::get('/razaType', [RazaController::class, 'index']);

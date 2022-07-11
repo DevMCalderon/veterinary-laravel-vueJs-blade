@@ -17,7 +17,14 @@ class PetController extends Controller
     {
         //
     }
+    public function list($id){
+        $client = Pet::where('client_id',$id)->with('tipoMascota')->with('tipoRaza')->get();
 
+        return response([
+            'status' => true,
+            'pets' => $client
+        ]);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -34,9 +41,24 @@ class PetController extends Controller
      * @param  \App\Http\Requests\StorePetRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePetRequest $request)
-    {
-        //
+    public function store(StorePetRequest $request){
+        $data = $request->all();
+
+        
+
+        $pet = Pet::create($data);
+
+        if($pet){
+            return response([
+                'status' => true,
+                'pet' => $pet,
+            ]);
+        }else{
+            return response([
+                'status' => false,
+                'msg' => 'Ocurrio un error al intentar guardar la mascota'
+            ]);
+        }
     }
 
     /**
@@ -81,6 +103,15 @@ class PetController extends Controller
      */
     public function destroy(Pet $pet)
     {
-        //
+        if($pet->delete()){
+            return response([
+                'status'=> true
+            ]);
+        }else{
+            return response([
+                'status'=> false,
+                'msg' => "No fue posible eliminar la mascota"
+            ]);
+        }
     }
 }
