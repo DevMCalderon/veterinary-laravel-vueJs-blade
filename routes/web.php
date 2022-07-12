@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
 Route::get('login/{provider}', [SocialAuthController::class,'redirectToGoogle']);
 Route::get('{provider}/callback', [SocialAuthController::class,'handleGoogleCallback']);
