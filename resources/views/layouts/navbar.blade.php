@@ -14,7 +14,7 @@
       <div class="navbar-vertical-content scrollbar">
         <ul class="navbar-nav flex-column mb-3" id="navbarVerticalNav">
           <li class="nav-item">
-            <!-- parent pages--><a class="nav-link {{ (Route::is('/'))?'active': ''}}" href="/" role="button" aria-expanded="false">
+            <!-- parent pages--><a class="nav-link {{ (Request::is('/'))?'active': ''}}" href="/" role="button" aria-expanded="false">
               <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-chart-pie"></span></span><span class="nav-link-text ps-1">Dashboard</span>
               </div>
             </a>
