@@ -20,29 +20,29 @@ class SocialAuthController extends Controller
     public function callbackFacebook()
     {
        
-        $facebookUser = Socialite::driver('facebook')->user();
-        dd($facebookUser);
-        // try {
-        //     $findUser = User::where('FB_id', $facebookUser->id)->first();
-
-           
-        //     if ($findUser) {
-        //         Auth::login($findUser);
-        //         return redirect()->intended('home');
-        //     }else{
-        //         $newUser = User::create([
-        //             'name' => $facebookUser->name,
-        //             'email' => $facebookUser->email,
-        //             'FB_id' => $facebookUser->FB_id,
-        //             'password' => bcrypt('12345678')
-        //         ]);
-
-        //             Auth::login($newUser);
-        //             return redirect()->intended('home');
-        //     }
-        // } catch (\Exception $e) {
-        //     dd($e->getMessage());
-        // }
+        try {
+    
+            $user = Socialite::driver('facebook')->user();
+            $isUser = User::where('fb_id', $user->id)->first();
+     
+            if($isUser){
+                Auth::login($isUser);
+                return redirect('/');
+            }else{
+                $createUser = User::create([
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'fb_id' => $user->id,
+                    'password' => bcrypt('admin@123')
+                ]);
+    
+                Auth::login($createUser);
+                return redirect('/');
+            }
+    
+        } catch (Exception $exception) {
+            dd($exception->getMessage());
+        }
     }
     public function redirectToGoogle()
     {
