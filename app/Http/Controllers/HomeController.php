@@ -52,6 +52,10 @@ class HomeController extends Controller
     {
         return view('productos-crear');
     }
+    public function clienteCrear()
+    {
+        return view('client-crear');
+    }
 
     public function productosUpdate(Producto $product)
     {

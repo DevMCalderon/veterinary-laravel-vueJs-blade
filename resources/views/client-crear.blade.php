@@ -4,15 +4,12 @@
 <div class="card">
     <div class="card-header pb-0">
         <div class="d-flex justify-content-between">
-            Clientes
-            <a href="{{  route('cliente-crear') }}" class="btn btn-primary btn-sm">Nuevo</a>
+            Crear cliente
         </div>
         <hr>
     </div>
     <div class="card-body pt-0">
-        <div class="table-responsive scrollbar">
-            <client-list></client-list>
-        </div>
+        <client-form></client-form>
     </div>
 </div>
 @endsection

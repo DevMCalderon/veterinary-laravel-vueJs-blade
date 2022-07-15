@@ -37,8 +37,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('searchProducto/{nombre}', [ProductoController::class, 'searchProducto'])->name('searchProducto');
     Route::post('comprobarTotal', [ProductoController::class, 'comprobarTotal'])->name('comprobarTotal');
     Route::post('pagar', [ProductoController::class, 'pago'])->name('pagar');
-
+    
     Route::get('productos', [HomeController::class, 'productosList'])->name('productos-list');
+    Route::get('cliente/crear', [HomeController::class, 'clienteCrear'])->name('cliente-crear');
     Route::get('productos/crear', [HomeController::class, 'productosCrear'])->name('productos-crear');
     Route::get('product/{product}/editar', [HomeController::class, 'productosUpdate'])->name('productos-update');
     Route::get('client/{client}/editar', [HomeController::class, 'clientesUpdate'])->name('clientes-update');
