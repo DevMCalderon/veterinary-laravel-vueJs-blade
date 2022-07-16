@@ -39,6 +39,7 @@ Route::post('/product/{product}', [ProductoController::class, 'update']);
 Route::delete('/product/{product}', [ProductoController::class, 'destroy']);
 Route::get('/client/{client}', [ClientController::class, 'show']);
 Route::post('/client/{client}', [ClientController::class, 'update']);
+Route::post('/client', [ClientController::class, 'store']);
 
 Route::get('/categories', [ProductCategoryController::class, 'index']);
 Route::get('/estado', [StateController::class, 'index']);

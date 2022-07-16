@@ -26,14 +26,6 @@
 
         <div class="row">
             <div class="col-md-10 col-lg-6 mb-3">
-                <label for="city">Ciudad</label>
-                <input type="number" name="city" id="city" class="form-control" v-model="city" min="0" step="0.01">
-                <small class="text-danger" v-if="errors && errors.city">{{ errors.city[0] }}</small>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-10 col-lg-6 mb-3">
                 <label for="address">Direccion</label>
                 <input type="text" name="address" id="address" class="form-control" v-model="address">
                 <small class="text-danger" v-if="errors && errors.address">{{ errors.address[0] }}</small>
@@ -208,9 +200,9 @@ export default {
         storeProduct(client){
             axios.post('/api/client',client).then(resp => {
                 if(resp.data.status){
-                    const clientName = 'prueba'
+                    const clientName = resp.data.client && resp.data.client.name || ""
                     Swal.fire('',
-                        `El producto <b>${clientName}</b> ha sido agregado`,
+                        `El cliente <b>${clientName}</b> ha sido agregado`,
                         'success'
                     ).then(resp => {
                         location.href = "/clientes"
