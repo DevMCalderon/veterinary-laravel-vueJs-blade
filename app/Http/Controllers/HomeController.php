@@ -64,6 +64,9 @@ class HomeController extends Controller
     public function clientesUpdate(Client $client){
         return view('client-update', compact('client'));
     }
+    public function petUpdate(Pet $pet){
+        return view('pet-update', compact('pet'));
+    }
     public function petCrear(Client $client){
         return view('pet-store', compact('client'));
     }

@@ -44,7 +44,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('product/{product}/editar', [HomeController::class, 'productosUpdate'])->name('productos-update');
     Route::get('client/{client}/editar', [HomeController::class, 'clientesUpdate'])->name('clientes-update');
     Route::get('cliente/{client}', [ClientController::class, 'showOne'])->name('cliente');
-
+    
+    Route::get('pet/{pet}/editar', [HomeController::class, 'petUpdate'])->name('clientes-update');
     Route::get('login/facebook', [SocialAuthController::class, 'redirectFacebook']);
     Route::get('facebook/callback', [SocialAuthController::class, 'callbackFacebook']);
 

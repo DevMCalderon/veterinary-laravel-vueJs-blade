@@ -69,7 +69,17 @@ class PetController extends Controller
      */
     public function show(Pet $pet)
     {
-        //
+        if($pet){
+            return response([
+                'status'=> true,
+                'pet' => $pet
+            ]);
+        }else{
+            return response([
+                'status'=> true,
+                'msg' => 'No se pudo encontrar la información de la mascota'
+            ]);
+        }
     }
 
     /**
@@ -92,7 +102,34 @@ class PetController extends Controller
      */
     public function update(UpdatePetRequest $request, Pet $pet)
     {
-        //
+        if($pet){
+            $data = $request->all();
+
+            $pet->name        = $data['name'];
+            $pet->fecha_nacimiento        = $data['fecha_nacimiento'];
+            $pet->color        = $data['color'];
+            $pet->comentarios        = $data['comentarios'];
+            $pet->alergias        = $data['alergias'];
+            $pet->pet_type_id        = $data['pet_type_id'];
+            $pet->raza_id        = $data['raza_id'];
+    
+            if($pet->save()){
+                return response([
+                    'status' => true,
+                    'pet' => $pet,
+                ]);
+            }else{
+                return response([
+                    'status' => false,
+                    'msg' => 'Ocurrio un error al intentar actualizar la mascota'
+                ]);
+            }
+        }else{
+            return response([
+                'status' => false,
+                'msg' => 'No se pudo obtener la información de la mascota'
+            ]);
+        }
     }
 
     /**
