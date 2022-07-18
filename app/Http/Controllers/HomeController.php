@@ -70,4 +70,8 @@ class HomeController extends Controller
     public function petCrear(Client $client){
         return view('pet-store', compact('client'));
     }
+    public function petDetalle(Pet $pet){
+        $pet->with('tipoMascota')->with('tipoRaza');
+        return view('pet-detalle', compact('pet'));
+    }
 }

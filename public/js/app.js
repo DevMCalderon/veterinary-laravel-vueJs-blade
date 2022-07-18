@@ -3533,7 +3533,11 @@ var render = function render() {
       staticClass: "notification-body"
     }, [_c("p", {
       staticClass: "mb-1"
-    }, [_c("strong", [_vm._v(_vm._s(pet.name))]), _vm._v(" (" + _vm._s(pet.tipo_mascota.name) + ")")]), _vm._v(" "), _c("span", {
+    }, [_c("strong", [_c("a", {
+      attrs: {
+        href: "/pet/detalle/".concat(pet.id)
+      }
+    }, [_vm._v(_vm._s(pet.name))])]), _vm._v(" (" + _vm._s(pet.tipo_mascota.name) + ")")]), _vm._v(" "), _c("span", {
       staticClass: "notification-time"
     }, [_vm._v("\n                            " + _vm._s(pet.tipo_raza.name) + "\n                        ")])]), _vm._v(" "), _c("div", {
       staticClass: "dropdown font-sans-serif position-static"
