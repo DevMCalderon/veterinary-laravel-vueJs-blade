@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Pet extends Model
 {
@@ -19,5 +20,11 @@ class Pet extends Model
         'raza_id',
         'client_id',        
     ];
+    public function tipoMascota(){
+        return $this->HasOne(PetType::class,'id','pet_type_id');
+    }
+    public function tipoRaza(){
+        return $this->HasOne(Raza::class,'id','raza_id');
+    }
     
 }

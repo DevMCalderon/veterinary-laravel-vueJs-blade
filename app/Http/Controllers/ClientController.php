@@ -17,6 +17,9 @@ class ClientController extends Controller
     {
         //
     }
+    public function showOne(Client $client){
+        return view('cliente-detalle', compact('client'));
+    }
     public function searchClient($nombre){
         if (isset($nombre)) {
             $Query = Client::where('name', 'LIKE', "%$nombre%")->get();
@@ -56,7 +59,28 @@ class ClientController extends Controller
      */
     public function store(StoreClientRequest $request)
     {
-        //
+        $data = $request->all();
+
+        $client = Client::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'phone' => $data['phone'],
+            'city' => $data['city'],
+            'address' => $data['address'],
+            'rfc' => $data['rfc'],
+        ]);
+
+        if($client){
+            return response([
+                'status' => true,
+                'client' => $client,
+            ]);
+        }else{
+            return response([
+                'status' => false,
+                'msg' => 'Ocurrio un error al intentar guardar al cliente'
+            ]);
+        }
     }
 
     /**
@@ -66,6 +90,7 @@ class ClientController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Client $client){
+        $client['ciudad'] = $client->ciudad;
         if($client){
             return response([
                 'status'=> true,
@@ -98,7 +123,6 @@ class ClientController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateClientRequest $request, Client $client){
-        echo 'prueba';exit;
         if($client){
             $data = $request->all();
 

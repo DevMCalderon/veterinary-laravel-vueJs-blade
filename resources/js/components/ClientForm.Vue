@@ -26,14 +26,6 @@
 
         <div class="row">
             <div class="col-md-10 col-lg-6 mb-3">
-                <label for="city">Ciudad</label>
-                <input type="number" name="city" id="city" class="form-control" v-model="city" min="0" step="0.01">
-                <small class="text-danger" v-if="errors && errors.city">{{ errors.city[0] }}</small>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-10 col-lg-6 mb-3">
                 <label for="address">Direccion</label>
                 <input type="text" name="address" id="address" class="form-control" v-model="address">
                 <small class="text-danger" v-if="errors && errors.address">{{ errors.address[0] }}</small>
@@ -48,22 +40,32 @@
             </div>
         </div>
 
-        <!-- <div class="row">
+        <div class="row">
             <div class="col-md-10 col-lg-6 mb-3">
                 <label for="estado">Estados</label>
-                <select id="estado" class="form-control" v-model="state_id" required>
+                <select id="estado" class="form-control" v-model="state_id" @change="changeEstado" required>
                     <option value="" selected disabled>Seleccione</option>
                     <option :value="estado.id" v-for="estado in estados" :key="estado.id">{{ estado.name }}</option>
                 </select>
                 <small class="text-danger" v-if="errors && errors.state_id">{{ errors.state_id[0] }}</small>
             </div>
-        </div> -->
+        </div>
+        <div class="row">
+            <div class="col-md-10 col-lg-6 mb-3">
+                <label for="estado">Ciudad</label>
+                <select id="estado" class="form-control" v-model="city" required>
+                    <option value="" selected disabled>Seleccione</option>
+                    <option :value="ciudad.id" v-for="ciudad in ciudades" :key="ciudad.id">{{ ciudad.name }}</option>
+                </select>
+                <small class="text-danger" v-if="errors && errors.state_id">{{ errors.state_id[0] }}</small>
+            </div>
+        </div>
 
         <hr>
 
         <div class="text-right">
 
-            <button type="button" class="btn btn-sm btn-secondary mr-5">Cancelar</button>
+            <a type="button" href="/clientes" class="btn btn-sm btn-secondary mr-5">Cancelar</a>
             <button class="btn btn-sm btn-success ml-3">Guardar</button>
 
         </div>
@@ -87,9 +89,16 @@ export default {
             rfc: '',
             state_id:'',
             estados:[],
+            ciudades:[],
             errors: undefined
            
         }
+    },
+    watch:{
+        state_id(newVal, oldVal) {
+            this.changeEstado();
+        }
+
     },
     mounted() {
         this.getEstado();
@@ -106,6 +115,16 @@ export default {
                     this.estados = resp.data.estados;
                 }else{
                     this.estados = []
+                }
+            })
+        },
+        changeEstado(){
+            this.ciudades = []
+            axios.get(`/api/ciudades/${this.state_id}`).then(resp => {
+                if(resp.data.status){
+                    this.ciudades = resp.data.ciudades;
+                }else{
+                    this.ciudades = []
                 }
             })
         },
@@ -130,6 +149,7 @@ export default {
                     this.city        = resp.data.client.city;
                     this.address        = resp.data.client.address;
                     this.rfc        = resp.data.client.rfc;
+                    this.state_id        = resp.data.client.ciudad.state_id;
                 }else{
                     Swal.fire('Ocurrio un error',resp.data.msg,'error')
                 }
@@ -165,7 +185,7 @@ export default {
                 if(resp.data.status){
 
                     Swal.fire('',`Información actualizada`,'success').then(resp => {
-                        location.href = "/clients"
+                        location.href = "/clientes"
                     });
 
                 }else{
@@ -180,12 +200,12 @@ export default {
         storeProduct(client){
             axios.post('/api/client',client).then(resp => {
                 if(resp.data.status){
-                    const clientName = 'prueba'
+                    const clientName = resp.data.client && resp.data.client.name || ""
                     Swal.fire('',
-                        `El producto <b>${clientName}</b> ha sido agregado`,
+                        `El cliente <b>${clientName}</b> ha sido agregado`,
                         'success'
                     ).then(resp => {
-                        location.href = "/clients"
+                        location.href = "/clientes"
                     })
                 }else{
                     Swal.fire('Ocurrio un error',resp.data.msg,'error')

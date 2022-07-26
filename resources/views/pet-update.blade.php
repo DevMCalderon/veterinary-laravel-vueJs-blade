@@ -4,15 +4,12 @@
 <div class="card">
     <div class="card-header pb-0">
         <div class="d-flex justify-content-between">
-            Clientes
-            <a href="{{  route('cliente-crear') }}" class="btn btn-primary btn-sm">Nuevo</a>
+            Nueva mascota
         </div>
         <hr>
     </div>
     <div class="card-body pt-0">
-        <div class="table-responsive scrollbar">
-            <client-list></client-list>
-        </div>
+        <pet-form pet-id="{{ $pet->id }}" client-id="{{ $pet->client_id }}"></pet-form>
     </div>
 </div>
 @endsection

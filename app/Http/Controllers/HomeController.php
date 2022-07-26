@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Pet;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -51,6 +52,10 @@ class HomeController extends Controller
     {
         return view('productos-crear');
     }
+    public function clienteCrear()
+    {
+        return view('client-crear');
+    }
 
     public function productosUpdate(Producto $product)
     {
@@ -58,5 +63,15 @@ class HomeController extends Controller
     }
     public function clientesUpdate(Client $client){
         return view('client-update', compact('client'));
+    }
+    public function petUpdate(Pet $pet){
+        return view('pet-update', compact('pet'));
+    }
+    public function petCrear(Client $client){
+        return view('pet-store', compact('client'));
+    }
+    public function petDetalle(Pet $pet){
+        $pet->with('tipoMascota')->with('tipoRaza');
+        return view('pet-detalle', compact('pet'));
     }
 }

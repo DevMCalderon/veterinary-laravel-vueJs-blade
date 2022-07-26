@@ -15,7 +15,12 @@ class RazaController extends Controller
      */
     public function index()
     {
-        //
+        $Raza = Raza::all();
+
+        return response([
+            'status' => true,
+            'raza_type' => $Raza
+        ]);
     }
 
     /**

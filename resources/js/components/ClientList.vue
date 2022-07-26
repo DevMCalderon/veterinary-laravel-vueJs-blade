@@ -14,7 +14,7 @@
             <tbody v-if="clients && clients.length > 0">
                 <tr class="btn-reveal-trigger" v-for="client in clients" :key="client.id">
                     
-                    <td>{{ client.name }}</td>
+                    <td><a :href="`/cliente/${client.id}`">{{ client.name }}</a></td>
                     <td>{{ client.email }}</td>
                     <td>{{ client.phone }}</td>
                     <td>{{ client.ciudad.name }}</td>
@@ -48,9 +48,6 @@
         </p>
     </div>
 </template>
-
-
-
 <script>
 import axios from 'axios'
 
