@@ -20,7 +20,7 @@ class VentaFactory extends Factory
             'client_id' => $this->faker->randomNumber(2),
             'total' => $this->faker->randomFloat($nbMaxDecimals = NULL, $min = 0, $max = NULL),
             'iva' => $this->faker->numberBetween($min = 1, $max = 100),
-            'status' => $this->faker->numberBetween($min = 1, $max = 2),
+            'tipo_pago' => "?",
             'vendedor_id' => User::inRandomOrder()->first()->id,
         ];
     }
