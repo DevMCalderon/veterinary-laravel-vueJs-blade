@@ -18,7 +18,7 @@
 
         <div class="row">
             <div class="col-md-10 col-lg-6 mb-3">
-                <label for="phone">Telefono</label>
+                <label for="phone">Teléfono</label>
                 <input type="number" name="phone" id="phone" class="form-control" v-model="phone" min="0" step="0.01">
                 <small class="text-danger" v-if="errors && errors.phone">{{ errors.phone[0] }}</small>
             </div>
@@ -26,7 +26,7 @@
 
         <div class="row">
             <div class="col-md-10 col-lg-6 mb-3">
-                <label for="address">Direccion</label>
+                <label for="address">Dirección</label>
                 <input type="text" name="address" id="address" class="form-control" v-model="address">
                 <small class="text-danger" v-if="errors && errors.address">{{ errors.address[0] }}</small>
             </div>
@@ -42,7 +42,7 @@
 
         <div class="row">
             <div class="col-md-10 col-lg-6 mb-3">
-                <label for="estado">Estados</label>
+                <label for="estado">Estado</label>
                 <select id="estado" class="form-control" v-model="state_id" @change="changeEstado" required>
                     <option value="" selected disabled>Seleccione</option>
                     <option :value="estado.id" v-for="estado in estados" :key="estado.id">{{ estado.name }}</option>

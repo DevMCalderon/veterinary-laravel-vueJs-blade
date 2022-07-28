@@ -9,9 +9,9 @@
             </div>
             <div class="row align-items-center">
                 <div class="">
-                    <label class="form-label" for="exampleFormControlInput1">Codigo de producto</label>
+                    <label class="form-label" for="exampleFormControlInput1">Código de producto</label>
                     <div class="input-group mb-3">
-                        <input class="form-control" type="text" placeholder="Introducir codigo" aria-label="Introducir codigo" aria-describedby="basic-addon2" id="inputSearch" autocomplete="off"/>
+                        <input class="form-control" type="text" placeholder="Introducir código" aria-label="Introducir código" aria-describedby="basic-addon2" id="inputSearch" autocomplete="off"/>
                         <button class="input-group-button btn btn-primary" id="buttonSearch"><i class="fas fa-search"></i></button>
                     </div>
                     <small class="float-end cursor-pointer" data-bs-toggle="modal" data-bs-target="#search-product-modal">Buscar producto</small>
@@ -59,7 +59,7 @@
                 <div class="card-footer bg-light d-flex justify-content-end">
                     <form class="me-3">
                         <div class="input-group input-group-sm">
-                            <input class="form-control" type="text" placeholder="Codigo promocional" />
+                            <input class="form-control" type="text" placeholder="Código promocional" />
                             <button class="btn btn-outline-secondary border-300 btn-sm" type="submit">Aplicar</button>
                         </div>
                     </form>

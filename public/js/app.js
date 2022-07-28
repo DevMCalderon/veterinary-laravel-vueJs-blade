@@ -2855,7 +2855,7 @@ var render = function render() {
     attrs: {
       "for": "phone"
     }
-  }, [_vm._v("Telefono")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("Teléfono")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -2889,7 +2889,7 @@ var render = function render() {
     attrs: {
       "for": "address"
     }
-  }, [_vm._v("Direccion")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("Dirección")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -2953,7 +2953,7 @@ var render = function render() {
     attrs: {
       "for": "estado"
     }
-  }, [_vm._v("Estados")]), _vm._v(" "), _c("select", {
+  }, [_vm._v("Estado")]), _vm._v(" "), _c("select", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -3130,7 +3130,7 @@ var staticRenderFns = [function () {
 
   return _c("thead", [_c("tr", {
     staticClass: "btn-reveal-trigger"
-  }, [_c("th", [_vm._v("Nombre")]), _vm._v(" "), _c("th", [_vm._v("Correo")]), _vm._v(" "), _c("th", [_vm._v("Telefono")]), _vm._v(" "), _c("th", [_vm._v("Ciudad")]), _vm._v(" "), _c("th", [_vm._v("Calle")]), _vm._v(" "), _c("th", {
+  }, [_c("th", [_vm._v("Nombre")]), _vm._v(" "), _c("th", [_vm._v("Correo")]), _vm._v(" "), _c("th", [_vm._v("Teléfono")]), _vm._v(" "), _c("th", [_vm._v("Ciudad")]), _vm._v(" "), _c("th", [_vm._v("Dirección")]), _vm._v(" "), _c("th", {
     staticClass: "text-center"
   }, [_vm._v("Opciones")])])]);
 }, function () {
@@ -3293,105 +3293,6 @@ var render = function render() {
     staticClass: "col-md-10 col-lg-6 mb-3"
   }, [_c("label", {
     attrs: {
-      "for": "color"
-    }
-  }, [_vm._v("Color")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.color,
-      expression: "color"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      type: "text",
-      name: "color",
-      id: "color",
-      required: ""
-    },
-    domProps: {
-      value: _vm.color
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.color = $event.target.value;
-      }
-    }
-  }), _vm._v(" "), _vm.errors && _vm.errors.color ? _c("small", {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.color[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-md-10 col-lg-6 mb-3"
-  }, [_c("label", {
-    attrs: {
-      "for": "comentarios"
-    }
-  }, [_vm._v("Comentarios")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.comentarios,
-      expression: "comentarios"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      type: "text",
-      name: "comentarios",
-      id: "comentarios",
-      required: ""
-    },
-    domProps: {
-      value: _vm.comentarios
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.comentarios = $event.target.value;
-      }
-    }
-  }), _vm._v(" "), _vm.errors && _vm.errors.comentarios ? _c("small", {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.comentarios[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-md-10 col-lg-6 mb-3"
-  }, [_c("label", {
-    attrs: {
-      "for": "alergias"
-    }
-  }, [_vm._v("Alergias")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.alergias,
-      expression: "alergias"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      type: "text",
-      name: "alergias",
-      id: "alergias",
-      required: ""
-    },
-    domProps: {
-      value: _vm.alergias
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.alergias = $event.target.value;
-      }
-    }
-  }), _vm._v(" "), _vm.errors && _vm.errors.alergias ? _c("small", {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.alergias[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-md-10 col-lg-6 mb-3"
-  }, [_c("label", {
-    attrs: {
       "for": "pet_type_id"
     }
   }, [_vm._v("Tipo de mascota")]), _vm._v(" "), _c("select", {
@@ -3478,24 +3379,119 @@ var render = function render() {
     }, [_vm._v(_vm._s(razaPet.name))]);
   })], 2), _vm._v(" "), _vm.errors && _vm.errors.raza_id ? _c("small", {
     staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.raza_id[0]))]) : _vm._e()])]), _vm._v(" "), _c("hr"), _vm._v(" "), _vm._m(0)]);
-};
-
-var staticRenderFns = [function () {
-  var _vm = this,
-      _c = _vm._self._c;
-
-  return _c("div", {
+  }, [_vm._v(_vm._s(_vm.errors.raza_id[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-10 col-lg-6 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "color"
+    }
+  }, [_vm._v("Color")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.color,
+      expression: "color"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      name: "color",
+      id: "color",
+      required: ""
+    },
+    domProps: {
+      value: _vm.color
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.color = $event.target.value;
+      }
+    }
+  }), _vm._v(" "), _vm.errors && _vm.errors.color ? _c("small", {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.errors.color[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-10 col-lg-6 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "alergias"
+    }
+  }, [_vm._v("Alergias")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.alergias,
+      expression: "alergias"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      name: "alergias",
+      id: "alergias",
+      required: ""
+    },
+    domProps: {
+      value: _vm.alergias
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.alergias = $event.target.value;
+      }
+    }
+  }), _vm._v(" "), _vm.errors && _vm.errors.alergias ? _c("small", {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.errors.alergias[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-10 col-lg-6 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "comentarios"
+    }
+  }, [_vm._v("Comentarios")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.comentarios,
+      expression: "comentarios"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      name: "comentarios",
+      id: "comentarios",
+      required: ""
+    },
+    domProps: {
+      value: _vm.comentarios
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.comentarios = $event.target.value;
+      }
+    }
+  }), _vm._v(" "), _vm.errors && _vm.errors.comentarios ? _c("small", {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.errors.comentarios[0]))]) : _vm._e()])]), _vm._v(" "), _c("hr"), _vm._v(" "), _c("div", {
     staticClass: "text-right"
-  }, [_c("button", {
+  }, [_c("a", {
     staticClass: "btn btn-sm btn-secondary mr-5",
     attrs: {
-      type: "button"
+      type: "button",
+      href: "/cliente/".concat(_vm.clientId)
     }
   }, [_vm._v("Cancelar")]), _vm._v(" "), _c("button", {
     staticClass: "btn btn-sm btn-success ml-3"
-  }, [_vm._v("Guardar")])]);
-}];
+  }, [_vm._v("Guardar")])])]);
+};
+
+var staticRenderFns = [];
 render._withStripped = true;
 
 
@@ -3731,7 +3727,7 @@ var render = function render() {
     attrs: {
       "for": "category"
     }
-  }, [_vm._v("Categoria")]), _vm._v(" "), _c("select", {
+  }, [_vm._v("Categoría")]), _vm._v(" "), _c("select", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -3888,7 +3884,7 @@ var staticRenderFns = [function () {
     staticStyle: {
       width: "120px"
     }
-  }, [_vm._v("Imagen")]), _vm._v(" "), _c("th", [_vm._v("Código")]), _vm._v(" "), _c("th", [_vm._v("Producto")]), _vm._v(" "), _c("th", [_vm._v("Precio")]), _vm._v(" "), _c("th", [_vm._v("Categoria")]), _vm._v(" "), _c("th", {
+  }, [_vm._v("Imagen")]), _vm._v(" "), _c("th", [_vm._v("Código")]), _vm._v(" "), _c("th", [_vm._v("Producto")]), _vm._v(" "), _c("th", [_vm._v("Precio")]), _vm._v(" "), _c("th", [_vm._v("Categoría")]), _vm._v(" "), _c("th", {
     staticClass: "text-center"
   }, [_vm._v("Opciones")])])]);
 }, function () {

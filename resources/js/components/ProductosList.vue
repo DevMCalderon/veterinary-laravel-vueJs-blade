@@ -7,7 +7,7 @@
                     <th>Código</th>
                     <th>Producto</th>
                     <th>Precio</th>
-                    <th>Categoria</th>
+                    <th>Categoría</th>
                     <th class="text-center">Opciones</th>
                 </tr>
             </thead>

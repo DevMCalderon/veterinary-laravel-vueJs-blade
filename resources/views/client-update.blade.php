@@ -4,7 +4,7 @@
 <div class="card">
     <div class="card-header pb-0">
         <div class="d-flex justify-content-between">
-            Edicion del cliente
+            Edición del cliente
         </div>
         <hr>
     </div>

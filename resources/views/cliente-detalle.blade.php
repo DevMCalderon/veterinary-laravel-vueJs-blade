@@ -17,7 +17,7 @@
                 
             </div>
             <div class="col-md-10 col-lg-6 mb-3">
-                <label for="phone">Telefono</label>
+                <label for="phone">Teléfono</label>
                 {{ $client->phone }}
             </div>
             <div class="col-md-10 col-lg-6 mb-3">
@@ -25,7 +25,7 @@
                 {{ $client->city }}
             </div>
             <div class="col-md-10 col-lg-6 mb-3">
-                <label for="address">Direccion</label>
+                <label for="address">Dirección</label>
                 {{ $client->address }}
             </div>
             <div class="col-md-10 col-lg-6 mb-3">

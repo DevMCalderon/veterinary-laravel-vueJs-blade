@@ -5,9 +5,9 @@
                 <tr class="btn-reveal-trigger">
                     <th>Nombre</th>
                     <th>Correo</th>
-                    <th>Telefono</th>
+                    <th>Teléfono</th>
                     <th>Ciudad</th>
-                    <th>Calle</th>
+                    <th>Dirección</th>
                     <th class="text-center">Opciones</th>
                 </tr>
             </thead>
