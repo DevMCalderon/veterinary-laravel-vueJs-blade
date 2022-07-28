@@ -9,7 +9,7 @@
         <hr>
     </div>
     <div class="card-body pt-0">
-        <pet-form client-id="{{ $client->id }}"></pet-form>
+        <pet-form></pet-form>
     </div>
 </div>
 @endsection

@@ -59,7 +59,28 @@ class ClientController extends Controller
      */
     public function store(StoreClientRequest $request)
     {
-        //
+        $data = $request->all();
+
+        $client = Client::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'phone' => $data['phone'],
+            'city' => $data['city'],
+            'address' => $data['address'],
+            'rfc' => $data['rfc'],
+        ]);
+
+        if($client){
+            return response([
+                'status' => true,
+                'client' => $client,
+            ]);
+        }else{
+            return response([
+                'status' => false,
+                'msg' => 'Ocurrio un error al intentar guardar al cliente'
+            ]);
+        }
     }
 
     /**

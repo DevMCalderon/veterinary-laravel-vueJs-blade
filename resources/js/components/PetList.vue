@@ -11,7 +11,7 @@
                         </div>
                     </div>
                     <div class="notification-body">
-                        <p class="mb-1"><strong>{{ pet.name }}</strong> ({{ pet.tipo_mascota.name }})</p>
+                        <p class="mb-1"><strong><a :href="`/pet/detalle/${pet.id}`">{{ pet.name }}</a></strong> ({{ pet.tipo_mascota.name }})</p>
                         <span class="notification-time">
                             {{ pet.tipo_raza.name }}
                         </span>

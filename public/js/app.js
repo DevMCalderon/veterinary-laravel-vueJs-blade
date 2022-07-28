@@ -2199,8 +2199,8 @@ __webpack_require__.r(__webpack_exports__);
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/client', client).then(function (resp) {
         if (resp.data.status) {
-          var clientName = 'prueba';
-          Swal.fire('', "El producto <b>".concat(clientName, "</b> ha sido agregado"), 'success').then(function (resp) {
+          var clientName = resp.data.client && resp.data.client.name || "";
+          Swal.fire('', "El cliente <b>".concat(clientName, "</b> ha sido agregado"), 'success').then(function (resp) {
             location.href = "/clientes";
           });
         } else {
@@ -2887,40 +2887,6 @@ var render = function render() {
     staticClass: "col-md-10 col-lg-6 mb-3"
   }, [_c("label", {
     attrs: {
-      "for": "city"
-    }
-  }, [_vm._v("Ciudad")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.city,
-      expression: "city"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      type: "number",
-      name: "city",
-      id: "city",
-      min: "0",
-      step: "0.01"
-    },
-    domProps: {
-      value: _vm.city
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.city = $event.target.value;
-      }
-    }
-  }), _vm._v(" "), _vm.errors && _vm.errors.city ? _c("small", {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.city[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-md-10 col-lg-6 mb-3"
-  }, [_c("label", {
-    attrs: {
       "for": "address"
     }
   }, [_vm._v("Direccion")]), _vm._v(" "), _c("input", {
@@ -3567,7 +3533,11 @@ var render = function render() {
       staticClass: "notification-body"
     }, [_c("p", {
       staticClass: "mb-1"
-    }, [_c("strong", [_vm._v(_vm._s(pet.name))]), _vm._v(" (" + _vm._s(pet.tipo_mascota.name) + ")")]), _vm._v(" "), _c("span", {
+    }, [_c("strong", [_c("a", {
+      attrs: {
+        href: "/pet/detalle/".concat(pet.id)
+      }
+    }, [_vm._v(_vm._s(pet.name))])]), _vm._v(" (" + _vm._s(pet.tipo_mascota.name) + ")")]), _vm._v(" "), _c("span", {
       staticClass: "notification-time"
     }, [_vm._v("\n                            " + _vm._s(pet.tipo_raza.name) + "\n                        ")])]), _vm._v(" "), _c("div", {
       staticClass: "dropdown font-sans-serif position-static"
