@@ -169,7 +169,7 @@ class ProductoController extends Controller
     {
         if($product){
             $data = $request->all();
-            if($data['image'] && $data['image'] != 'undefined' ){
+            if($data['image'] && $data['image'] != 'undefined' && gettype($data['image']) != 'string'){
                 $oldImage = $product->image;
                 $imagePath = $this->storeImage($data['image'],'products');
             }else{
@@ -184,7 +184,8 @@ class ProductoController extends Controller
             $product->category_id = $data['category_id'];
     
             if($product->save()){
-                $this->deleteFile($oldImage);
+                if(isset($oldImage))
+                    $this->deleteFile($oldImage);
                 return response([
                     'status' => true,
                     'product' => $product,

@@ -301,8 +301,10 @@
             axios.post('pagar',{'carrito':carrito,'datos':{'dineroRecibido':$('#dineroRecibido').val(),'tipoPago':$('#tipoPago').val(),'cliente':cliente}}).then((resp)=>{
                 let icono;
                 let titulo;
+                let compratrue = false;
                 switch (resp.data.estado) {
                     case true:
+                        compratrue = true;
                         icono = 'success'
                         titulo = 'Venta exitosa'
                         carrito = {};
@@ -314,6 +316,7 @@
                         $("#btnClosePagar").click()
                         break;
                     case 'cambio':
+                        compratrue = true;
                         icono = 'info'
                         titulo = 'Venta exitosa con cambio pendiente'
                         carrito = {};
@@ -339,7 +342,24 @@
                     text: resp.data.msg,
                     icon: icono,
                     confirmButtonText: 'Enterado'
-                })
+                }).then((result) => {
+                /* Read more about handling dismissals below */
+                    if (result.isConfirmed && compratrue) {
+                        Swal.fire({
+                        title: 'Do you want to save the changes?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Imprimir Ticket',
+                        cancelButtonText: 'Enviar Ticket',
+                        }).then((result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                        if (result.isConfirmed) {
+                            location.href = "ticket";
+                        } else if (result.isDenied) {
+                            
+                        }
+                        })
+                    }
+                })  
             })
         }else{
             Swal.fire({

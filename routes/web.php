@@ -5,6 +5,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\SocialAuthController;
+use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -26,10 +27,13 @@ Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
-Route::get('login/{provider}', [SocialAuthController::class,'redirectToGoogle']);
-Route::get('{provider}/callback', [SocialAuthController::class,'handleGoogleCallback']);
+Route::get('login/{provider}', [SocialAuthController::class,'redirectTo']);
+Route::get('{provider}/callback', [SocialAuthController::class,'handleCallback']);
+
 
 Route::group(['middleware' => 'auth'], function () {
+
+    Route::get('ticket', [VentaController::class, 'showTicket'])->name('ticket');
     Route::get('vistaCaja', [HomeController::class, 'vistaCaja'])->name('vistaCaja');
     Route::post('buscarProducto', [ProductoController::class, 'buscarProducto'])->name('buscarProducto');
     Route::get('searchClient/{nombre}', [ClientController::class, 'searchClient'])->name('searchClient');
