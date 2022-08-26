@@ -53,6 +53,14 @@
                       <span class="nav-link-text ps-1">Clientes</span>
                 </div>
               </a>
+             <a class="nav-link {{ (Route::is('espera-list'))?'active': ''}}" href="{{ route('espera-list') }}" role="button" data-bs-toggle="" aria-expanded="false">
+                <div class="d-flex align-items-center">
+                      <span class="nav-link-icon">
+                          <span class="fa fa-calendar"></span>
+                      </span>
+                      <span class="nav-link-text ps-1">Lista de espera</span>
+                </div>
+              </a>
           </li>
           <li class="nav-item">
             <!-- label-->
@@ -185,10 +193,10 @@
                 <!-- more inner pages-->
               </li>
             </ul>
-           
-          
+
+
           </li>
-         
+
         </ul>
         <div class="settings mb-3">
           <div class="card alert p-0 shadow-none" role="alert">
