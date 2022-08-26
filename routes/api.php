@@ -27,9 +27,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/citas', [ClientController::class, 'list']);
+Route::delete('/cita/{cita}', [ClientController::class, 'destroy']);
 
 Route::get('/products', [ProductoController::class, 'list']);
 Route::get('/clients', [ClientController::class, 'list']);
+Route::delete('/client/{client}', [ClientController::class, 'destroy']);
 Route::get('/pets/{pet}', [PetController::class, 'list']);
 Route::delete('/pet/{pet}', [PetController::class, 'destroy']);
 Route::post('/pet/{pet}', [PetController::class, 'update']);

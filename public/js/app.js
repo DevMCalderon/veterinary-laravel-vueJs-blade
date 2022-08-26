@@ -2307,56 +2307,49 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      clients: undefined
+      citas: undefined
     };
   },
   mounted: function mounted() {
-    this.getClients();
+    this.getCitas();
   },
   methods: {
-    getClients: function getClients() {
+    getCitas: function getCitas() {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/clients').then(function (resp) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/citas').then(function (resp) {
         if (resp.data.status) {
-          console.log(resp.data);
-          _this.clients = resp.data.clients;
+          _this.citas = resp.data.clients;
         }
       });
     },
-    confirmDelete: function confirmDelete(client) {
+    confirmDelete: function confirmDelete(cita) {
       var _this2 = this;
 
       Swal.fire({
-        html: "\xBFDesea eliminar el cliente <b>".concat(client.name, "</b>?"),
+        html: "\xBFDesea eliminar el cliente <b>".concat(cita.name, "</b>?"),
         icon: 'warning',
         showCancelButton: true,
         cancelButtonText: 'Cancelar',
         confirmButtonText: 'Eliminar'
       }).then(function (result) {
         if (result.isConfirmed) {
-          _this2.deleteClient(client);
+          _this2.deleteCita(cita);
         }
       });
     },
-    deleteClient: function deleteClient(client) {
+    deleteCita: function deleteCita(cita) {
       var _this3 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]("/api/client/".concat(client.id)).then(function (resp) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]("/api/cita/".concat(cita.id)).then(function (resp) {
         if (resp.data.status) {
-          Swal.fire('Eliminado', "El cliente <b>".concat(client.name, "</b> ha sido eliminado"), 'success').then(function (resp) {
-            _this3.getClients();
+          Swal.fire('Eliminado', "La cita de <b>".concat(cita.name, "</b> ha sido eliminado"), 'success').then(function (resp) {
+            _this3.getCitas();
           });
         } else {
           Swal.fire('Ocurrio un error', resp.data.msg, 'error');
         }
       });
-    },
-    loadErorrImage: function loadErorrImage(e) {
-      console.log({
-        e: e
-      });
-      e.target.src = "/img/image-not-found.png";
     }
   }
 });
@@ -3246,15 +3239,15 @@ var render = function render() {
 
   return _c("div", [_c("table", {
     staticClass: "table table-sm table-hover"
-  }, [_vm._m(0), _vm._v(" "), _vm.clients && _vm.clients.length > 0 ? _c("tbody", _vm._l(_vm.clients, function (client) {
+  }, [_vm._m(0), _vm._v(" "), _vm.citas && _vm.citas.length > 0 ? _c("tbody", _vm._l(_vm.citas, function (cita) {
     return _c("tr", {
-      key: client.id,
+      key: cita.id,
       staticClass: "btn-reveal-trigger"
     }, [_c("td", [_c("a", {
       attrs: {
-        href: "/cliente/".concat(client.id)
+        href: "/cliente/".concat(cita.id)
       }
-    }, [_vm._v(_vm._s(client.name))])]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.email))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.phone))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.ciudad.name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.address))]), _vm._v(" "), _c("td", {
+    }, [_vm._v(_vm._s(cita.name))])]), _vm._v(" "), _c("td", [_vm._v(_vm._s(cita.email))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(cita.phone))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(cita.ciudad.name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(cita.address))]), _vm._v(" "), _c("td", {
       staticClass: "text-center"
     }, [_c("div", {
       staticClass: "dropdown font-sans-serif position-static"
@@ -3265,7 +3258,7 @@ var render = function render() {
     }, [_c("a", {
       staticClass: "dropdown-item",
       attrs: {
-        href: "/client/".concat(client.id, "/editar")
+        href: "/client/".concat(cita.id, "/editar")
       }
     }, [_vm._v("Editar")]), _vm._v(" "), _c("a", {
       staticClass: "dropdown-item text-danger",
@@ -3274,7 +3267,7 @@ var render = function render() {
       },
       on: {
         click: function click($event) {
-          return _vm.confirmDelete(client);
+          return _vm.confirmDelete(cita);
         }
       }
     }, [_vm._v("Eliminar")])])])])])]);
@@ -3282,13 +3275,13 @@ var render = function render() {
     attrs: {
       colspan: "6"
     }
-  }, [_vm.clients ? _c("p", {
+  }, [_vm.citas ? _c("p", {
     staticClass: "text-center"
   }, [_vm._v("No hay clientes")]) : _c("p", {
     staticClass: "text-center"
   }, [_vm._v("Cargando...")])])])])]), _vm._v(" "), _c("p", {
     staticClass: "text-right"
-  }, [_c("small", [_vm._v(_vm._s(_vm.clients.length) + " Clientes")])])]);
+  }, [_c("small", [_vm._v(_vm._s(_vm.citas.length) + " Clientes")])])]);
 };
 
 var staticRenderFns = [function () {
