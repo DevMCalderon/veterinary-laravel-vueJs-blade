@@ -11,21 +11,21 @@
                     <th class="text-center">Opciones</th>
                 </tr>
             </thead>
-            <tbody v-if="clients && clients.length > 0">
-                <tr class="btn-reveal-trigger" v-for="client in clients" :key="client.id">
-                    
-                    <td><a :href="`/cliente/${client.id}`">{{ client.name }}</a></td>
-                    <td>{{ client.email }}</td>
-                    <td>{{ client.phone }}</td>
-                    <td>{{ client.ciudad.name }}</td>
-                    <td>{{ client.address }}</td>
+            <tbody v-if="citas && citas.length > 0">
+                <tr class="btn-reveal-trigger" v-for="cita in citas" :key="cita.id">
+
+                    <td><a :href="`/cliente/${cita.id}`">{{ cita.name }}</a></td>
+                    <td>{{ cita.email }}</td>
+                    <td>{{ cita.phone }}</td>
+                    <td>{{ cita.ciudad.name }}</td>
+                    <td>{{ cita.address }}</td>
                     <td class="text-center">
                         <div class="dropdown font-sans-serif position-static">
                             <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
                             <div class="dropdown-menu dropdown-menu-end border py-0">
                                 <div class="bg-white py-2">
-                                    <a class="dropdown-item" :href="`/client/${client.id}/editar`">Editar</a>
-                                    <a class="dropdown-item text-danger" @click="confirmDelete(client)" href="#!">Eliminar</a>
+                                    <a class="dropdown-item" :href="`/client/${cita.id}/editar`">Editar</a>
+                                    <a class="dropdown-item text-danger" @click="confirmDelete(cita)" href="#!">Eliminar</a>
                                 </div>
                             </div>
                         </div>
@@ -35,16 +35,16 @@
             <tbody v-else>
                 <tr>
                     <td colspan="6">
-                        <p class="text-center" v-if="clients">No hay clientes</p>
+                        <p class="text-center" v-if="citas">No hay clientes</p>
                         <p class="text-center" v-else>Cargando...</p>
                     </td>
                 </tr>
             </tbody>
         </table>
-        
+
         <p class="text-right">
 
-        <small>{{ clients.length }} Clientes</small>
+        <small>{{ citas.length }} Clientes</small>
         </p>
     </div>
 </template>
@@ -54,43 +54,42 @@ import axios from 'axios'
 export default {
     data(){
         return {
-            clients: undefined
+            citas: undefined
         }
     },
     mounted(){
-        this.getClients();
+        this.getCitas();
     },
     methods: {
-        getClients(){
-            axios.get('/api/clients').then((resp)=>{
+        getCitas(){
+            axios.get('/api/citas').then((resp)=>{
                 if(resp.data.status){
-                    console.log(resp.data);
-                    this.clients = resp.data.clients
+                    this.citas = resp.data.clients
                 }
             });
         },
-        confirmDelete(client){
+        confirmDelete(cita){
             Swal.fire({
-                html: `¿Desea eliminar el cliente <b>${client.name}</b>?`,
+                html: `¿Desea eliminar el cliente <b>${cita.name}</b>?`,
                 icon: 'warning',
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar',
                 confirmButtonText: 'Eliminar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    this.deleteClient(client)
+                    this.deleteCita(cita)
                 }
             })
         },
-        deleteClient(client){
-            axios.delete(`/api/client/${client.id}`).then(resp => {
+        deleteCita(cita){
+            axios.delete(`/api/cita/${cita.id}`).then(resp => {
                 if(resp.data.status){
                     Swal.fire(
                         'Eliminado',
-                        `El cliente <b>${client.name}</b> ha sido eliminado`,
+                        `La cita de <b>${cita.name}</b> ha sido eliminado`,
                         'success'
                     ).then(resp => {
-                        this.getClients();
+                        this.getCitas();
                     })
                 }else{
                     Swal.fire(
@@ -100,10 +99,6 @@ export default {
                     )
                 }
             });
-        },
-        loadErorrImage(e){
-            console.log({e});
-            e.target.src = "/img/image-not-found.png";
         }
     }
 }

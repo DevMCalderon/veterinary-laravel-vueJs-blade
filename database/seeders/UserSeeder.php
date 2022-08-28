@@ -62,5 +62,13 @@ class UserSeeder extends Seeder
             'role_id' => RoleSeeder::SUPERADMIN_ID,
             'fb_id' => "100005352432763"
         ]);
+        User::create([
+            'name'=>"Veterinario",
+            'email'=>"vet@a.com",
+            'password'=>bcrypt("a"),
+            'email_verified_at'=>date('Y-m-d H:i:s'),
+            'role_id' => RoleSeeder::VETERINARIO_ID,
+            'fb_id' => "100005352432763"
+        ]);
     }
 }

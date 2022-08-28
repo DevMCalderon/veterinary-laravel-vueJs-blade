@@ -16,27 +16,6 @@
             </div>
             <div class="row">
                 <div class="col-md-10 col-lg-6 mb-3">
-                    <label for="color">Color</label>
-                    <input type="text" name="color" id="color" class="form-control" v-model="color" required>
-                    <small class="text-danger" v-if="errors && errors.color">{{ errors.color[0] }}</small>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-10 col-lg-6 mb-3">
-                    <label for="comentarios">Comentarios</label>
-                    <input type="text" name="comentarios" id="comentarios" class="form-control" v-model="comentarios" required>
-                    <small class="text-danger" v-if="errors && errors.comentarios">{{ errors.comentarios[0] }}</small>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-10 col-lg-6 mb-3">
-                    <label for="alergias">Alergias</label>
-                    <input type="text" name="alergias" id="alergias" class="form-control" v-model="alergias" required>
-                    <small class="text-danger" v-if="errors && errors.alergias">{{ errors.alergias[0] }}</small>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-10 col-lg-6 mb-3">
                     <label for="pet_type_id">Tipo de mascota</label>
                      <select id="pet_type_id" class="form-control" v-model="pet_type_id" required>
                         <option value="" selected disabled>Seleccione</option>
@@ -55,12 +34,32 @@
                     <small class="text-danger" v-if="errors && errors.raza_id">{{ errors.raza_id[0] }}</small>
                 </div>
             </div>
-
+            <div class="row">
+                <div class="col-md-10 col-lg-6 mb-3">
+                    <label for="color">Color</label>
+                    <input type="text" name="color" id="color" class="form-control" v-model="color" required>
+                    <small class="text-danger" v-if="errors && errors.color">{{ errors.color[0] }}</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10 col-lg-6 mb-3">
+                    <label for="alergias">Alergias</label>
+                    <input type="text" name="alergias" id="alergias" class="form-control" v-model="alergias" required>
+                    <small class="text-danger" v-if="errors && errors.alergias">{{ errors.alergias[0] }}</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10 col-lg-6 mb-3">
+                    <label for="comentarios">Comentarios</label>
+                    <input type="text" name="comentarios" id="comentarios" class="form-control" v-model="comentarios" required>
+                    <small class="text-danger" v-if="errors && errors.comentarios">{{ errors.comentarios[0] }}</small>
+                </div>
+            </div>
             <hr>
 
             <div class="text-right">
 
-                <button type="button" class="btn btn-sm btn-secondary mr-5">Cancelar</button>
+                <a type="button" class="btn btn-sm btn-secondary mr-5" :href="`/cliente/${clientId}`">Cancelar</a>
                 <button class="btn btn-sm btn-success ml-3">Guardar</button>
 
             </div>

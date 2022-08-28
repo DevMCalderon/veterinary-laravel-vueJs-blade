@@ -27,7 +27,7 @@
 
             <div class="row">
                 <div class="col-md-10 col-lg-6 mb-3">
-                    <label for="category">Categoria</label>
+                    <label for="category">Categoría</label>
                     <select id="category" class="form-control" v-model="category_id" required>
                         <option value="" selected disabled>Seleccione</option>
                         <option :value="category.id" v-for="category in categories" :key="category.id">{{ category.name }}</option>

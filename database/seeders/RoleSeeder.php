@@ -11,6 +11,7 @@ class RoleSeeder extends Seeder
     const SUPERADMIN_ID = 1;
     const ADMINISTRADOR_ID = 2;
     const EMPLEADO_ID = 3;
+    const VETERINARIO_ID = 4;
 
     public function run()
     {
@@ -26,6 +27,10 @@ class RoleSeeder extends Seeder
         Role::create([
             'id'=>self::EMPLEADO_ID,
             'name'=>'Empleado'
+        ]);
+        Role::create([
+            'id'=>self::VETERINARIO_ID,
+            'name'=>'Veterinario'
         ]);
     }
 }
