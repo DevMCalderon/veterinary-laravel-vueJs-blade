@@ -25,6 +25,8 @@ class DatabaseSeeder extends Seeder
             PetTypeSeeder::class,
             PetSeeder::class,
             SucursalSeeder::class,
+            WaitingListStatusSeeder::class,
+            WaitingListSeeder::class,
         ]);
     }
 }

@@ -38,18 +38,18 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('buscarProducto', [ProductoController::class, 'buscarProducto'])->name('buscarProducto');
     Route::get('searchClient/{nombre}', [ClientController::class, 'searchClient'])->name('searchClient');
     Route::get('clientes', [HomeController::class, 'clientList'])->name('client-list');
-    Route::get('listEspera', [HomeController::class, 'esperaList'])->name('espera-list');
+    
     Route::get('searchProducto/{nombre}', [ProductoController::class, 'searchProducto'])->name('searchProducto');
     Route::post('comprobarTotal', [ProductoController::class, 'comprobarTotal'])->name('comprobarTotal');
     Route::post('pagar', [ProductoController::class, 'pago'])->name('pagar');
 
     Route::get('productos', [HomeController::class, 'productosList'])->name('productos-list');
     Route::get('cliente/crear', [HomeController::class, 'clienteCrear'])->name('cliente-crear');
-    Route::get('espera/crear', [HomeController::class, 'esperaCrear'])->name('espera-crear');
     Route::get('productos/crear', [HomeController::class, 'productosCrear'])->name('productos-crear');
     Route::get('product/{product}/editar', [HomeController::class, 'productosUpdate'])->name('productos-update');
     Route::get('client/{client}/editar', [HomeController::class, 'clientesUpdate'])->name('clientes-update');
     Route::get('cliente/{client}', [ClientController::class, 'showOne'])->name('cliente');
+    Route::post('clients/search', [ClientController::class, 'search']);
 
     Route::get('pet/{pet}/editar', [HomeController::class, 'petUpdate'])->name('clientes-update');
     Route::get('pet/detalle/{pet}', [HomeController::class, 'petDetalle'])->name('detalle-mascota');
@@ -57,6 +57,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('facebook/callback', [SocialAuthController::class, 'callbackFacebook']);
 
     Route::get('/agregar/mascota/{client}', [HomeController::class, 'petCrear']);
+
+    /** LISTA DE ESPERA */
+    Route::get('listEspera', [HomeController::class, 'esperaList'])->name('espera-list');
+    Route::get('espera/crear', [HomeController::class, 'esperaCrear'])->name('lista-espera-crear');
+
 
 
 });

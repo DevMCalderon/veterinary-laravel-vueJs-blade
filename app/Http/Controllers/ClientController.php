@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
+use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
@@ -39,6 +40,20 @@ class ClientController extends Controller
                 </div>
             ";
         }
+    }
+
+    public function search(Request $request){
+        $request->validate([
+            'name' => 'required'
+        ]);
+        
+        $name = $request->name;
+        
+        $clients = Client::where('name', 'LIKE', "%$name%")->get();
+        return response([
+            'status' => true,
+            'clients' => $clients
+        ]);
     }
 
     /**

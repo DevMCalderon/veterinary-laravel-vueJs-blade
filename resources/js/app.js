@@ -26,6 +26,9 @@ Vue.component('list-mascota',require('./components/PetList.vue').default);
 Vue.component('list-espera',require('./components/EsperaList.vue').default);
 Vue.component('pet-form',require('./components/PetForm.vue').default);
 
+Vue.component('search-client',require('./components/SearchClient.vue').default);
+Vue.component('lista-espera-client-form',require('./components/ListaEsperaClientForm.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

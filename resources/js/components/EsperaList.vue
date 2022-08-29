@@ -17,7 +17,7 @@
                     <td><a :href="`/cliente/${cita.id}`">{{ cita.name }}</a></td>
                     <td>{{ cita.email }}</td>
                     <td>{{ cita.phone }}</td>
-                    <td>{{ cita.ciudad.name }}</td>
+                    <td>{{ cita.ciudad && cita.ciudad.name }}</td>
                     <td>{{ cita.address }}</td>
                     <td class="text-center">
                         <div class="dropdown font-sans-serif position-static">

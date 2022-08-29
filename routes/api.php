@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\RazaController;
 use App\Http\Controllers\StateController;
+use App\Http\Controllers\WaitingListController;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -51,3 +52,8 @@ Route::get('/estado', [StateController::class, 'index']);
 Route::get('/ciudades/{id}', [CityController::class, 'index']);
 Route::get('/petType', [PetTypeController::class, 'index']);
 Route::get('/razaType', [RazaController::class, 'index']);
+
+
+/** WAITING LIST */
+
+Route::post('/waiting-list', [WaitingListController::class, 'store']);

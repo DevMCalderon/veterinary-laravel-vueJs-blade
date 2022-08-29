@@ -52,6 +52,11 @@ class HomeController extends Controller
         return view('lista-espera');
     }
 
+    public function esperaCrear()
+    {
+        return view('lista-espera-crear');
+    }
+
     public function productosCrear()
     {
         return view('productos-crear');

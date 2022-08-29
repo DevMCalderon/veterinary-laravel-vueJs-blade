@@ -4,15 +4,16 @@
 <div class="card">
     <div class="card-header pb-0">
         <div class="d-flex justify-content-between">
-            Lista de espera
-            <a href="{{  route('lista-espera-crear') }}" class="btn btn-primary btn-sm">Nuevo</a>
+            Agregar cliente a lista de espera
         </div>
         <hr>
     </div>
     <div class="card-body pt-0">
-        <div class="table-responsive scrollbar">
-            <list-espera></list-espera>
-        </div>
+        <lista-espera-client-form
+            date-prop="{{ date('Y-m-d') }}"
+            time-prop="{{ date('H:i:s') }}"
+        ></lista-espera-client-form>
+
     </div>
 </div>
 @endsection

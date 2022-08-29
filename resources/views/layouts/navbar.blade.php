@@ -9,7 +9,7 @@
     </div>
     <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
         <div class="navbar-vertical-content scrollbar">
-            <ul class="navbar-nav flex-column mb-3" id="navbarVerticalNav">
+            <ul class="navbar-nav flex-column" id="navbarVerticalNav">
                 <li class="nav-item">
                     <!-- parent pages--><a class="nav-link {{ (Request::is('/'))?'active': ''}}" href="/" role="button" aria-expanded="false">
                         <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-chart-pie"></span></span><span class="nav-link-text ps-1">Dashboard</span>
@@ -27,60 +27,26 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <!-- parent pages-->
-                    <a class="nav-link {{ (Route::is('vistaCaja'))?'active': ''}}" href="{{ route('vistaCaja') }}" role="button" data-bs-toggle="" aria-expanded="false">
+                    <a class="nav-link disabled" href="{{ route('client-list') }}" role="button" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon">
-                                <span class="fas fa-shopping-cart"></span>
+                                <span class="fas fa-calendar-alt"></span>
                             </span>
-                            <span class="nav-link-text ps-1">Caja</span>
+                            <span class="nav-link-text ps-1">Citas</span>
                         </div>
                     </a>
-                    <a class="nav-link {{ (Route::is('productos-list'))?'active': ''}}" href="{{ route('productos-list') }}" role="button" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-center">
-                            <span class="nav-link-icon">
-                                <span class="fas fa-bone"></span>
-                            </span>
-                            <span class="nav-link-text ps-1">Productos</span>
-                        </div>
-                    </a>
-                    <a class="nav-link {{ (Route::is('client-list'))?'active': ''}}" href="{{ route('client-list') }}" role="button" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-center">
-                            <span class="nav-link-icon">
-                                <span class="fas fa-users"></span>
-                            </span>
-                            <span class="nav-link-text ps-1">Clientes</span>
-                        </div>
-                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link {{ (Route::is('espera-list'))?'active': ''}}" href="{{ route('espera-list') }}" role="button" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon">
-                                <span class="fa fa-calendar"></span>
+                                <span class="fas fa-couch"></span>
                             </span>
-                            <span class="nav-link-text ps-1">Lista de espera</span>
+                            <span class="nav-link-text ps-1">Sala de espera</span>
                         </div>
                     </a>
                 </li>
-            </ul>
-            <div class="settings mb-3">
-            <ul class="navbar-nav flex-column mb-3" id="navbarVerticalNav">
-                <a class="nav-link" href="{{ route('client-list') }}" role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center">
-                        <span class="nav-link-icon">
-                            <span class="fas fa-calendar-alt"></span>
-                        </span>
-                        <span class="nav-link-text ps-1">Citas</span>
-                    </div>
-                </a>
-                <a class="nav-link" href="{{ route('client-list') }}" role="button" data-bs-toggle="" aria-expanded="false">
-                    <div class="d-flex align-items-center">
-                        <span class="nav-link-icon">
-                            <span class="fas fa-couch"></span>
-                        </span>
-                        <span class="nav-link-text ps-1">Sala de espera</span>
-                    </div>
-                </a>
-                </li>
+
                 <li class="nav-item">
                     <!-- label-->
                     <div class="row navbar-vertical-label-wrapper mt-3 mb-2">
