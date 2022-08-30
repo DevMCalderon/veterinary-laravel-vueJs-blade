@@ -27,11 +27,11 @@ class StoreWaitingListRequest extends FormRequest
             'clientType' => 'required',
             'client_id' => ['required_if:clientType,==,existente','exists:clients,id'],
             'date' => 'required|date',
-            'time' => 'required|date_format:H:i:s',
+            'time' => 'required|date_format:H:i',
             'client'=> 'required',
             'client.name'=> 'required',
             'client.phone'=> 'required',
-            'client.email'=> 'required'
+            'client.email'=> 'nullable|email',
         ];
     }
 
@@ -42,6 +42,7 @@ class StoreWaitingListRequest extends FormRequest
             'date' => 'fecha',
             'time' => 'hora',
             'client'=> 'cliente',
+            'client_id'=> 'cliente',
             'client.name'=> 'nombre',
             'client.phone'=> 'teléfono',
             'client.email'=> 'correo electrónico'

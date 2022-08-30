@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <form @submit="save">
         <div class="row mb-3">
             <label for="">Llegada</label>
             <div class="col-md-3">
@@ -23,24 +23,25 @@
                 <label for="">Tipo de cliente</label>
                 <select class="form-control form-control-sm" @change="setTypeClient" v-model="clientType">
                     <option value="nuevo">Nuevo</option>
-                    <option value="existente">Buscar cliente</option>
+                    <option value="existente">Existente</option>
                 </select>
             </div>
             <div class="col-md-3" v-if="clientType == 'existente'">
                 <search-client></search-client>
+                <small class="text-danger" v-if="errors && errors['client_id']">{{errors['client_id'][0]}}</small>
             </div>
         </div>
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="name">Nombre</label>
+                    <label for="name">Nombre *</label>
                     <input type="text" class="form-control form-control-sm" id="name" v-model="client.name" autocomplete="off">
                     <small class="text-danger" v-if="errors && errors['client.name']">{{errors['client.name'][0]}}</small>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="phone">Teléfono</label>
+                    <label for="phone">Teléfono *</label>
                     <input type="text" class="form-control form-control-sm" id="phone" v-model="client.phone" autocomplete="off">
                     <small class="text-danger" v-if="errors && errors['client.phone']">{{errors['client.phone'][0]}}</small>
                 </div>
@@ -57,9 +58,9 @@
 
         <div class="d-flex justify-content-end">
             <button class="btn btn-sm btn-secondary mx-3">Cancelar</button>
-            <button class="btn btn-sm btn-success" @click="save">Guardar</button>
+            <button class="btn btn-sm btn-success" type="submit">Guardar</button>
         </div>
-    </div>
+    </form>
 </template>
 
 <script>
@@ -116,7 +117,8 @@ export default {
         setTypeClient() {
             this.clearClient();
         },
-        save() {
+        save(e) {
+            e.preventDefault();
             const { name, phone, email } = this.client;
             const payload = {
                 date: this.date,
@@ -129,7 +131,7 @@ export default {
                     email
                 }
             }
-
+            this.errors = [];
             axios.post(`/api/waiting-list`, payload).then(response => {
                 if (response.data.status) {
                     Swal.fire({
@@ -137,7 +139,10 @@ export default {
                         text: 'Se ha guardado correctamente',
                         icon: 'success',
                         confirmButtonText: 'Aceptar'
+                    }).then(() => {
+                        location.href = "/listEspera"
                     });
+                    
                 }
             }).catch(error => {
                 if (error.response.status == 422) {
