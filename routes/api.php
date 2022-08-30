@@ -28,8 +28,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/citas', [ClientController::class, 'list']);
-Route::delete('/cita/{cita}', [ClientController::class, 'destroy']);
+Route::get('/citas', [WaitingListController::class, 'list']);
+Route::delete('/cita/{cita}', [WaitingListController::class, 'destroy']);
 
 Route::get('/products', [ProductoController::class, 'list']);
 Route::get('/clients', [ClientController::class, 'list']);

@@ -20,6 +20,15 @@ class WaitingListController extends Controller
         //
     }
 
+    public function list(){
+        $citas = WaitingList::with('client')->with('status')->where('date',date('Y-m-d'))->get();
+
+        return response([
+            'status' => true,
+            'citas' => $citas
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -39,7 +48,7 @@ class WaitingListController extends Controller
     public function store(StoreWaitingListRequest $request)
     {
         $data = $request->all();
-        
+
         DB::beginTransaction();
 
         if($request->clientType == 'existente'){
@@ -120,8 +129,17 @@ class WaitingListController extends Controller
      * @param  \App\Models\WaitingList  $waitingList
      * @return \Illuminate\Http\Response
      */
-    public function destroy(WaitingList $waitingList)
-    {
-        //
+    public function destroy(WaitingList $cita){
+        if($cita->delete()){
+
+            return response([
+                'status'=> true
+            ]);
+        }else{
+            return response([
+                'status'=> false,
+                'msg' => "No fue posible eliminar la cita"
+            ]);
+        }
     }
 }

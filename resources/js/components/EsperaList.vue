@@ -3,22 +3,18 @@
         <table class="table table-sm  table-hover">
             <thead>
                 <tr class="btn-reveal-trigger">
-                    <th>Nombre</th>
-                    <th>Correo</th>
-                    <th>Teléfono</th>
-                    <th>Ciudad</th>
-                    <th>Dirección</th>
+                    <th>Nombre del dueño</th>
+                    <th>Mascota</th>
+                    <th>Hora</th>
                     <th class="text-center">Opciones</th>
                 </tr>
             </thead>
             <tbody v-if="citas && citas.length > 0">
                 <tr class="btn-reveal-trigger" v-for="cita in citas" :key="cita.id">
 
-                    <td><a :href="`/cliente/${cita.id}`">{{ cita.name }}</a></td>
-                    <td>{{ cita.email }}</td>
-                    <td>{{ cita.phone }}</td>
-                    <td>{{ cita.ciudad && cita.ciudad.name }}</td>
-                    <td>{{ cita.address }}</td>
+                    <td>{{ cita.client.name }}</td>
+                    <td>null</td>
+                    <td>{{ cita.time }}</td>
                     <td class="text-center">
                         <div class="dropdown font-sans-serif position-static">
                             <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
@@ -64,13 +60,13 @@ export default {
         getCitas(){
             axios.get('/api/citas').then((resp)=>{
                 if(resp.data.status){
-                    this.citas = resp.data.clients
+                    this.citas = resp.data.citas
                 }
             });
         },
         confirmDelete(cita){
             Swal.fire({
-                html: `¿Desea eliminar el cliente <b>${cita.name}</b>?`,
+                html: `¿Desea eliminar la cita de <b>${cita.client.name}</b>?`,
                 icon: 'warning',
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar',
@@ -86,7 +82,7 @@ export default {
                 if(resp.data.status){
                     Swal.fire(
                         'Eliminado',
-                        `La cita de <b>${cita.name}</b> ha sido eliminado`,
+                        `La cita de <b>${cita.client.name}</b> ha sido eliminado`,
                         'success'
                     ).then(resp => {
                         this.getCitas();
