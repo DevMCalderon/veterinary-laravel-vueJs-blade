@@ -2646,6 +2646,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2702,9 +2703,10 @@ __webpack_require__.r(__webpack_exports__);
     setTypeClient: function setTypeClient() {
       this.clearClient();
     },
-    save: function save() {
+    save: function save(e) {
       var _this2 = this;
 
+      e.preventDefault();
       var _this$client = this.client,
           name = _this$client.name,
           phone = _this$client.phone,
@@ -2720,6 +2722,7 @@ __webpack_require__.r(__webpack_exports__);
           email: email
         }
       };
+      this.errors = [];
       axios__WEBPACK_IMPORTED_MODULE_0___default().post("/api/waiting-list", payload).then(function (response) {
         if (response.data.status) {
           sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
@@ -2727,6 +2730,8 @@ __webpack_require__.r(__webpack_exports__);
             text: 'Se ha guardado correctamente',
             icon: 'success',
             confirmButtonText: 'Aceptar'
+          }).then(function () {
+            location.href = "/listEspera";
           });
         }
       })["catch"](function (error) {
@@ -21012,7 +21017,7 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("form", { on: { submit: _vm.save } }, [
     _c("div", { staticClass: "row mb-3" }, [
       _c("label", { attrs: { for: "" } }, [_vm._v("Llegada")]),
       _vm._v(" "),
@@ -21122,21 +21127,34 @@ var render = function () {
             _c("option", { attrs: { value: "nuevo" } }, [_vm._v("Nuevo")]),
             _vm._v(" "),
             _c("option", { attrs: { value: "existente" } }, [
-              _vm._v("Buscar cliente"),
+              _vm._v("Existente"),
             ]),
           ]
         ),
       ]),
       _vm._v(" "),
       _vm.clientType == "existente"
-        ? _c("div", { staticClass: "col-md-3" }, [_c("search-client")], 1)
+        ? _c(
+            "div",
+            { staticClass: "col-md-3" },
+            [
+              _c("search-client"),
+              _vm._v(" "),
+              _vm.errors && _vm.errors["client_id"]
+                ? _c("small", { staticClass: "text-danger" }, [
+                    _vm._v(_vm._s(_vm.errors["client_id"][0])),
+                  ])
+                : _vm._e(),
+            ],
+            1
+          )
         : _vm._e(),
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-3" }, [
         _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "name" } }, [_vm._v("Nombre")]),
+          _c("label", { attrs: { for: "name" } }, [_vm._v("Nombre *")]),
           _vm._v(" "),
           _c("input", {
             directives: [
@@ -21170,7 +21188,7 @@ var render = function () {
       _vm._v(" "),
       _c("div", { staticClass: "col-md-3" }, [
         _c("div", { staticClass: "form-group" }, [
-          _c("label", { attrs: { for: "phone" } }, [_vm._v("Teléfono")]),
+          _c("label", { attrs: { for: "phone" } }, [_vm._v("Teléfono *")]),
           _vm._v(" "),
           _c("input", {
             directives: [
@@ -21241,20 +21259,27 @@ var render = function () {
     _vm._v(" "),
     _c("hr", { staticClass: "mt-4" }),
     _vm._v(" "),
-    _c("div", { staticClass: "d-flex justify-content-end" }, [
+    _vm._m(0),
+  ])
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "d-flex justify-content-end" }, [
       _c("button", { staticClass: "btn btn-sm btn-secondary mx-3" }, [
         _vm._v("Cancelar"),
       ]),
       _vm._v(" "),
       _c(
         "button",
-        { staticClass: "btn btn-sm btn-success", on: { click: _vm.save } },
+        { staticClass: "btn btn-sm btn-success", attrs: { type: "submit" } },
         [_vm._v("Guardar")]
       ),
-    ]),
-  ])
-}
-var staticRenderFns = []
+    ])
+  },
+]
 render._withStripped = true
 
 
