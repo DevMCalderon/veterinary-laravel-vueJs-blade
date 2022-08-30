@@ -40,7 +40,7 @@
 
         <p class="text-right">
 
-        <small>{{ citas.length }} Clientes</small>
+        <small>{{ citas && citas.length }} Clientes</small>
         </p>
     </div>
 </template>
