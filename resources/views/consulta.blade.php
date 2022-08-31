@@ -9,15 +9,27 @@
         <hr>
     </div>
     <div class="card-body pt-0">
-
     @if($waitingList)
+
+    @if(env('APP_ENV')=='local')
         <div class="row">
             <div class="col-md-12">
-                {{ $waitingList }}
+                <code class="text-secondary">{{ $waitingList }}</code>
+            </div>
+        </div>
+        <hr>
+    @endif
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="">Cliente</label>
+                <input type="text" class="form-control form-control-sm" value="{{ $waitingList->client ? $waitingList->client->name : '' }}" disabled>
             </div>
         </div>
     </div>
     @endif
+    </div>
 </div>
 @endsection
 
