@@ -16,8 +16,8 @@ class WaitingListFactory extends Factory
     {
         return [
             'client_id' => Client::all()->random()->id,
-            'date' => $this->faker->date(),
-            'time' => $this->faker->time(),
+            'date' => date('Y-m-d'),
+            'time' => date('H:i'),
             'waiting_list_status_id' => $this->faker->numberBetween(1, 3),
         ];
     }

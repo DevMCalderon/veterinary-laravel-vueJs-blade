@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Pet;
 use App\Models\Producto;
+use App\Models\WaitingList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -82,5 +83,12 @@ class HomeController extends Controller
     public function petDetalle(Pet $pet){
         $pet->with('tipoMascota')->with('tipoRaza');
         return view('pet-detalle', compact('pet'));
+    }
+
+    public function consulta(WaitingList $waitingList){
+        if($waitingList){
+            $waitingList['mascota'] = $waitingList->mascota;
+        }
+        return view('consulta', compact('waitingList'));
     }
 }
