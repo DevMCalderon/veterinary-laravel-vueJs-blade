@@ -20,7 +20,7 @@
                             <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
                             <div class="dropdown-menu dropdown-menu-end border py-0">
                                 <div class="bg-white py-2">
-                                    <a class="dropdown-item" :href="`/client/${cita.id}/editar`">Editar</a>
+                                    <a class="dropdown-item" @click="confirmConsulta(cita)" href="#!">Ingresar a consulta</a>
                                     <a class="dropdown-item text-danger" @click="confirmDelete(cita)" href="#!">Eliminar</a>
                                 </div>
                             </div>
@@ -64,6 +64,20 @@ export default {
                 }
             });
         },
+        confirmConsulta(cita){
+            Swal.fire({
+                html: `¿Desea que <b>${cita.client.name}</b> pase a consultar?`,
+                icon: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Consultar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.pasarConsulta(cita)
+
+                }
+            })
+        },
         confirmDelete(cita){
             Swal.fire({
                 html: `¿Desea eliminar la cita de <b>${cita.client.name}</b>?`,
@@ -76,6 +90,19 @@ export default {
                     this.deleteCita(cita)
                 }
             })
+        },
+        pasarConsulta(cita){
+            axios.get(`/api/consulta/${cita.id}`).then(resp => {
+                if(resp.data.status){
+                    location.href=`/consulta/${cita.id}`
+                }else{
+                    Swal.fire(
+                        'Ocurrio un error',
+                        resp.data.msg,
+                        'error'
+                    )
+                }
+            });
         },
         deleteCita(cita){
             axios.delete(`/api/cita/${cita.id}`).then(resp => {

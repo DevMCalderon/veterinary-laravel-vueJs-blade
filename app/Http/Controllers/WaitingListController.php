@@ -21,7 +21,7 @@ class WaitingListController extends Controller
     }
 
     public function list(){
-        $citas = WaitingList::with('client')->with('status')->where('date',date('Y-m-d'))->get();
+        $citas = WaitingList::with('client')->where('date',date('Y-m-d'))->where('waiting_list_status_id',1)->get();
 
         return response([
             'status' => true,
@@ -45,6 +45,20 @@ class WaitingListController extends Controller
      * @param  \App\Http\Requests\StoreWaitingListRequest  $request
      * @return \Illuminate\Http\Response
      */
+    public function consultar(WaitingList $cita)
+    {
+        $cita = $cita->update(['waiting_list_status_id'=>2]);
+        if($cita){
+            return response([
+                'status'=> true
+            ]);
+        }else{
+            return response([
+                'status'=> false,
+                'msg' => "No fue posible mandarlo a consulta"
+            ]);
+        }
+    }
     public function store(StoreWaitingListRequest $request)
     {
         $data = $request->all();
