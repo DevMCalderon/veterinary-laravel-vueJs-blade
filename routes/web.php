@@ -62,6 +62,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('listEspera', [HomeController::class, 'esperaList'])->name('espera-list');
     Route::get('espera/crear', [HomeController::class, 'esperaCrear'])->name('lista-espera-crear');
 
+    /** CONSULTA */
+    Route::get('consulta/{waitingList?}', [HomeController::class, 'consulta'])->name('consulta');
+
+
+
 
 
 });

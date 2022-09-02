@@ -2,3 +2,11 @@
 .input-group-text-sm{
     font-size: 0.875rem;
 }
+
+code {
+    font-family: Consolas,"courier new";
+    color: crimson;
+    background-color: #f1f1f1;
+    padding: 2px;
+    word-break: break-all;
+  }
