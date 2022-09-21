@@ -15,6 +15,7 @@
                     <input type="time" class="form-control form-control-sm" aria-label="Hora" v-model="time"
                         :disabled="datetimeDisabled">
                 </div>
+                
             </div>
         </div>
         <label for="">Cliente</label>
@@ -79,7 +80,7 @@ export default {
             },
             date: '',
             time: '',
-            datetimeDisabled: false,
+            datetimeDisabled: '',
             clientType: 'nuevo',
 
             errors: []

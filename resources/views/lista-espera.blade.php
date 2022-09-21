@@ -11,7 +11,7 @@
     </div>
     <div class="card-body pt-0">
         <div class="table-responsive scrollbar">
-            <list-espera></list-espera>
+            <list-espera date="{{ date('Y-m-d') }}"></list-espera>
         </div>
     </div>
 </div>

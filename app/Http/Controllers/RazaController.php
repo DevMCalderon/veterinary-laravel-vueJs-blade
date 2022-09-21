@@ -13,9 +13,9 @@ class RazaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($pettype)
     {
-        $Raza = Raza::all();
+        $Raza = Raza::where('pettype_id',$pettype)->get();
 
         return response([
             'status' => true,

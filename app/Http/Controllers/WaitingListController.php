@@ -20,8 +20,8 @@ class WaitingListController extends Controller
         //
     }
 
-    public function list(){
-        $citas = WaitingList::with('client')->where('date',date('Y-m-d'))->where('waiting_list_status_id',1)->get();
+    public function list($date){
+        $citas = WaitingList::with('client')->where('date',$date)->where('waiting_list_status_id',1)->get();
 
         return response([
             'status' => true,

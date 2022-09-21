@@ -27,22 +27,12 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="{{ route('client-list') }}" role="button" data-bs-toggle="" aria-expanded="false">
+                    <a class="nav-link {{ (Route::is('espera-list'))?'active': ''}}" href="{{ route('espera-list') }}" role="button" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon">
                                 <span class="fas fa-calendar-alt"></span>
                             </span>
                             <span class="nav-link-text ps-1">Citas</span>
-                        </div>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ (Route::is('espera-list'))?'active': ''}}" href="{{ route('espera-list') }}" role="button" data-bs-toggle="" aria-expanded="false">
-                        <div class="d-flex align-items-center">
-                            <span class="nav-link-icon">
-                                <span class="fas fa-couch"></span>
-                            </span>
-                            <span class="nav-link-text ps-1">Sala de espera</span>
                         </div>
                     </a>
                 </li>

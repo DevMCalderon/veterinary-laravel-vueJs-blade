@@ -1,5 +1,9 @@
 <template>
     <div>
+        <div class="d-flex align-items-center">
+            <span>Estas viendo el cronograma del dia: </span>
+            <input class="form-control w-25 ms-3" type="date" v-model="date" @change="getCitas">
+        </div>
         <table class="table table-sm  table-hover">
             <thead>
                 <tr class="btn-reveal-trigger">
@@ -48,6 +52,7 @@
 import axios from 'axios'
 
 export default {
+    props:['date'],
     data(){
         return {
             citas: undefined
@@ -58,7 +63,7 @@ export default {
     },
     methods: {
         getCitas(){
-            axios.get('/api/citas').then((resp)=>{
+            axios.get(`/api/citas/${this.date}`).then((resp)=>{
                 if(resp.data.status){
                     this.citas = resp.data.citas
                 }
