@@ -6,6 +6,7 @@
                     <th>Nombre</th>
                     <th>Correo</th>
                     <th>Teléfono</th>
+                    <th>Mascotas</th>
                     <th>Ciudad</th>
                     <th>Dirección</th>
                     <th class="text-center">Opciones</th>
@@ -17,6 +18,7 @@
                     <td><a :href="`/cliente/${client.id}`">{{ client.name }}</a></td>
                     <td>{{ client.email }}</td>
                     <td>{{ client.phone }}</td>
+                    <td>{{client.pets}}</td>
                     <td>{{ client.ciudad && client.ciudad.name }}</td>
                     <td>{{ client.address }}</td>
                     <td class="text-center">

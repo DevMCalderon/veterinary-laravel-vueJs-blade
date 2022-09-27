@@ -188,7 +188,7 @@ class ClientController extends Controller
     }
     
     public function list(){
-        $client = Client::with('ciudad')->get();
+        $client = Client::with('ciudad')->with('pets')->get();
 
         return response([
             'status' => true,

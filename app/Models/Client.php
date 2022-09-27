@@ -21,4 +21,8 @@ class Client extends Model
     public function ciudad(){
         return $this->hasOne(City::class,'id','city');
     }
+    
+    public function pets(){
+        return $this->hasMany(Pet::class,'name');
+    }
 }
