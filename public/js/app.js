@@ -2241,6 +2241,19 @@ __webpack_require__.r(__webpack_exports__);
     this.getClients();
   },
   methods: {
+    getPetsNames: function getPetsNames(pets) {
+      var arrayNombres = [];
+
+      for (var i = 0; i < pets.length; i++) {
+        var unNombre = pets[i].name;
+        unNombre = unNombre.charAt(0).toUpperCase() + unNombre.slice(1); //mayuscula primera letra
+
+        arrayNombres.push(unNombre);
+      }
+
+      this.petsNamesList = arrayNombres.join(', '); //separar por coma 
+      // console.log(this.petsNamesList);
+    },
     getClients: function getClients() {
       var _this = this;
 
@@ -3358,21 +3371,14 @@ var render = function render() {
   return _c("div", [_c("table", {
     staticClass: "table table-sm table-hover"
   }, [_vm._m(0), _vm._v(" "), _vm.clients && _vm.clients.length > 0 ? _c("tbody", _vm._l(_vm.clients, function (client) {
-    return _c("tr", {
+    return _c("tr", _vm._g({
       key: client.id,
       staticClass: "btn-reveal-trigger"
-    }, [_c("td", [_c("a", {
+    }, _vm.getPetsNames(client.pets)), [_c("td", [_c("a", {
       attrs: {
         href: "/cliente/".concat(client.id)
       }
-    }, [_vm._v(_vm._s(client.name))])]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.email))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.phone))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.ciudad && client.ciudad.name))]), _vm._v(" "), _c("td", _vm._l(client.pets, function (pet) {
-      return _c("a", {
-        key: pet.id,
-        attrs: {
-          href: "/pet/".concat(pet.id, "/editar")
-        }
-      }, [_vm._v(_vm._s(pet.name) + " ")]);
-    }), 0), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.address))]), _vm._v(" "), _c("td", {
+    }, [_vm._v(_vm._s(client.name))])]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.email))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.phone))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.ciudad && client.ciudad.name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_vm.petsNamesList))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.address))]), _vm._v(" "), _c("td", {
       staticClass: "text-center"
     }, [_c("div", {
       staticClass: "dropdown font-sans-serif position-static"
