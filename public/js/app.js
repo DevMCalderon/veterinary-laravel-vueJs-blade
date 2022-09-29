@@ -2247,7 +2247,7 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/clients').then(function (resp) {
         if (resp.data.status) {
           console.log(resp.data);
-          _this.clients = resp.data.clients;
+          _this.clients = resp.data.clients; // console.log(this.clients.data.pets)
         }
       });
     },
@@ -3365,7 +3365,11 @@ var render = function render() {
       attrs: {
         href: "/cliente/".concat(client.id)
       }
-    }, [_vm._v(_vm._s(client.name))])]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.email))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.phone))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.pets))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.ciudad && client.ciudad.name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.address))]), _vm._v(" "), _c("td", {
+    }, [_vm._v(_vm._s(client.name))])]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.email))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.phone))]), _vm._v(" "), _c("td", _vm._l(client.pets, function (pet) {
+      return _c("li", {
+        key: pet.id
+      }, [_vm._v(_vm._s(pet.name))]);
+    }), 0), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.ciudad && client.ciudad.name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.address))]), _vm._v(" "), _c("td", {
       staticClass: "text-center"
     }, [_c("div", {
       staticClass: "dropdown font-sans-serif position-static"

@@ -18,7 +18,7 @@
                     <td><a :href="`/cliente/${client.id}`">{{ client.name }}</a></td>
                     <td>{{ client.email }}</td>
                     <td>{{ client.phone }}</td>
-                    <td>{{client.pets}}</td>
+                    <td><li v-for="pet in client.pets" :key="pet.id">{{pet.name}}</li></td>
                     <td>{{ client.ciudad && client.ciudad.name }}</td>
                     <td>{{ client.address }}</td>
                     <td class="text-center">
@@ -68,6 +68,7 @@ export default {
                 if(resp.data.status){
                     console.log(resp.data);
                     this.clients = resp.data.clients
+                    // console.log(this.clients.data.pets)
                 }
             });
         },
