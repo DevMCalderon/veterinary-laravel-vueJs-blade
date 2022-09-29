@@ -6,8 +6,8 @@
                     <th>Nombre</th>
                     <th>Correo</th>
                     <th>Teléfono</th>
-                    <th>Mascotas</th>
                     <th>Ciudad</th>
+                    <th>Mascotas</th>
                     <th>Dirección</th>
                     <th class="text-center">Opciones</th>
                 </tr>
@@ -18,8 +18,8 @@
                     <td><a :href="`/cliente/${client.id}`">{{ client.name }}</a></td>
                     <td>{{ client.email }}</td>
                     <td>{{ client.phone }}</td>
-                    <td><li v-for="pet in client.pets" :key="pet.id">{{pet.name}}</li></td>
                     <td>{{ client.ciudad && client.ciudad.name }}</td>
+                    <td><a :href="`/pet/${pet.id}/editar`" v-for="pet in client.pets" :key="pet.id">{{pet.name}} </a></td>
                     <td>{{ client.address }}</td>
                     <td class="text-center">
                         <div class="dropdown font-sans-serif position-static">
@@ -68,7 +68,6 @@ export default {
                 if(resp.data.status){
                     console.log(resp.data);
                     this.clients = resp.data.clients
-                    // console.log(this.clients.data.pets)
                 }
             });
         },
