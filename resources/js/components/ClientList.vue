@@ -19,8 +19,7 @@
                     <td>{{ client.email }}</td>
                     <td>{{ client.phone }}</td>
                     <td>{{ client.ciudad && client.ciudad.name }}</td>
-                    <!-- <span v-for="pet in client.pets" :key="pet.id" ></span> -->
-                    <td>{{petsNamesList}}</td>
+                    <td>{{ petsNamesList }}</td>
                     <td>{{ client.address }}</td>
                     <td class="text-center">
                         <div class="dropdown font-sans-serif position-static">
@@ -72,7 +71,6 @@ export default {
                 arrayNombres.push(unNombre)
             }
             this.petsNamesList=arrayNombres.join(', ') //separar por coma 
-            // console.log(this.petsNamesList);
         },
         getClients(){
             axios.get('/api/clients').then((resp)=>{

@@ -2252,7 +2252,6 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.petsNamesList = arrayNombres.join(', '); //separar por coma 
-      // console.log(this.petsNamesList);
     },
     getClients: function getClients() {
       var _this = this;
