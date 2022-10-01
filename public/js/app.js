@@ -3079,7 +3079,7 @@ var render = function render() {
     attrs: {
       "for": "name"
     }
-  }, [_vm._v("Nombre")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("Nombresss")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
