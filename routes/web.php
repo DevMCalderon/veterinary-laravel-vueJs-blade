@@ -51,7 +51,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('cliente/{client}', [ClientController::class, 'showOne'])->name('cliente');
     Route::post('clients/search', [ClientController::class, 'search']);
 
-    Route::get('pet/{pet}/editar', [HomeController::class, 'petUpdate'])->name('clientes-update');
+    Route::get('pet/{pet}/editar', [HomeController::class, 'petUpdate'])->name('pet-update');
     Route::get('pet/detalle/{pet}', [HomeController::class, 'petDetalle'])->name('detalle-mascota');
     Route::get('login/facebook', [SocialAuthController::class, 'redirectFacebook']);
     Route::get('facebook/callback', [SocialAuthController::class, 'callbackFacebook']);

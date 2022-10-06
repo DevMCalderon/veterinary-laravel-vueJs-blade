@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col-md-10 col-lg-6 mb-3">
                 <label for="phone">Teléfono</label>
-                <input type="number" name="phone" id="phone" class="form-control" v-model="phone" min="0" step="0.01">
+                <input type="tel" name="phone" id="phone" class="form-control" v-model="phone" min="0" maxlength="10" step="0.01">
                 <small class="text-danger" v-if="errors && errors.phone">{{ errors.phone[0] }}</small>
             </div>
         </div>
@@ -35,7 +35,7 @@
         <div class="row">
             <div class="col-md-10 col-lg-6 mb-3">
                 <label for="rfc">RFC</label>
-                <input type="text" name="rfc" id="rfc" class="form-control" v-model="rfc">
+                <input type="text" name="rfc" id="rfc" class="form-control" v-model="rfc" maxlength="13">
                 <small class="text-danger" v-if="errors && errors.rfc">{{ errors.rfc[0] }}</small>
             </div>
         </div>
