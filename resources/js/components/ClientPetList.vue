@@ -4,23 +4,12 @@
             <thead>
                 <tr class="btn-reveal-trigger">
                     <th>Nombre</th>
-                    <th>Correo</th>
-                    <th>Teléfono</th>
-                    <th>Ciudad</th>
-                    <th>Mascotas</th>
-                    <th>Dirección</th>
                     <th class="text-center">Opciones</th>
                 </tr>
             </thead>
             <tbody v-if="clients && clients.length > 0">
                 <tr class="btn-reveal-trigger" v-for="client in clients" :key="client.id" v-on="getPetsNames(client.pets)">
-                    
-                    <td><a :href="`/cliente/${client.id}`">{{ client.name }}</a></td>
-                    <td class="texto-desborde">{{ client.email }}</td>
-                    <td class="texto-desborde">{{ client.phone }}</td>
-                    <td>{{ client.ciudad && client.ciudad.name }}</td>
-                    <td>{{ petsNamesList }}</td>
-                    <td>{{ client.address }}</td>
+                    <td>{{ petsNamesList }} {{clientid}}</td>
                     <td class="text-center">
                         <div class="dropdown font-sans-serif position-static">
                             <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
@@ -54,33 +43,25 @@
 import axios from 'axios'
 
 export default {
+    props: ['client_id'],
     data(){
         return {
-            clients: undefined
+            clients: undefined,
+            clientid:this.client_id 
         }
     },
     mounted(){
         this.getClients();
     },
     methods: {
-        getPetsNames(pets){
-            let cont=0
-
-            for(let i=0; i<pets.length; i++){//contador de mascotas
-                cont=i+parseInt(1)
+         getPetsNames(pets){
+            let arrayNombres=[];
+            for(let i=0; i<pets.length; i++){
+                let unNombre=pets[i].name
+                unNombre=unNombre.charAt(0).toUpperCase() + unNombre.slice(1) //mayuscula primera letra
+                arrayNombres.push(unNombre)
             }
-
-            if(cont>1){//si es mayor a una mascota mostrar como numero
-                this.petsNamesList=cont+" mascotas"
-            }
-            else{ //muestra con texto
-                this.petsNamesList=pets[0].name
-                
-                if(String(this.petsNamesList).length>15){ //recorta caracteres si son mas de 30
-                    this.petsNamesList=String(this.petsNamesList.substring(0,15))
-                    this.petsNamesList=this.petsNamesList+"..."
-                }
-            } 
+            this.petsNamesList=arrayNombres.join(', ') //separar por coma 
         },
         getClients(){
             axios.get('/api/clients').then((resp)=>{
@@ -131,12 +112,3 @@ export default {
 </script>
 
 
-<style scoped>
-    .text-right{
-        text-align: right
-    }
-    .img-product{
-        max-width: 80px;
-
-    }
-</style>
