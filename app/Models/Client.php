@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Client extends Model
 {
     use HasFactory;
@@ -20,5 +21,9 @@ class Client extends Model
 
     public function ciudad(){
         return $this->hasOne(City::class,'id','city');
+    }
+
+    public function pets(){
+        return $this->hasMany(Pet::class,'client_id','id');
     }
 }

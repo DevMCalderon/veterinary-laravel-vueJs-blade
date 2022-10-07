@@ -28,7 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/citas', [WaitingListController::class, 'list']);
+Route::get('/citas/{date}', [WaitingListController::class, 'list']);
 Route::delete('/cita/{cita}', [WaitingListController::class, 'destroy']);
 Route::get('/consulta/{cita}', [WaitingListController::class, 'consultar']);
 
@@ -52,7 +52,7 @@ Route::get('/categories', [ProductCategoryController::class, 'index']);
 Route::get('/estado', [StateController::class, 'index']);
 Route::get('/ciudades/{id}', [CityController::class, 'index']);
 Route::get('/petType', [PetTypeController::class, 'index']);
-Route::get('/razaType', [RazaController::class, 'index']);
+Route::get('/razaType/{pettype}', [RazaController::class, 'index']);
 
 
 /** WAITING LIST */

@@ -90,11 +90,17 @@ export default {
     },
     mounted() {
         this.getPetType();
-        this.razaType();
+        // this.razaType();
 
         if(this.petId){
             this.getPet(this.petId);
         }
+    },
+    watch:{
+        pet_type_id(newVal, oldVal) {
+            this.razaType();
+        }
+
     },
     methods: {
         getPetType(){
@@ -109,7 +115,7 @@ export default {
         },
         razaType(){
             this.raza_type = []
-            axios.get('/api/razaType').then(resp => {
+            axios.get(`/api/razaType/${this.pet_type_id}`).then(resp => {
                 if(resp.data.status){
                     this.raza_type = resp.data.raza_type;
                 }else{

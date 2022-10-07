@@ -2241,6 +2241,18 @@ __webpack_require__.r(__webpack_exports__);
     this.getClients();
   },
   methods: {
+    getPetsNames: function getPetsNames(pets) {
+      var arrayNombres = [];
+
+      for (var i = 0; i < pets.length; i++) {
+        var unNombre = pets[i].name;
+        unNombre = unNombre.charAt(0).toUpperCase() + unNombre.slice(1); //mayuscula primera letra
+
+        arrayNombres.push(unNombre);
+      }
+
+      this.petsNamesList = arrayNombres.join(', '); //separar por coma 
+    },
     getClients: function getClients() {
       var _this = this;
 
@@ -2305,6 +2317,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['date'],
   data: function data() {
     return {
       citas: undefined
@@ -2317,7 +2330,7 @@ __webpack_require__.r(__webpack_exports__);
     getCitas: function getCitas() {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/citas').then(function (resp) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/citas/".concat(this.date)).then(function (resp) {
         if (resp.data.status) {
           _this.citas = resp.data.citas;
         }
@@ -2429,7 +2442,7 @@ __webpack_require__.r(__webpack_exports__);
       },
       date: '',
       time: '',
-      datetimeDisabled: false,
+      datetimeDisabled: '',
       clientType: 'nuevo',
       errors: []
     };
@@ -2552,11 +2565,15 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.getPetType();
-    this.razaType();
+    this.getPetType(); // this.razaType();
 
     if (this.petId) {
       this.getPet(this.petId);
+    }
+  },
+  watch: {
+    pet_type_id: function pet_type_id(newVal, oldVal) {
+      this.razaType();
     }
   },
   methods: {
@@ -2576,7 +2593,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       this.raza_type = [];
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/razaType').then(function (resp) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/razaType/".concat(this.pet_type_id)).then(function (resp) {
         if (resp.data.status) {
           _this2.raza_type = resp.data.raza_type;
         } else {
@@ -3400,14 +3417,14 @@ var render = function render() {
   return _c("div", [_c("table", {
     staticClass: "table table-sm table-hover"
   }, [_vm._m(0), _vm._v(" "), _vm.clients && _vm.clients.length > 0 ? _c("tbody", _vm._l(_vm.clients, function (client) {
-    return _c("tr", {
+    return _c("tr", _vm._g({
       key: client.id,
       staticClass: "btn-reveal-trigger"
-    }, [_c("td", [_c("a", {
+    }, _vm.getPetsNames(client.pets)), [_c("td", [_c("a", {
       attrs: {
         href: "/cliente/".concat(client.id)
       }
-    }, [_vm._v(_vm._s(client.name))])]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.email))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.phone))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.ciudad && client.ciudad.name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.address))]), _vm._v(" "), _c("td", {
+    }, [_vm._v(_vm._s(client.name))])]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.email))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.phone))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.ciudad && client.ciudad.name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_vm.petsNamesList))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.address))]), _vm._v(" "), _c("td", {
       staticClass: "text-center"
     }, [_c("div", {
       staticClass: "dropdown font-sans-serif position-static"
@@ -3450,7 +3467,7 @@ var staticRenderFns = [function () {
 
   return _c("thead", [_c("tr", {
     staticClass: "btn-reveal-trigger"
-  }, [_c("th", [_vm._v("Nombre")]), _vm._v(" "), _c("th", [_vm._v("Correo")]), _vm._v(" "), _c("th", [_vm._v("Teléfono")]), _vm._v(" "), _c("th", [_vm._v("Ciudad")]), _vm._v(" "), _c("th", [_vm._v("Dirección")]), _vm._v(" "), _c("th", {
+  }, [_c("th", [_vm._v("Nombre")]), _vm._v(" "), _c("th", [_vm._v("Correo")]), _vm._v(" "), _c("th", [_vm._v("Teléfono")]), _vm._v(" "), _c("th", [_vm._v("Ciudad")]), _vm._v(" "), _c("th", [_vm._v("Mascotas")]), _vm._v(" "), _c("th", [_vm._v("Dirección")]), _vm._v(" "), _c("th", {
     staticClass: "text-center"
   }, [_vm._v("Opciones")])])]);
 }, function () {
@@ -3491,7 +3508,30 @@ var render = function render() {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _c("div", [_c("table", {
+  return _c("div", [_c("div", {
+    staticClass: "d-flex align-items-center"
+  }, [_c("span", [_vm._v("Estas viendo el cronograma del dia: ")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.date,
+      expression: "date"
+    }],
+    staticClass: "form-control w-25 ms-3",
+    attrs: {
+      type: "date"
+    },
+    domProps: {
+      value: _vm.date
+    },
+    on: {
+      change: _vm.getCitas,
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.date = $event.target.value;
+      }
+    }
+  })]), _vm._v(" "), _c("table", {
     staticClass: "table table-sm table-hover"
   }, [_vm._m(0), _vm._v(" "), _vm.citas && _vm.citas.length > 0 ? _c("tbody", _vm._l(_vm.citas, function (cita) {
     return _c("tr", {

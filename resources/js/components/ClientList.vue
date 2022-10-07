@@ -7,17 +7,19 @@
                     <th>Correo</th>
                     <th>Teléfono</th>
                     <th>Ciudad</th>
+                    <th>Mascotas</th>
                     <th>Dirección</th>
                     <th class="text-center">Opciones</th>
                 </tr>
             </thead>
             <tbody v-if="clients && clients.length > 0">
-                <tr class="btn-reveal-trigger" v-for="client in clients" :key="client.id">
+                <tr class="btn-reveal-trigger" v-for="client in clients" :key="client.id" v-on="getPetsNames(client.pets)">
                     
                     <td><a :href="`/cliente/${client.id}`">{{ client.name }}</a></td>
                     <td>{{ client.email }}</td>
                     <td>{{ client.phone }}</td>
                     <td>{{ client.ciudad && client.ciudad.name }}</td>
+                    <td>{{ petsNamesList }}</td>
                     <td>{{ client.address }}</td>
                     <td class="text-center">
                         <div class="dropdown font-sans-serif position-static">
@@ -61,6 +63,15 @@ export default {
         this.getClients();
     },
     methods: {
+        getPetsNames(pets){
+            let arrayNombres=[];
+            for(let i=0; i<pets.length; i++){
+                let unNombre=pets[i].name
+                unNombre=unNombre.charAt(0).toUpperCase() + unNombre.slice(1) //mayuscula primera letra
+                arrayNombres.push(unNombre)
+            }
+            this.petsNamesList=arrayNombres.join(', ') //separar por coma 
+        },
         getClients(){
             axios.get('/api/clients').then((resp)=>{
                 if(resp.data.status){

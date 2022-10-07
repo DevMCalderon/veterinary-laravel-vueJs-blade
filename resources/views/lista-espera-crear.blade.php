@@ -12,7 +12,7 @@
         <lista-espera-client-form
             date-prop="{{ date('Y-m-d') }}"
             time-prop="{{ date('H:i') }}"
-            datetime-disabled-prop="true"
+            datetime-disabled-prop="false"
         ></lista-espera-client-form>
 
     </div>
@@ -20,7 +20,6 @@
 @endsection
 
 @section('scripts')
-
 
 
 @endsection
