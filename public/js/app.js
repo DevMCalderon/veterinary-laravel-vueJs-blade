@@ -3290,11 +3290,10 @@ var render = function render() {
     }],
     staticClass: "form-control",
     attrs: {
-      type: "tel",
+      type: "number",
       name: "phone",
       id: "phone",
       min: "0",
-      maxlength: "10",
       step: "0.01"
     },
     domProps: {
@@ -3359,8 +3358,7 @@ var render = function render() {
     attrs: {
       type: "text",
       name: "rfc",
-      id: "rfc",
-      maxlength: "13"
+      id: "rfc"
     },
     domProps: {
       value: _vm.rfc
@@ -3832,7 +3830,7 @@ var staticRenderFns = [function () {
     staticClass: "card-header"
   }, [_vm._v("Example Component")]), _vm._v(" "), _c("div", {
     staticClass: "card-body"
-  }, [_vm._v("\n                        I'm an example component.\n                    ")])])])])]);
+  }, [_vm._v("\r\n                        I'm an example component.\r\n                    ")])])])])]);
 }];
 render._withStripped = true;
 
@@ -4432,7 +4430,7 @@ var render = function render() {
       }
     }, [_vm._v(_vm._s(pet.name))])]), _vm._v(" (" + _vm._s(pet.tipo_mascota.name) + ")")]), _vm._v(" "), _c("span", {
       staticClass: "notification-time"
-    }, [_vm._v("\n                            " + _vm._s(pet.tipo_raza.name) + "\n                        ")])]), _vm._v(" "), _c("div", {
+    }, [_vm._v("\r\n                            " + _vm._s(pet.tipo_raza.name) + "\r\n                        ")])]), _vm._v(" "), _c("div", {
       staticClass: "dropdown font-sans-serif position-static"
     }, [_vm._m(1, true), _vm._v(" "), _c("div", {
       staticClass: "dropdown-menu dropdown-menu-end border py-0"
@@ -4454,7 +4452,7 @@ var render = function render() {
         }
       }
     }, [_vm._v("Eliminar")])])])])])]);
-  }), 0) : _c("div", [_vm._v("\n            Sin mascotas registradas\n        ")])]);
+  }), 0) : _c("div", [_vm._v("\r\n            Sin mascotas registradas\r\n        ")])]);
 };
 
 var staticRenderFns = [function () {
@@ -4839,7 +4837,7 @@ var render = function render() {
     on: {
       click: _vm.newClient
     }
-  }, [_vm._v("\n                Nuevo cliente\n            ")]) : _vm._e(), _vm._v(" "), _vm._l(_vm.clients, function (client) {
+  }, [_vm._v("\r\n                Nuevo cliente\r\n            ")]) : _vm._e(), _vm._v(" "), _vm._l(_vm.clients, function (client) {
     return _c("a", {
       key: client.id,
       staticClass: "list-group-item list-group-item-action cursor-pointer",
@@ -4848,7 +4846,7 @@ var render = function render() {
           return _vm.select(client);
         }
       }
-    }, [_vm._v("\n                " + _vm._s(client.name) + "\n            ")]);
+    }, [_vm._v("\r\n                " + _vm._s(client.name) + "\r\n            ")]);
   })], 2) : _vm._e()]);
 };
 
@@ -4883,7 +4881,7 @@ var render = function render() {
     staticClass: "receipt"
   }, [_vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), _c("div", {
     staticClass: "transactionDetails"
-  }, [_vm._v("\n                        Le atendio: " + _vm._s(_vm.user) + "\n                    ")]), _vm._v(" "), _vm._m(3), _vm._v(" "), _vm._m(4), _vm._v(" "), _vm._m(5), _vm._v(" "), _c("div", {
+  }, [_vm._v("\r\n                        Le atendio: " + _vm._s(_vm.user) + "\r\n                    ")]), _vm._v(" "), _vm._m(3), _vm._v(" "), _vm._m(4), _vm._v(" "), _vm._m(5), _vm._v(" "), _c("div", {
     staticClass: "paymentDetails bold"
   }, [_c("div", {
     staticClass: "detail"
@@ -4928,7 +4926,7 @@ var staticRenderFns = [function () {
 
   return _c("div", {
     staticClass: "address"
-  }, [_vm._v("MATRIZ"), _c("br"), _vm._v("MERR730630DU6"), _c("br"), _vm._v("Whatsapp 6121772500"), _c("br"), _vm._v("\n                        Amado Nervo #249, Local #3, Centro ")]);
+  }, [_vm._v("MATRIZ"), _c("br"), _vm._v("MERR730630DU6"), _c("br"), _vm._v("Whatsapp 6121772500"), _c("br"), _vm._v("\r\n                        Amado Nervo #249, Local #3, Centro ")]);
 }, function () {
   var _vm = this,
       _c = _vm._self._c;
@@ -4966,7 +4964,7 @@ var staticRenderFns = [function () {
     staticClass: "detail"
   }), _vm._v(" "), _c("div", {
     staticClass: "detail"
-  }, [_vm._v("6\n                        ")]), _vm._v(" "), _c("div", {
+  }, [_vm._v("6\r\n                        ")]), _vm._v(" "), _c("div", {
     staticClass: "detail"
   }, [_vm._v("33.3")])]);
 }, function () {
@@ -5026,7 +5024,7 @@ var staticRenderFns = [function () {
     staticClass: "receiptBarcode"
   }, [_c("div", {
     staticClass: "barcode"
-  }, [_vm._v("\n                            123\n                        ")]), _vm._v("\n                        123\n                    ")]);
+  }, [_vm._v("\r\n                            123\r\n                        ")]), _vm._v("\r\n                        123\r\n                    ")]);
 }, function () {
   var _vm = this,
       _c = _vm._self._c;
@@ -5054,7 +5052,7 @@ var staticRenderFns = [function () {
     staticStyle: {
       "font-size": "50%"
     }
-  }, [_vm._v("\n\n                        Es indispensable presentar este comprobante para recoger equipo. "), _c("br"), _vm._v("Despues de 30 dias no nos\n                        hacemos responsables por equipos no reclamados. "), _c("br"), _vm._v("La garantia aplica en reparaciones con una\n                        vigencia de 30 dias naturales y se aplica presentando este comprobante o el ticket fisico.\n                        "), _c("br"), _vm._v("Quejas o sugerencias en https://labcell.com.mx/quejas ")]);
+  }, [_vm._v("\r\n\r\n                        Es indispensable presentar este comprobante para recoger equipo. "), _c("br"), _vm._v("Despues de 30 dias no nos\r\n                        hacemos responsables por equipos no reclamados. "), _c("br"), _vm._v("La garantia aplica en reparaciones con una\r\n                        vigencia de 30 dias naturales y se aplica presentando este comprobante o el ticket fisico.\r\n                        "), _c("br"), _vm._v("Quejas o sugerencias en https://labcell.com.mx/quejas ")]);
 }, function () {
   var _vm = this,
       _c = _vm._self._c;
@@ -5063,15 +5061,15 @@ var staticRenderFns = [function () {
     staticClass: "feedback"
   }, [_c("div", {
     staticClass: "break"
-  }, [_vm._v("\n                            *****************************\n                        ")]), _vm._v(" "), _c("p", {
+  }, [_vm._v("\r\n                            *****************************\r\n                        ")]), _vm._v(" "), _c("p", {
     staticClass: "text-justify ps-2 pe-2"
-  }, [_vm._v("\n                            Este es unicamente un ticket electronico que se podra utilizar como remplazo en caso de\n                            perdida total o parcial del ticket fisico, este ticket no presenta la misma informacion del\n                            ticket fisico por lo que en ciertas ocasiones se requerira el ticket fisico, los beneficios\n                            del programa VETSOFT Te premia son unicamente para los socios activos.")]), _vm._v(" "), _c("h4", {
+  }, [_vm._v("\r\n                            Este es unicamente un ticket electronico que se podra utilizar como remplazo en caso de\r\n                            perdida total o parcial del ticket fisico, este ticket no presenta la misma informacion del\r\n                            ticket fisico por lo que en ciertas ocasiones se requerira el ticket fisico, los beneficios\r\n                            del programa VETSOFT Te premia son unicamente para los socios activos.")]), _vm._v(" "), _c("h4", {
     staticClass: "web"
   }, [_vm._v("www.VetSoft.com.mx")]), _vm._v(" "), _c("p", {
     staticClass: "center"
-  }, [_vm._v("\n                            We'll try to speak English\n                        ")]), _vm._v(" "), _c("div", {
+  }, [_vm._v("\r\n                            We'll try to speak English\r\n                        ")]), _vm._v(" "), _c("div", {
     staticClass: "break"
-  }, [_vm._v("\n                            ******************************\n                        ")])]);
+  }, [_vm._v("\r\n                            ******************************\r\n                        ")])]);
 }];
 render._withStripped = true;
 
@@ -5159,7 +5157,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.text-right{\n        text-align: right;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.text-right{\r\n        text-align: right;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -5183,7 +5181,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.text-right[data-v-37358998]{\n        text-align: right\n}\n.img-product[data-v-37358998]{\n        max-width: 80px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.text-right[data-v-37358998]{\r\n        text-align: right\n}\n.img-product[data-v-37358998]{\r\n        max-width: 80px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -5207,7 +5205,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.text-right[data-v-33a308fb]{\n        text-align: right\n}\n.img-product[data-v-33a308fb]{\n        max-width: 80px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.text-right[data-v-33a308fb]{\r\n        text-align: right\n}\n.img-product[data-v-33a308fb]{\r\n        max-width: 80px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -5231,7 +5229,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.text-right{\n        text-align: right;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.text-right{\r\n        text-align: right;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -5255,7 +5253,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.text-right[data-v-40d23d7c]{\n        text-align: right\n}\n.img-product[data-v-40d23d7c]{\n        max-width: 80px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.text-right[data-v-40d23d7c]{\r\n        text-align: right\n}\n.img-product[data-v-40d23d7c]{\r\n        max-width: 80px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -5279,7 +5277,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.text-right{\n        text-align: right;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.text-right{\r\n        text-align: right;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -5303,7 +5301,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.text-right[data-v-2c914976]{\n        text-align: right\n}\n.img-product[data-v-2c914976]{\n        max-width: 80px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.text-right[data-v-2c914976]{\r\n        text-align: right\n}\n.img-product[data-v-2c914976]{\r\n        max-width: 80px;\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -5327,7 +5325,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.list-group-item[data-v-2d68d9fe]{\n    padding: 5px 11px;\n    font-size: 0.9em;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.list-group-item[data-v-2d68d9fe]{\r\n    padding: 5px 11px;\r\n    font-size: 0.9em;\n}\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -33818,7 +33816,7 @@ Vue.compile = compileToFunctions;
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"Promise based HTTP client for the browser and node.js","main":"index.js","scripts":{"test":"grunt test","start":"node ./sandbox/server.js","build":"NODE_ENV=production grunt build","preversion":"npm test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json","postversion":"git push && git push --tags","examples":"node ./examples/server.js","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","fix":"eslint --fix lib/**/*.js"},"repository":{"type":"git","url":"https://github.com/axios/axios.git"},"keywords":["xhr","http","ajax","promise","node"],"author":"Matt Zabriskie","license":"MIT","bugs":{"url":"https://github.com/axios/axios/issues"},"homepage":"https://axios-http.com","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"jsdelivr":"dist/axios.min.js","unpkg":"dist/axios.min.js","typings":"./index.d.ts","dependencies":{"follow-redirects":"^1.14.0"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}]}');
+module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\Users\\\\S4\\\\Desktop\\\\!1 Accesso Trabajo\\\\Code\\\\vet-soft"]],"_development":true,"_from":"axios@0.21.4","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.21.4","name":"axios","escapedName":"axios","rawSpec":"0.21.4","saveSpec":null,"fetchSpec":"0.21.4"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_spec":"0.21.4","_where":"C:\\\\Users\\\\S4\\\\Desktop\\\\!1 Accesso Trabajo\\\\Code\\\\vet-soft","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
 
 /***/ })
 
