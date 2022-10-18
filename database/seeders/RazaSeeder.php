@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Raza;
 use Illuminate\Database\Seeder;
 
 class RazaSeeder extends Seeder
@@ -13,6 +14,6 @@ class RazaSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Raza::create(['pettype_id'=>'1', 'name'=>'Affenpinscher']);
     }
 }

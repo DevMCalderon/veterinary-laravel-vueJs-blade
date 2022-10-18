@@ -2242,26 +2242,31 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     getPetsNames: function getPetsNames(pets) {
-      var cont = 0;
+      var petsNamesList = "";
+      var showBadge = false;
 
-      for (var i = 0; i < pets.length; i++) {
-        //contador de mascotas
-        cont = i + parseInt(1);
-      }
+      if (pets != "") {
+        if (pets.length > 1) {
+          //si es mayor a una mascota mostrar como numero
+          petsNamesList = pets.length + parseInt(1);
+          showBadge = true;
+        } else {
+          //muestra nombre de unica mascota
+          petsNamesList = pets[0].name;
 
-      if (cont > 1) {
-        //si es mayor a una mascota mostrar como numero
-        this.petsNamesList = cont + " mascotas";
-      } else {
-        //muestra con texto
-        this.petsNamesList = pets[0].name;
-
-        if (String(this.petsNamesList).length > 15) {
-          //recorta caracteres si son mas de 30
-          this.petsNamesList = String(this.petsNamesList.substring(0, 15));
-          this.petsNamesList = this.petsNamesList + "...";
+          if (String(petsNamesList).length > 15) {
+            //recorta caracteres si son mas de 30
+            petsNamesList = String(petsNamesList.substring(0, 15)) + "...";
+          }
         }
+      } else {
+        //si es null
+        petsNamesList = "0";
+        showBadge = true;
       }
+
+      this.petsNamesList = petsNamesList;
+      this.showBadge = showBadge;
     },
     getClients: function getClients() {
       var _this = this;
@@ -2330,58 +2335,47 @@ __webpack_require__.r(__webpack_exports__);
   props: ['client_id'],
   data: function data() {
     return {
-      clients: undefined,
+      pets: undefined,
       clientid: this.client_id
     };
   },
   mounted: function mounted() {
-    this.getClients();
+    this.getPets();
   },
   methods: {
-    getPetsNames: function getPetsNames(pets) {
-      var arrayNombres = [];
-
-      for (var i = 0; i < pets.length; i++) {
-        var unNombre = pets[i].name;
-        unNombre = unNombre.charAt(0).toUpperCase() + unNombre.slice(1); //mayuscula primera letra
-
-        arrayNombres.push(unNombre);
-      }
-
-      this.petsNamesList = arrayNombres.join(', '); //separar por coma 
-    },
-    getClients: function getClients() {
+    getPets: function getPets() {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/clients').then(function (resp) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/client/".concat(this.client_id)).then(function (resp) {
         if (resp.data.status) {
-          console.log(resp.data);
-          _this.clients = resp.data.clients;
+          console.log(resp.data.pets);
+          _this.pets = resp.data.pets; // console.log(this.clientid);
+          // console.log(this.pets);
         }
       });
     },
-    confirmDelete: function confirmDelete(client) {
+    confirmDelete: function confirmDelete(pet) {
       var _this2 = this;
 
       Swal.fire({
-        html: "\xBFDesea eliminar el cliente <b>".concat(client.name, "</b>?"),
+        html: "\xBFDesea eliminar la mascota <b>".concat(pet.name, "</b>?"),
         icon: 'warning',
         showCancelButton: true,
         cancelButtonText: 'Cancelar',
         confirmButtonText: 'Eliminar'
       }).then(function (result) {
         if (result.isConfirmed) {
-          _this2.deleteClient(client);
+          _this2.deletePet(pet);
         }
       });
     },
-    deleteClient: function deleteClient(client) {
+    deletePet: function deletePet(pet) {
       var _this3 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]("/api/client/".concat(client.id)).then(function (resp) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]("/api/pet/".concat(pet.id)).then(function (resp) {
         if (resp.data.status) {
-          Swal.fire('Eliminado', "El cliente <b>".concat(client.name, "</b> ha sido eliminado"), 'success').then(function (resp) {
-            _this3.getClients();
+          Swal.fire('Eliminado', "La mascota <b>".concat(pet.name, "</b> ha sido eliminada"), 'success').then(function (resp) {
+            _this3.getPets();
           });
         } else {
           Swal.fire('Ocurrio un error', resp.data.msg, 'error');
@@ -3478,7 +3472,9 @@ var render = function render() {
       staticClass: "texto-desborde"
     }, [_vm._v(_vm._s(client.email))]), _vm._v(" "), _c("td", {
       staticClass: "texto-desborde"
-    }, [_vm._v(_vm._s(client.phone))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.ciudad && client.ciudad.name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(_vm.petsNamesList))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.address))]), _vm._v(" "), _c("td", {
+    }, [_vm._v(_vm._s(client.phone))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.ciudad && client.ciudad.name))]), _vm._v(" "), _c("td", [_vm.showBadge === true ? _c("div", [_c("span", {
+      staticClass: "badge bg-primary"
+    }, [_vm._v(_vm._s(_vm.petsNamesList))])]) : _c("div", [_vm._v("\r\n                            " + _vm._s(_vm.petsNamesList) + "\r\n                        ")])]), _vm._v(" "), _c("td", [_vm._v(_vm._s(client.address))]), _vm._v(" "), _c("td", {
       staticClass: "text-center"
     }, [_c("div", {
       staticClass: "dropdown font-sans-serif position-static"
@@ -3564,11 +3560,11 @@ var render = function render() {
 
   return _c("div", [_c("table", {
     staticClass: "table table-sm table-hover"
-  }, [_vm._m(0), _vm._v(" "), _vm.clients && _vm.clients.length > 0 ? _c("tbody", _vm._l(_vm.clients, function (client) {
-    return _c("tr", _vm._g({
-      key: client.id,
+  }, [_vm._m(0), _vm._v(" "), _vm.pets && _vm.pets.length > 0 ? _c("tbody", _vm._l(_vm.pets, function (pet) {
+    return _c("tr", {
+      key: pet.id,
       staticClass: "btn-reveal-trigger"
-    }, _vm.getPetsNames(client.pets)), [_c("td", [_vm._v(_vm._s(_vm.petsNamesList) + " " + _vm._s(_vm.clientid))]), _vm._v(" "), _c("td", {
+    }, [_c("td", [_vm._v(_vm._s(pet.name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(pet.tipo_mascota.name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(pet.raza_id))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(pet.color))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(pet.alergias))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(pet.fecha_nacimiento))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(pet.comentarios))]), _vm._v(" "), _c("td", {
       staticClass: "text-center"
     }, [_c("div", {
       staticClass: "dropdown font-sans-serif position-static"
@@ -3579,7 +3575,7 @@ var render = function render() {
     }, [_c("a", {
       staticClass: "dropdown-item",
       attrs: {
-        href: "/client/".concat(client.id, "/editar")
+        href: "/pet/".concat(pet.id, "/editar")
       }
     }, [_vm._v("Editar")]), _vm._v(" "), _c("a", {
       staticClass: "dropdown-item text-danger",
@@ -3588,21 +3584,21 @@ var render = function render() {
       },
       on: {
         click: function click($event) {
-          return _vm.confirmDelete(client);
+          return _vm.confirmDelete(pet);
         }
       }
     }, [_vm._v("Eliminar")])])])])])]);
   }), 0) : _c("tbody", [_c("tr", [_c("td", {
     attrs: {
-      colspan: "6"
+      colspan: "8"
     }
-  }, [_vm.clients ? _c("p", {
+  }, [_vm.pets ? _c("p", {
     staticClass: "text-center"
-  }, [_vm._v("No hay clientes")]) : _c("p", {
+  }, [_vm._v("No hay mascotas")]) : _c("p", {
     staticClass: "text-center"
   }, [_vm._v("Cargando...")])])])])]), _vm._v(" "), _c("p", {
     staticClass: "text-right"
-  }, [_c("small", [_vm._v(_vm._s(_vm.clients.length) + " Clientes")])])]);
+  }, [_c("small", [_vm._v(_vm._s(_vm.pets.length) + " Mascotas")])])]);
 };
 
 var staticRenderFns = [function () {
@@ -3611,7 +3607,7 @@ var staticRenderFns = [function () {
 
   return _c("thead", [_c("tr", {
     staticClass: "btn-reveal-trigger"
-  }, [_c("th", [_vm._v("Nombre")]), _vm._v(" "), _c("th", {
+  }, [_c("th", [_vm._v("Nombre")]), _vm._v(" "), _c("th", [_vm._v("Tipo")]), _vm._v(" "), _c("th", [_vm._v("Raza")]), _vm._v(" "), _c("th", [_vm._v("Color")]), _vm._v(" "), _c("th", [_vm._v("Alergias")]), _vm._v(" "), _c("th", [_vm._v("Fecha nacimiento")]), _vm._v(" "), _c("th", [_vm._v("Comentarios")]), _vm._v(" "), _c("th", {
     staticClass: "text-center"
   }, [_vm._v("Opciones")])])]);
 }, function () {

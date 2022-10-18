@@ -18,6 +18,7 @@ class ClientController extends Controller
     {
         //
     }
+
     public function showOne(Client $client){
         return view('cliente-detalle', compact('client'));
     }
@@ -115,7 +116,7 @@ class ClientController extends Controller
             return response([
                 'status'=> true,
                 'msg' => 'No se pudo encontrar la información del cliente'
-            ]);
+            ]); 
         }
     }
 

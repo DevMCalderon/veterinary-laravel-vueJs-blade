@@ -35,6 +35,7 @@ Route::get('/consulta/{cita}', [WaitingListController::class, 'consultar']);
 Route::get('/products', [ProductoController::class, 'list']);
 Route::get('/clients', [ClientController::class, 'list']);
 Route::delete('/client/{client}', [ClientController::class, 'destroy']);
+Route::get('/client/{id}', [PetController::class, 'list']);
 Route::get('/pets/{pet}', [PetController::class, 'list']);
 Route::delete('/pet/{pet}', [PetController::class, 'destroy']);
 Route::post('/pet/{pet}', [PetController::class, 'update']);
@@ -53,7 +54,6 @@ Route::get('/estado', [StateController::class, 'index']);
 Route::get('/ciudades/{id}', [CityController::class, 'index']);
 Route::get('/petType', [PetTypeController::class, 'index']);
 Route::get('/razaType/{pettype}', [RazaController::class, 'index']);
-
 
 /** WAITING LIST */
 

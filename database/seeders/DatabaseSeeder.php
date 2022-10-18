@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             SucursalSeeder::class,
             WaitingListStatusSeeder::class,
             WaitingListSeeder::class,
+            RazaSeeder::class
         ]);
     }
 }

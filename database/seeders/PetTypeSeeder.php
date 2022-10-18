@@ -17,6 +17,7 @@ class PetTypeSeeder extends Seeder
         PetType::create(['name'=>'Canino']);
         PetType::create(['name'=>'Felino']);
         PetType::create(['name'=>'Ave']);
+        PetType::create(['name'=>'Pez']);
         PetType::create(['name'=>'Reptil']);
     }
 }

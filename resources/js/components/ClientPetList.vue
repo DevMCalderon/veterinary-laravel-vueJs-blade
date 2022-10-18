@@ -4,19 +4,31 @@
             <thead>
                 <tr class="btn-reveal-trigger">
                     <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Raza</th>
+                    <th>Color</th>
+                    <th>Alergias</th>
+                    <th>Fecha nacimiento</th>
+                    <th>Comentarios</th>
                     <th class="text-center">Opciones</th>
                 </tr>
             </thead>
-            <tbody v-if="clients && clients.length > 0">
-                <tr class="btn-reveal-trigger" v-for="client in clients" :key="client.id" v-on="getPetsNames(client.pets)">
-                    <td>{{ petsNamesList }} {{clientid}}</td>
+            <tbody v-if="pets && pets.length > 0">
+                <tr class="btn-reveal-trigger" v-for="pet in pets" :key="pet.id">
+                    <td>{{ pet.name }}</td>
+                    <td>{{ pet.tipo_mascota.name }}</td>
+                    <td>{{ pet.raza_id }}</td>
+                    <td>{{ pet.color }}</td>
+                    <td>{{ pet.alergias}}</td>
+                    <td>{{ pet.fecha_nacimiento }}</td>
+                    <td>{{ pet.comentarios}}</td>
                     <td class="text-center">
                         <div class="dropdown font-sans-serif position-static">
                             <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
                             <div class="dropdown-menu dropdown-menu-end border py-0">
                                 <div class="bg-white py-2">
-                                    <a class="dropdown-item" :href="`/client/${client.id}/editar`">Editar</a>
-                                    <a class="dropdown-item text-danger" @click="confirmDelete(client)" href="#!">Eliminar</a>
+                                    <a class="dropdown-item" :href="`/pet/${pet.id}/editar`">Editar</a>
+                                    <a class="dropdown-item text-danger" @click="confirmDelete(pet)" href="#!">Eliminar</a>
                                 </div>
                             </div>
                         </div>
@@ -25,8 +37,8 @@
             </tbody>
             <tbody v-else>
                 <tr>
-                    <td colspan="6">
-                        <p class="text-center" v-if="clients">No hay clientes</p>
+                    <td colspan="8">
+                        <p class="text-center" v-if="pets">No hay mascotas</p>
                         <p class="text-center" v-else>Cargando...</p>
                     </td>
                 </tr>
@@ -35,7 +47,7 @@
         
         <p class="text-right">
 
-        <small>{{ clients.length }} Clientes</small>
+        <small>{{ pets.length }} Mascotas</small>
         </p>
     </div>
 </template>
@@ -46,53 +58,46 @@ export default {
     props: ['client_id'],
     data(){
         return {
-            clients: undefined,
+            pets: undefined,
             clientid:this.client_id 
         }
     },
     mounted(){
-        this.getClients();
+        this.getPets();
     },
     methods: {
-         getPetsNames(pets){
-            let arrayNombres=[];
-            for(let i=0; i<pets.length; i++){
-                let unNombre=pets[i].name
-                unNombre=unNombre.charAt(0).toUpperCase() + unNombre.slice(1) //mayuscula primera letra
-                arrayNombres.push(unNombre)
-            }
-            this.petsNamesList=arrayNombres.join(', ') //separar por coma 
-        },
-        getClients(){
-            axios.get('/api/clients').then((resp)=>{
+        getPets(){
+            axios.get(`/api/client/${this.client_id}`).then((resp)=>{
                 if(resp.data.status){
-                    console.log(resp.data);
-                    this.clients = resp.data.clients
+                    console.log(resp.data.pets);
+                    this.pets = resp.data.pets
+                    // console.log(this.clientid);
+                    // console.log(this.pets);
                 }
             });
         },
-        confirmDelete(client){
+        confirmDelete(pet){
             Swal.fire({
-                html: `¿Desea eliminar el cliente <b>${client.name}</b>?`,
+                html: `¿Desea eliminar la mascota <b>${pet.name}</b>?`,
                 icon: 'warning',
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar',
                 confirmButtonText: 'Eliminar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    this.deleteClient(client)
+                    this.deletePet(pet)
                 }
             })
         },
-        deleteClient(client){
-            axios.delete(`/api/client/${client.id}`).then(resp => {
+        deletePet(pet){
+            axios.delete(`/api/pet/${pet.id}`).then(resp => {
                 if(resp.data.status){
                     Swal.fire(
                         'Eliminado',
-                        `El cliente <b>${client.name}</b> ha sido eliminado`,
+                        `La mascota <b>${pet.name}</b> ha sido eliminada`,
                         'success'
                     ).then(resp => {
-                        this.getClients();
+                        this.getPets();
                     })
                 }else{
                     Swal.fire(

@@ -14,7 +14,8 @@ class UpdateRazas extends Migration
     public function up()
     {
         Schema::table('razas', function (Blueprint $table) {
-            $table->integer('pettype_id')->after('id');
+            $table->unsignedBigInteger('pettype_id')->nullable()->after('id');
+            $table->foreign('pettype_id')->references('id')->on('pet_types')->nullOnDelete()->cascadeOnUpdate();
         });
     }
 
@@ -26,7 +27,8 @@ class UpdateRazas extends Migration
     public function down()
     {
         Schema::table('razas', function (Blueprint $table) {
-            //
+            $table->dropForeign(['pettype_id']);
+            $table->dropColumn('pettype_id');
         });
     }
 }

@@ -12,59 +12,69 @@
             </button>
         </a>
         <h2 class="text-primary fs-1 text-center">Datos de cliente</h2>
-        <label class="client-name fw-bold text-secundary text-center">{{ $client->name }}</label>
+        <label class="client-name  text-secundary text-center">{{ $client->name }}</label>
     </div>
 
     <hr>
 
-    <div class="card-body px-10 py-0">
-        <div class="row">
+    <div class="card-body px-8 py-0 ">
+        <div class="row ">
 
             <h5 class="sub-categoria-titulo text-start">Contacto</h5>
 
-            <div class="fw-bolder d-flex justify-content-between">
+            <div class=" d-flex justify-content-between">
             </div>
 
             <div class="col-md-10 col-lg-6 mb-3">
                 <label for="email" class="text-secondary">Correo</label>
-                {{ $client->email }}
+                <label class=" texto-datos">
+                    {{ $client->email }}
+                </label>
             </div>
 
             <div class="col-md-10 col-lg-6 mb-3">
                 <label for="phone">Teléfono</label>
-                {{ $client->phone }}
+                <label class=" texto-datos">
+                    {{ $client->phone }}
+                </label>
             </div>
             <div class="col-md-10 col-lg-6 mb-3">
                 <label for="city">Ciudad</label>
-                {{ $client->city }}
+                <label class=" texto-datos">
+                    {{ $client->city }}
+                </label>
             </div>
             <div class="col-md-10 col-lg-6 mb-3">
                 <label for="address">Dirección</label>
-                {{ $client->address }}
+                <label class=" texto-datos">
+                    {{ $client->address }}
+                </label>
             </div>
             <div class="col-md-10 col-lg-6 mb-3">
                 <label for="rfc">RFC</label>
-                {{ $client->rfc }}
+                <label class=" texto-datos">
+                    {{ $client->rfc }}
+                </label>
             </div>
         </div>
     </div>
 
     <hr>
 
-    <div class="card-body px-10 py-0">
+    <div class="card-body px-8 py-0">
         <div class="row">
             <div class="d-flex justify-content-between vw-100">
                 <div class="vw-100">
                     <div class="d-flex justify-content-between">
                         <h3 class="sub-categoria-titulo">Mascotas</h3>
-                        <a href="{{  route('cliente-crear') }}" class="btn btn-primary btn-sm">Agregar</a>
+                        <a href="/agregar/mascota/{{ $client->id }}" class="btn btn-primary btn-sm">Agregar</a>
                     </div>
                 </div>
             </div>
 
 
             <div class=" row d-flex vw-100 ">
-                <div class="aul">
+                <div class="">
                     <client-pet-list :client_id="{{ $client->id }}"></client-pet-list>
                 </div>
             </div>
@@ -88,10 +98,9 @@
 @endsection
 
 <style scoped>
-    .aul {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    .texto-datos{
+        font-size: 16px;
+        color: #6a6a6a;
     }
 
     .client-name {

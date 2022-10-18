@@ -19,7 +19,14 @@
                     <td class="texto-desborde">{{ client.email }}</td>
                     <td class="texto-desborde">{{ client.phone }}</td>
                     <td>{{ client.ciudad && client.ciudad.name }}</td>
-                    <td>{{ petsNamesList }}</td>
+                    <td>
+                        <div v-if="showBadge===true">
+                            <span class="badge bg-primary">{{ petsNamesList }}</span>
+                        </div>
+                        <div v-else>
+                            {{ petsNamesList }}
+                        </div>
+                        </td>
                     <td>{{ client.address }}</td>
                     <td class="text-center">
                         <div class="dropdown font-sans-serif position-static">
@@ -56,7 +63,7 @@ import axios from 'axios'
 export default {
     data(){
         return {
-            clients: undefined
+            clients: undefined,
         }
     },
     mounted(){
@@ -64,23 +71,27 @@ export default {
     },
     methods: {
         getPetsNames(pets){
-            let cont=0
-
-            for(let i=0; i<pets.length; i++){//contador de mascotas
-                cont=i+parseInt(1)
-            }
-
-            if(cont>1){//si es mayor a una mascota mostrar como numero
-                this.petsNamesList=cont+" mascotas"
-            }
-            else{ //muestra con texto
-                this.petsNamesList=pets[0].name
-                
-                if(String(this.petsNamesList).length>15){ //recorta caracteres si son mas de 30
-                    this.petsNamesList=String(this.petsNamesList.substring(0,15))
-                    this.petsNamesList=this.petsNamesList+"..."
+            let petsNamesList=""
+            let showBadge=false
+            if(pets != ""){
+                if(pets.length>1){//si es mayor a una mascota mostrar como numero
+                    petsNamesList=pets.length+parseInt(1)
+                    showBadge=true
                 }
-            } 
+                else{ //muestra nombre de unica mascota
+                    petsNamesList=pets[0].name
+                    if(String(petsNamesList).length>15){ //recorta caracteres si son mas de 30
+                        petsNamesList=String(petsNamesList.substring(0,15))+"..."
+                    }
+                } 
+            }
+            else{//si es null
+                petsNamesList="0"
+                showBadge=true
+                }
+            this.petsNamesList=petsNamesList
+            this.showBadge=showBadge
+
         },
         getClients(){
             axios.get('/api/clients').then((resp)=>{
