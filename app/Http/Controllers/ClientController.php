@@ -46,9 +46,9 @@ class ClientController extends Controller
         $request->validate([
             'name' => 'required'
         ]);
-        
+
         $name = $request->name;
-        
+
         $clients = Client::where('name', 'LIKE', "%$name%")->get();
         return response([
             'status' => true,
@@ -106,6 +106,7 @@ class ClientController extends Controller
      */
     public function show(Client $client){
         $client['ciudad'] = $client->ciudad;
+        $client['pets'] = $client->pets;
         if($client){
             return response([
                 'status'=> true,
@@ -147,7 +148,7 @@ class ClientController extends Controller
             $client->city        = $data['city'];
             $client->address        = $data['address'];
             $client->rfc        = $data['rfc'];
-    
+
             if($client->save()){
                 return response([
                     'status' => true,
@@ -186,7 +187,7 @@ class ClientController extends Controller
             ]);
         }
     }
-    
+
     public function list(){
         $client = Client::with('ciudad')->with('pets')->get();
 

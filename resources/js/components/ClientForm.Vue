@@ -91,7 +91,7 @@ export default {
             estados:[],
             ciudades:[],
             errors: undefined
-           
+
         }
     },
     watch:{
@@ -170,7 +170,7 @@ export default {
                 formData.append('city', this.city);
                 formData.append('address', this.address);
                 formData.append('rfc', this.rfc);
-                
+
                 if(this.clientId){
                     formData.append('id', this.id);
                     this.updateProduct(this.id, formData);
