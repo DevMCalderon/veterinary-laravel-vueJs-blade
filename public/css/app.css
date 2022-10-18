@@ -1,4 +1,150 @@
-
+.ticketCustomContanier * {
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "VT323", monospace;
+  color: #1f1f1f;
+}
+.ticketCustomContanier .container {
+  background: #f1f1f1;
+  padding: 20px 10px;
+}
+.ticketCustomContanier .bold {
+  font-weight: bold;
+}
+.ticketCustomContanier .center {
+  text-align: center;
+}
+.ticketCustomContanier .receipt {
+  width: 350px;
+  min-height: 100vh;
+  height: 100%;
+  background: #fff;
+  margin: 0 auto;
+  box-shadow: 5px 5px 19px #ccc;
+  padding: 10px;
+}
+.ticketCustomContanier .logo {
+  text-align: center;
+  padding: 20px;
+}
+.ticketCustomContanier .barcode {
+  font-family: "Libre Barcode 128", cursive;
+  font-size: 42px;
+  text-align: center;
+}
+.ticketCustomContanier .address {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.ticketCustomContanier .transactionDetails {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 10px 10px;
+}
+.ticketCustomContanier .transactionDetails .detail {
+  text-transform: uppercase;
+}
+.ticketCustomContanier .centerItem {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+.ticketCustomContanier .survey {
+  text-align: center;
+  margin-bottom: 12px;
+}
+.ticketCustomContanier .survey .surveyID {
+  font-size: 20px;
+}
+.ticketCustomContanier .paymentDetails {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 150px;
+}
+.ticketCustomContanier .creditDetails {
+  margin: 10px auto;
+  width: 230px;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+.ticketCustomContanier .receiptBarcode {
+  margin: 10px 0;
+  text-align: center;
+}
+.ticketCustomContanier .returnPolicy {
+  margin: 10px 20px;
+  width: 220px;
+  display: flex;
+  justify-content: space-between;
+}
+.ticketCustomContanier .coupons {
+  margin-top: 20px;
+}
+.ticketCustomContanier .tripSummary {
+  margin: auto;
+  width: 255px;
+}
+.ticketCustomContanier .tripSummary .item {
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  width: 220px;
+}
+.ticketCustomContanier .feedback {
+  margin: 20px auto;
+}
+.ticketCustomContanier .feedback h3.clickBait {
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  margin: 10px 0;
+}
+.ticketCustomContanier .feedback h4.web {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin: 10px 0;
+}
+.ticketCustomContanier .feedback .break {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+.ticketCustomContanier .couponContainer {
+  border-top: 1px dashed #1f1f1f;
+  margin-bottom: 20px;
+}
+.ticketCustomContanier .couponContainer .discount {
+  font-size: 35px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.ticketCustomContanier .couponContainer .discountDetails {
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+.ticketCustomContanier .couponContainer .barcode {
+  margin: 10px 0 0;
+}
+.ticketCustomContanier .couponContainer .legal {
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+.ticketCustomContanier .couponContainer .barcodeID {
+  margin-bottom: 8px;
+}
+.ticketCustomContanier .couponContainer .expiration {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+}
+.ticketCustomContanier .couponContainer .couponBottom {
+  font-size: 13px;
+  text-align: center;
+}
 .input-group-text-sm{
     font-size: 0.875rem;
 }
