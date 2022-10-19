@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\PetTypeController;
 use App\Http\Controllers\ProductCategoryController;
@@ -54,6 +55,9 @@ Route::get('/estado', [StateController::class, 'index']);
 Route::get('/ciudades/{id}', [CityController::class, 'index']);
 Route::get('/petType', [PetTypeController::class, 'index']);
 Route::get('/razaType/{pettype}', [RazaController::class, 'index']);
+
+Route::post('/consulta', [ConsultaController::class, 'store']);
+
 
 /** WAITING LIST */
 

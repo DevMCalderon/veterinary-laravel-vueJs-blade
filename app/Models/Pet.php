@@ -18,7 +18,7 @@ class Pet extends Model
         'alergias',
         'pet_type_id',
         'raza_id',
-        'client_id',        
+        'client_id',
     ];
     public function tipoMascota(){
         return $this->HasOne(PetType::class,'id','pet_type_id');
@@ -26,5 +26,5 @@ class Pet extends Model
     public function tipoRaza(){
         return $this->HasOne(Raza::class,'id','raza_id');
     }
-    
+
 }
