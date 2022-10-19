@@ -7,9 +7,9 @@
                     <th>Tipo</th>
                     <th>Raza</th>
                     <th>Color</th>
-                    <th>Alergias</th>
+                    <!-- <th>Alergias</th> -->
                     <th>Fecha nacimiento</th>
-                    <th>Comentarios</th>
+                    <!-- <th>Comentarios</th> -->
                     <th class="text-center">Opciones</th>
                 </tr>
             </thead>
@@ -17,11 +17,15 @@
                 <tr class="btn-reveal-trigger" v-for="pet in pets" :key="pet.id">
                     <td>{{ pet.name }}</td>
                     <td>{{ pet.tipo_mascota.name }}</td>
-                    <td>{{ pet.raza_id }}</td>
+                    <td>
+                        <div v-if="pet.tipo_raza !=null">
+                            {{ pet.tipo_raza.name }}
+                        </div>
+                    </td>
                     <td>{{ pet.color }}</td>
-                    <td>{{ pet.alergias}}</td>
+                    <!-- <td>{{ pet.alergias}}</td> -->
                     <td>{{ pet.fecha_nacimiento }}</td>
-                    <td>{{ pet.comentarios}}</td>
+                    <!-- <td>{{ pet.comentarios}}</td> -->
                     <td class="text-center">
                         <div class="dropdown font-sans-serif position-static">
                             <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
@@ -67,7 +71,7 @@ export default {
     },
     methods: {
         getPets(){
-            axios.get(`/api/client/${this.client_id}`).then((resp)=>{
+            axios.get(`/api/client/${this.client_id}/pets`).then((resp)=>{
                 if(resp.data.status){
                     console.log(resp.data.pets);
                     this.pets = resp.data.pets

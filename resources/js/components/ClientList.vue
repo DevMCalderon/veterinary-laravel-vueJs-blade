@@ -75,7 +75,7 @@ export default {
             let showBadge=false
             if(pets != ""){
                 if(pets.length>1){//si es mayor a una mascota mostrar como numero
-                    petsNamesList=pets.length+parseInt(1)
+                    petsNamesList=pets.length
                     showBadge=true
                 }
                 else{ //muestra nombre de unica mascota

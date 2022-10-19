@@ -35,7 +35,7 @@ Route::get('/consulta/{cita}', [WaitingListController::class, 'consultar']);
 Route::get('/products', [ProductoController::class, 'list']);
 Route::get('/clients', [ClientController::class, 'list']);
 Route::delete('/client/{client}', [ClientController::class, 'destroy']);
-Route::get('/client/{id}', [PetController::class, 'list']);
+Route::get('/client/{client}/pets', [PetController::class, 'list']);
 Route::get('/pets/{pet}', [PetController::class, 'list']);
 Route::delete('/pet/{pet}', [PetController::class, 'destroy']);
 Route::post('/pet/{pet}', [PetController::class, 'update']);

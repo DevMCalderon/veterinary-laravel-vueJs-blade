@@ -2248,7 +2248,7 @@ __webpack_require__.r(__webpack_exports__);
       if (pets != "") {
         if (pets.length > 1) {
           //si es mayor a una mascota mostrar como numero
-          petsNamesList = pets.length + parseInt(1);
+          petsNamesList = pets.length;
           showBadge = true;
         } else {
           //muestra nombre de unica mascota
@@ -2346,7 +2346,7 @@ __webpack_require__.r(__webpack_exports__);
     getPets: function getPets() {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/client/".concat(this.client_id)).then(function (resp) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/client/".concat(this.client_id, "/pets")).then(function (resp) {
         if (resp.data.status) {
           console.log(resp.data.pets);
           _this.pets = resp.data.pets; // console.log(this.clientid);
@@ -3290,10 +3290,11 @@ var render = function render() {
     }],
     staticClass: "form-control",
     attrs: {
-      type: "number",
+      type: "tel",
       name: "phone",
       id: "phone",
       min: "0",
+      maxlength: "10",
       step: "0.01"
     },
     domProps: {
@@ -3358,7 +3359,8 @@ var render = function render() {
     attrs: {
       type: "text",
       name: "rfc",
-      id: "rfc"
+      id: "rfc",
+      maxlength: "13"
     },
     domProps: {
       value: _vm.rfc
@@ -3609,7 +3611,7 @@ var render = function render() {
     return _c("tr", {
       key: pet.id,
       staticClass: "btn-reveal-trigger"
-    }, [_c("td", [_vm._v(_vm._s(pet.name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(pet.tipo_mascota.name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(pet.raza_id))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(pet.color))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(pet.alergias))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(pet.fecha_nacimiento))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(pet.comentarios))]), _vm._v(" "), _c("td", {
+    }, [_c("td", [_vm._v(_vm._s(pet.name))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(pet.tipo_mascota.name))]), _vm._v(" "), _c("td", [pet.tipo_raza != null ? _c("div", [_vm._v("\r\n                            " + _vm._s(pet.tipo_raza.name) + "\r\n                        ")]) : _vm._e()]), _vm._v(" "), _c("td", [_vm._v(_vm._s(pet.color))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(pet.fecha_nacimiento))]), _vm._v(" "), _c("td", {
       staticClass: "text-center"
     }, [_c("div", {
       staticClass: "dropdown font-sans-serif position-static"
@@ -3652,7 +3654,7 @@ var staticRenderFns = [function () {
 
   return _c("thead", [_c("tr", {
     staticClass: "btn-reveal-trigger"
-  }, [_c("th", [_vm._v("Nombre")]), _vm._v(" "), _c("th", [_vm._v("Tipo")]), _vm._v(" "), _c("th", [_vm._v("Raza")]), _vm._v(" "), _c("th", [_vm._v("Color")]), _vm._v(" "), _c("th", [_vm._v("Alergias")]), _vm._v(" "), _c("th", [_vm._v("Fecha nacimiento")]), _vm._v(" "), _c("th", [_vm._v("Comentarios")]), _vm._v(" "), _c("th", {
+  }, [_c("th", [_vm._v("Nombre")]), _vm._v(" "), _c("th", [_vm._v("Tipo")]), _vm._v(" "), _c("th", [_vm._v("Raza")]), _vm._v(" "), _c("th", [_vm._v("Color")]), _vm._v(" "), _c("th", [_vm._v("Fecha nacimiento")]), _vm._v(" "), _c("th", {
     staticClass: "text-center"
   }, [_vm._v("Opciones")])])]);
 }, function () {
