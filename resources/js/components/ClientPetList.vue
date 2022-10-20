@@ -15,7 +15,11 @@
             </thead>
             <tbody v-if="pets && pets.length > 0">
                 <tr class="btn-reveal-trigger" v-for="pet in pets" :key="pet.id">
-                    <td>{{ pet.name }}</td>
+                    <td>
+                        <a :href="`/pet/detalle/${pet.id}`">
+                            {{ pet.name }}
+                        </a>
+                    </td>
                     <td>{{ pet.tipo_mascota.name }}</td>
                     <td>
                         <div v-if="pet.tipo_raza !=null">
@@ -48,7 +52,7 @@
                 </tr>
             </tbody>
         </table>
-        
+
         <p class="text-right">
 
         <small>{{ pets.length }} Mascotas</small>
@@ -63,7 +67,7 @@ export default {
     data(){
         return {
             pets: undefined,
-            clientid:this.client_id 
+            clientid:this.client_id
         }
     },
     mounted(){

@@ -27,4 +27,8 @@ class Pet extends Model
         return $this->HasOne(Raza::class,'id','raza_id');
     }
 
+    public function consultas(){
+        return $this->hasMany(Consulta::class);
+    }
+
 }
