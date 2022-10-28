@@ -31,6 +31,7 @@ Vue.component('ticket-buy',require('./components/TicketBuy.vue').default);
 Vue.component('search-client',require('./components/SearchClient.vue').default);
 Vue.component('lista-espera-client-form',require('./components/ListaEsperaClientForm.vue').default);
 Vue.component('consulta-form',require('./components/ConsultaForm.vue').default);
+Vue.component('empresa-form', require('./components/EmpresaForm.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

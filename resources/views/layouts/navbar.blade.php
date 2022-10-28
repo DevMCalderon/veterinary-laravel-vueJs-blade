@@ -173,7 +173,7 @@
                             <span class="nav-link-text ps-1">Informes</span>
                         </div>
                     </a>
-                    <a class="nav-link" href="{{ route('productos-list') }}" role="button" data-bs-toggle="" aria-expanded="false">
+                    <a class="nav-link" href="{{ route('empresa') }}" role="button" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon">
                                 <span class="fas fa-building"></span>

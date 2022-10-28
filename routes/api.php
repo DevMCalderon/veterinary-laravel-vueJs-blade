@@ -3,6 +3,7 @@
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ConsultaController;
+use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\PetTypeController;
 use App\Http\Controllers\ProductCategoryController;
@@ -62,3 +63,8 @@ Route::post('/consulta', [ConsultaController::class, 'store']);
 /** WAITING LIST */
 
 Route::post('/waiting-list', [WaitingListController::class, 'store']);
+
+// Empresa
+Route::post('/empresa', [EmpresaController::class, 'store']);
+Route::post('/empresa/{empresa}', [EmpresaController::class, 'update']);
+Route::get('/empresa/{empresa}', [EmpresaController::class, 'index']);

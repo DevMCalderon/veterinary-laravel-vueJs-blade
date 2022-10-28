@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\SocialAuthController;
@@ -50,14 +51,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('client/{client}/editar', [HomeController::class, 'clientesUpdate'])->name('clientes-update');
     Route::get('cliente/{client}', [ClientController::class, 'showOne'])->name('cliente');
     Route::post('clients/search', [ClientController::class, 'search']);
-
+    
     Route::get('pet/{pet}/editar', [HomeController::class, 'petUpdate'])->name('pet-update');
     Route::get('pet/detalle/{pet}', [HomeController::class, 'petDetalle'])->name('detalle-mascota');
     Route::get('login/facebook', [SocialAuthController::class, 'redirectFacebook']);
     Route::get('facebook/callback', [SocialAuthController::class, 'callbackFacebook']);
-
+    
     Route::get('/agregar/mascota/{client}', [HomeController::class, 'petCrear']);
-
+    
     /** LISTA DE ESPERA */
     Route::get('listEspera', [HomeController::class, 'esperaList'])->name('espera-list');
     Route::get('espera/crear', [HomeController::class, 'esperaCrear'])->name('lista-espera-crear');
@@ -65,6 +66,9 @@ Route::group(['middleware' => 'auth'], function () {
     /** CONSULTA */
     Route::get('consulta/{waitingList?}', [HomeController::class, 'consulta'])->name('consulta');
 
+     /** EMPRESA */
+    Route::get('empresa/editar', [EmpresaController::class, 'empresaUpdate'])->name('empresa-update');
+    Route::get('empresa', [EmpresaController::class, 'showOne'])->name('empresa');
 
 
 

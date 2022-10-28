@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Empresa;
 use App\Models\Pet;
 use App\Models\Producto;
 use App\Models\WaitingList;
@@ -67,6 +68,11 @@ class HomeController extends Controller
         return view('client-crear');
     }
 
+    public function empresaCrear()
+    {
+        return view('empresa-crear');
+    }
+
     public function productosUpdate(Producto $product)
     {
         return view('productos-update', compact('product'));
@@ -76,6 +82,9 @@ class HomeController extends Controller
     }
     public function petUpdate(Pet $pet){
         return view('pet-update', compact('pet'));
+    }
+    public function empresaUpdate(Empresa $empresa){
+        return view('empresa-update', compact('empresa'));
     }
     public function petCrear(Client $client){
         return view('pet-store', compact('client'));
