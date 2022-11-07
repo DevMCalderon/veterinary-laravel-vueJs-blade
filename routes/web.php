@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\SocialAuthController;
@@ -38,7 +39,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('buscarProducto', [ProductoController::class, 'buscarProducto'])->name('buscarProducto');
     Route::get('searchClient/{nombre}', [ClientController::class, 'searchClient'])->name('searchClient');
     Route::get('clientes', [HomeController::class, 'clientList'])->name('client-list');
-    
+
     Route::get('searchProducto/{nombre}', [ProductoController::class, 'searchProducto'])->name('searchProducto');
     Route::post('comprobarTotal', [ProductoController::class, 'comprobarTotal'])->name('comprobarTotal');
     Route::post('pagar', [ProductoController::class, 'pago'])->name('pagar');
@@ -64,6 +65,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     /** CONSULTA */
     Route::get('consulta/{waitingList?}', [HomeController::class, 'consulta'])->name('consulta');
+    Route::get('consulta/{consulta}/imprimir', [ConsultaController::class, 'imprimir'])->name('consulta-pdf');
 
 
 

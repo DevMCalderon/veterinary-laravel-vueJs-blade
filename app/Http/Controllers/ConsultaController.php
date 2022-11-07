@@ -6,6 +6,8 @@ use App\Http\Requests\StoreconsultaRequest;
 use App\Http\Requests\UpdateconsultaRequest;
 use App\Models\Consulta;
 
+use PDF;
+
 class ConsultaController extends Controller
 {
     /**
@@ -106,5 +108,15 @@ class ConsultaController extends Controller
     public function destroy(consulta $consulta)
     {
         //
+    }
+
+    public function imprimir(Consulta $consulta){
+        $data = [
+            'consulta' => $consulta,
+            'client' => $consulta->pet->client
+        ];
+
+        return PDF::loadView('pdf.consulta', $data)
+            ->stream('Historia clinica '.$consulta->pet->name.' '.$consulta->created_at.'.pdf');
     }
 }
