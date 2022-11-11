@@ -1,5 +1,5 @@
 <template>
-    <form action="" ref="clientForm" @submit="save">
+    <form ref="empresaForm" @submit="save" method="POST" action="" enctype="multipart/form-data">
 
         <div class="container">
             <div class="row align-items-start">
@@ -15,11 +15,11 @@
                     <div class="row">
                         <div class="col-md-10 mb-3">
                             <label for="logo">Logo</label>
-                            <input type="file" @change="onFileChange" name="logo" id="logo" class="form-control" />
+                            <input type="file" name="file" id="logo" class="form-control" accept="image/*" />
                             <!-- <small class="text-danger" v-if="errors && errors.address">{{ errors.address[0] }}</small> -->
                         </div>
                     </div>
-            
+
                     <div class="row">
                         <div class="col-md-10 mb-3">
                             <label for="razon_social">Razón Social</label>
@@ -80,9 +80,8 @@
         
         <hr>
 
-        <div class="text-right">
+        <div class="text-end">
             <button class="btn btn-sm btn-success ml-3">Guardar</button>
-
         </div>
     </form>
 </template>
@@ -92,7 +91,7 @@
 import axios from 'axios';
 
 export default {
-    props: ['userId','empresaId'],
+    props: ['userIdProp','empresaIdProp'],
     data(){
         return {
             id: undefined,
@@ -102,7 +101,6 @@ export default {
             phone: '',
             address: '',
             rfc: '',
-            state: '',
             city: '',
             state_id:'',
             estados:[],
@@ -120,38 +118,12 @@ export default {
     },
     mounted() {        
         this.getEstado();
-        
-        if(this.userId){
-            if(isEmpresaCreada()==false){
-                this.crearEmpresa(formData);
-                this.establecerEmpresa(this.userId);
-            }else{
-                if(this.empresaId){
-                    this.getEmpresa(this.empresaId);
-                }
-            }
-        }
-        
+
+        if(this.empresaIdProp){
+            this.getEmpresa(this.empresaIdProp);
+        }        
     },
     methods: {
-        onFileChange(e) {
-            var files = e.target.files || e.dataTransfer.files;
-            if (!files.length)
-            return;
-            this.createImage(files[0]);
-        },
-        createImage(file) {
-            var image = new Image();
-            var reader = new FileReader();
-            var vm = this;
-
-            reader.onload = (e) => {
-                vm.image = e.target.result;
-            };
-            reader.readAsDataURL(file);
-            // console.log(file.name)
-            this.logo = file.name
-        },
         getEstado(){
             this.estados = []
             axios.get('/api/estado').then(resp => {
@@ -174,64 +146,44 @@ export default {
         },
         clearForm(){
             this.id = undefined;
-            this.name = '';
-            this.email = '';
+            this.nombre = '';
+            this.logo = '';
+            this.razon_social = '';
             this.phone = '';
-            this.city = '';
             this.address = '';
             this.rfc = '';
-            this.state_id ='';
+            this.state_id = '';
+            this.city = '';
         },
         getEmpresa(empresaId){
             this.clearForm();
-            axios.get(`/api/client/${empresaId}`).then(resp => {
+            axios.get(`/api/empresa/${empresaId}`).then(resp => {
                 if(resp.data.status){
-                    this.id          = resp.data.client.id;
-                    this.name        = resp.data.client.name;
-                    this.email        = resp.data.client.email;
-                    this.phone        = resp.data.client.phone;
-                    this.city        = resp.data.client.city;
-                    this.address        = resp.data.client.address;
-                    this.rfc        = resp.data.client.rfc;
-                    this.state_id        = resp.data.client.ciudad.state_id;
+                    console.log(resp.data.empresa[0])
+                    let aux=resp.data.empresa[0];
+                    this.id          = aux.id;
+                    this.nombre        = aux.nombre;
+                    this.logo        = aux.logo;
+                    this.razon_social        = aux.razon_social;
+                    this.phone        = aux.phone;
+                    this.address        = aux.address;
+                    this.rfc        =aux.rfc;
+                    this.state_id        = aux.state;
+                    this.city        = aux.city;
+                    this.admin_id        = aux.admin_id;
                 }else{
                     Swal.fire('Ocurrio un error',resp.data.msg,'error')
                 }
             }).catch(error => {
                 console.log({error});
-                Swal.fire('',"Ocurrio un error al intentar obtener información del cliente",'error')
+                Swal.fire('',"Ocurrio un error al intentar obtener información de la empresa",'error')
             })
-
-        },
-        establecerEmpresa(e){
-            e.preventDefault();
-            if(this.$refs.clientForm.reportValidity()){
-                this.errors = undefined;
-                const formData = new FormData();
-                formData.append('nombre', this.nombre);
-                formData.append('logo', this.logo);
-                formData.append('razon_social', this.razon_social);
-                formData.append('phone', this.phone);
-                formData.append('address', this.address);
-                formData.append('rfc', this.rfc);
-                formData.append('state', this.state_id);
-                formData.append('city', this.city);
-                formData.append('admin_id', this.userId);
-
-                if(this.clientId){
-                    formData.append('id', this.id);
-                    this.updateProduct(this.id, formData);
-                }else{
-                    Swal.fire('',`No puedes tener más de una empresa`,'error').then(resp => {
-                        location.href = "/empresa"
-                    });
-                }
-            }
 
         },
         save(e){
             e.preventDefault();
-            if(this.$refs.clientForm.reportValidity()){
+            if(this.$refs.empresaForm.reportValidity()){
+                console.log(this.logo);
                 this.errors = undefined;
                 const formData = new FormData();
                 formData.append('nombre', this.nombre);
@@ -242,25 +194,25 @@ export default {
                 formData.append('rfc', this.rfc);
                 formData.append('state', this.state_id);
                 formData.append('city', this.city);
-                formData.append('admin_id', this.userId);
+                formData.append('admin_id', this.userIdProp);
 
-                if(this.clientId){
-                    formData.append('id', this.id);
-                    this.updateProduct(this.id, formData);
+                // console.log(this.empresaIdProp);
+                if(this.empresaIdProp){
+                    formData.append('id', this.empresaIdProp);
+                    this.updateEmpresa(this.empresaIdProp, formData);
                 }else{
                     Swal.fire('',`No puedes tener más de una empresa`,'error').then(resp => {
-                        location.href = "/empresa"
+                        location.href = "/"
                     });
                 }
             }
-
         },
-        updateProduct(id, client){
-            axios.post('/api/client/'+ id ,client).then(resp => {
+        updateEmpresa(id, empresa){
+            axios.post('/api/empresa/'+ id ,empresa).then(resp => {
                 if(resp.data.status){
 
                     Swal.fire('',`Información actualizada`,'success').then(resp => {
-                        // location.href = "/clientes"
+                        location.href = "/empresa"
                     });
 
                 }else{
@@ -272,32 +224,9 @@ export default {
                 }
             })
         },
-        crearEmpresa(empresa){
-            axios.post('/api/empresa',empresa).then(resp => {
-                // console.log(resp.data);
-                if(resp.data.status){
-                    const empresaName = resp.data.empresa && resp.data.empresa.name || ""
-                    Swal.fire('',
-                        `La empresa <b>${empresaName}</b> ha sido agregada`,
-                        'success'
-                    ).then(resp => {
-                        location.href = "/empresa"
-                    })
-                }else{
-                    Swal.fire('Ocurrio un error',resp.data.msg,'error')
-                }
-            }).catch(error => {
-                if(error.response.status == 422){
-                    this.errors = error.response.data.errors
-                }
-            })
-        }
-    },
+    }
 }
+
+
 </script>
 
-<style>
-    .text-right{
-        text-align: right;
-    }
-</style>

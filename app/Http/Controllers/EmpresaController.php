@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEmpresaRequest;
+use App\Http\Requests\UpdateEmpresaRequest;
 use App\Models\Empresa;
-use Illuminate\Http\Request;
 
 class EmpresaController extends Controller
 {
@@ -45,27 +45,27 @@ class EmpresaController extends Controller
     {
         $data = $request->all();
 
-        $client = Empresa::create([
-            'nombre' => $data['nombre'],
-            'logo' => $data['logo'],
+        $empresa = Empresa::create([
+            'nombre'       => $data['nombre'],
+            'logo'         => $data['logo'],
             'razon_social' => $data['razon_social'],
-            'phone' => $data['phone'],
-            'address' => $data['address'],
-            'rfc' => $data['rfc'],
-            'state' => $data['state'],
-            'city' => $data['city'],
-            'admin_id' => $data['admin_id'],
+            'phone'        => $data['phone'],
+            'address'      => $data['address'],
+            'rfc'          => $data['rfc'],
+            'state'        => $data['state'],
+            'city'         => $data['city'],
+            'admin_id'     => $data['admin_id'],
         ]);
 
-        if($client){
+        if($empresa){
             return response([
-                'status' => true,
-                'empresa' => $client,
+                'status'  => true,
+                'empresa' => $empresa,
             ]);
         }else{
             return response([
                 'status' => false,
-                'msg' => 'Ocurrio un error al intentar guardar la empresa'
+                'msg'    => 'Ocurrio un error al intentar guardar la empresa'
             ]);
         }
     }
@@ -76,9 +76,21 @@ class EmpresaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Empresa $empresa)
     {
-        //
+        $empresa = Empresa::with('ciudad')->with('estado')->with('userAdmin')->where('id', $empresa->id)->get();
+
+        if($empresa){
+            return response([
+                'status'  => true,
+                'empresa' => $empresa
+            ]);
+        }else{
+            return response([
+                'status'=> true,
+                'msg'   => 'No se pudo encontrar la información de la empresa'
+            ]); 
+        }
     }
 
     /**
@@ -99,9 +111,37 @@ class EmpresaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(UpdateEmpresaRequest $request, Empresa $empresa){
+        if($empresa){
+            $data = $request->all();
+
+            $empresa->nombre       = $data['nombre'];
+            $empresa->logo         = hash('md5', $data['logo']);
+            $empresa->razon_social = $data['razon_social'];
+            $empresa->phone        = $data['phone'];
+            $empresa->address      = $data['address'];
+            $empresa->rfc          = $data['rfc'];
+            $empresa->state        = $data['state'];
+            $empresa->city         = $data['city'];
+            $empresa->admin_id     = $data['admin_id'];
+
+            if($empresa->save()){
+                return response([
+                    'status'  => true,
+                    'empresa' => $empresa,
+                ]);
+            }else{
+                return response([
+                    'status' => false,
+                    'msg'    => 'Ocurrio un error al intentar actualizar la empresa'
+                ]);
+            }
+        }else{
+            return response([
+                'status' => false,
+                'msg'    => 'No se pudo obtener la información de la empresa'
+            ]);
+        }
     }
 
     /**

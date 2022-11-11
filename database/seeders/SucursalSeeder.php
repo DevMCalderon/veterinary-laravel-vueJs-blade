@@ -20,9 +20,9 @@ class SucursalSeeder extends Seeder
         $adminB = User::where('name',"Dueño Empresa B")->first();
         $adminC = User::where('name',"Dueño Empresa C")->first();
 
-        $sucursalA = Sucursal::create(['name' => "Sucursal empresa A"]);
-        $sucursalB = Sucursal::create(['name' => "Sucursal empresa B"]);
-        $sucursalC = Sucursal::create(['name' => "Sucursal empresa C"]);
+        $sucursalA = Sucursal::create(['name' => "Sucursal empresa A", 'encargado_id' => 1]);
+        $sucursalB = Sucursal::create(['name' => "Sucursal empresa B", 'encargado_id' => 2]);
+        $sucursalC = Sucursal::create(['name' => "Sucursal empresa C", 'encargado_id' => 3]);
 
         $adminA->sucursales()->attach($sucursalA);
         $adminB->sucursales()->attach($sucursalB);

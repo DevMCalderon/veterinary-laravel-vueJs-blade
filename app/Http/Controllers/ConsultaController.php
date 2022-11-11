@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreconsultaRequest;
 use App\Http\Requests\UpdateconsultaRequest;
-use App\Models\consulta;
+use App\Models\Consulta;
 
 class ConsultaController extends Controller
 {
@@ -38,7 +38,7 @@ class ConsultaController extends Controller
     {
         $data = $request->all();
 
-        $consulta = consulta::create([
+        $consulta = Consulta::create([
             'client_id' => $data['client'],
             'pet_id' => $data['pet'],
             'peso' => $data['peso'],

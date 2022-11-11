@@ -19,7 +19,7 @@ class AddSucursalUserTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
-            $table->foreign('sucursal_id')->references('id')->on('sucursals')->restrictOnDelete()->cascadeOnUpdate();
+            $table->foreign('sucursal_id')->references('id')->on('sucursals')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreign('user_id')->references('id')->on('users')->restrictOnDelete()->cascadeOnUpdate();
         });
     }

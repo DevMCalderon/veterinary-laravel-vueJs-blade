@@ -15,10 +15,10 @@ class CreateEmpresasTable extends Migration
     {
         Schema::create('empresas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre',40);
+            $table->string('nombre',40)->nullable();
             $table->string('logo')->nullable();
             $table->string('razon_social',50)->nullable();
-            $table->string('phone');
+            $table->string('phone',20)->nullable();
             $table->string('address')->nullable();
             $table->string('rfc')->nullable();
 

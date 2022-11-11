@@ -4,39 +4,28 @@
             <thead>
                 <tr class="btn-reveal-trigger">
                     <th>Nombre</th>
-                    <th>Tipo</th>
-                    <th>Raza</th>
-                    <th>Color</th>
-                    <!-- <th>Alergias</th> -->
-                    <th>Fecha nacimiento</th>
-                    <!-- <th>Comentarios</th> -->
+                    <th>Dirección</th>
+                    <th>Teléfono</th>
+                    <th>Correo</th>
+                    <th>Encargado de sucursal</th>
                     <th class="text-center">Opciones</th>
                 </tr>
             </thead>
-            <tbody v-if="pets && pets.length > 0">
-                <tr class="btn-reveal-trigger" v-for="pet in pets" :key="pet.id">
-                    <td>
-                        <a :href="`/pet/detalle/${pet.id}`">
-                            {{ pet.name }}
-                        </a>
-                    </td>
-                    <td>{{ pet.tipo_mascota.name }}</td>
-                    <td>
-                        <div v-if="pet.tipo_raza !=null">
-                            {{ pet.tipo_raza.name }}
-                        </div>
-                    </td>
-                    <td>{{ pet.color }}</td>
-                    <!-- <td>{{ pet.alergias}}</td> -->
-                    <td>{{ pet.fecha_nacimiento }}</td>
-                    <!-- <td>{{ pet.comentarios}}</td> -->
+            <tbody v-if="clients && clients.length > 0">
+                <tr class="btn-reveal-trigger" v-for="client in clients" :key="client.id">
+                    
+                    <td><a :href="`/cliente/${client.id}`">{{ client.name }}</a></td>
+                    <td class="texto-desborde">{{ client.address }}</td>
+                    <td class="texto-desborde">{{ client.phone }}</td>
+                    <td class="texto-desborde">{{ client.email }}</td>
+                    <td class="texto-desborde">{{ client.encargado_id}}</td>
                     <td class="text-center">
                         <div class="dropdown font-sans-serif position-static">
                             <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
                             <div class="dropdown-menu dropdown-menu-end border py-0">
                                 <div class="bg-white py-2">
-                                    <a class="dropdown-item" :href="`/pet/${pet.id}/editar`">Editar</a>
-                                    <a class="dropdown-item text-danger" @click="confirmDelete(pet)" href="#!">Eliminar</a>
+                                    <a class="dropdown-item" :href="`/client/${client.id}/editar`">Editar</a>
+                                    <a class="dropdown-item text-danger" @click="confirmDelete(client)" href="#!">Eliminar</a>
                                 </div>
                             </div>
                         </div>
@@ -45,67 +34,63 @@
             </tbody>
             <tbody v-else>
                 <tr>
-                    <td colspan="8">
-                        <p class="text-center" v-if="pets">No hay mascotas</p>
+                    <td colspan="6">
+                        <p class="text-center" v-if="clients">No hay clientes</p>
                         <p class="text-center" v-else>Cargando...</p>
                     </td>
                 </tr>
             </tbody>
         </table>
-
-        <p class="text-end">
-
-        <small>{{ pets.length }} Mascotas</small>
+        
+        <p class="text-right" v-if="clients && clients.length > 0">
+            <small>{{ clients.length }} Clientes</small>
         </p>
+
     </div>
 </template>
 <script>
 import axios from 'axios'
 
 export default {
-    props: ['client_id'],
     data(){
         return {
-            pets: undefined,
-            clientid:this.client_id
+            clients: undefined,
         }
     },
     mounted(){
-        this.getPets();
+        this.getClients();
     },
     methods: {
-        getPets(){
-            axios.get(`/api/client/${this.client_id}/pets`).then((resp)=>{
+        getClients(){
+            axios.get('/api/sucursals').then((resp)=>{
                 if(resp.data.status){
-                    console.log(resp.data.pets);
-                    this.pets = resp.data.pets
-                    // console.log(this.clientid);
-                    // console.log(this.pets);
+                    console.log(resp.data);
+                    this.clients = resp.data.sucursales
                 }
             });
         },
-        confirmDelete(pet){
+        confirmDelete(client){
             Swal.fire({
-                html: `¿Desea eliminar la mascota <b>${pet.name}</b>?`,
+                html: `¿Desea eliminar la sucursal <b>${client.name}</b>?`,
                 icon: 'warning',
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar',
                 confirmButtonText: 'Eliminar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    this.deletePet(pet)
+                    this.deleteClient(client)
                 }
             })
         },
-        deletePet(pet){
-            axios.delete(`/api/pet/${pet.id}`).then(resp => {
+        deleteClient(client){
+            axios.delete(`/api/sucursal/${client.id}`).then(resp => {
                 if(resp.data.status){
                     Swal.fire(
                         'Eliminado',
-                        `La mascota <b>${pet.name}</b> ha sido eliminada`,
+                        `El cliente <b>${client.name}</b> ha sido eliminado`,
                         'success'
                     ).then(resp => {
-                        this.getPets();
+                        this.getClients();
                     })
                 }else{
                     Swal.fire(
@@ -125,3 +110,12 @@ export default {
 </script>
 
 
+<style scoped>
+    .text-right{
+        text-align: right
+    }
+    .img-product{
+        max-width: 80px;
+
+    }
+</style>

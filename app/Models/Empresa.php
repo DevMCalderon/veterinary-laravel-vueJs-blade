@@ -24,7 +24,11 @@ class Empresa extends Model
     public function ciudad(){
         return $this->hasOne(City::class,'id','city');
     }
-    // public function admin(){
-    //     return $this->hasOne(User::class,'id','admin_id');
-    // }
+    public function estado(){
+        return $this->hasOne(State::class,'id','state');
+    }
+    public function userAdmin()
+    {
+        return $this->hasOne(User::class, 'id', 'admin_id');
+    }
 }

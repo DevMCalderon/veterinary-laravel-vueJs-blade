@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="card">
+<div class="card mb-3">
     <div class="card-header pb-0">
         <div class="d-flex justify-content-between">
             {{ $pet->name }}
@@ -14,7 +14,7 @@
             <div class="col-md-10 col-lg-6 mb-3">
                 <label for="email">Fecha de nacimiento</label>
                 {{ $pet->fecha_nacimiento }}
-                
+
             </div>
             <div class="col-md-10 col-lg-6 mb-3">
                 <label for="phone">Color</label>
@@ -37,6 +37,55 @@
                 {{ $pet->tipoRaza->name }}
             </div>
         </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header pb-0">
+        <div class="d-flex justify-content-between">
+            Historial Clínico
+        </div>
+        <hr>
+    </div>
+    <div class="card-body">
+        <table class="table w-100 table-sm">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Peso</th>
+                    <th>Temperatura</th>
+                    <th>Mucosas</th>
+                    <th>Palpitacion Abdominal</th>
+                    <th>Síntomas</th>
+                    <th>Diagnóstico</th>
+                    <th>Receta</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @forelse($pet->consultas as $consulta)
+                <tr>
+                    <td>{{$consulta->created_at}}</td>
+                    <td>{{$consulta->peso}} kg</td>
+                    <td>{{$consulta->temp}} °c</td>
+                    <td>{{$consulta->mucosas}}</td>
+                    <td>{{$consulta->palpitacion_abdominal}}</td>
+                    <td>{{$consulta->sintomas}}</td>
+                    <td>{{$consulta->diagnostico}}</td>
+                    <td>{{$consulta->receta}}</td>
+                </tr>
+                @empty
+                    <tr>
+                        <td  colspan="9">
+
+                            <p class="text-center mb-0">Sin registros</p>
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+
+        </table>
+
     </div>
 </div>
 @endsection

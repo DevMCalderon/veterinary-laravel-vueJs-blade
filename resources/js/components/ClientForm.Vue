@@ -63,8 +63,7 @@
 
         <hr>
 
-        <div class="text-right">
-
+        <div class="text-end">
             <a type="button" href="/clientes" class="btn btn-sm btn-secondary mr-5">Cancelar</a>
             <button class="btn btn-sm btn-success ml-3">Guardar</button>
 
@@ -216,12 +215,6 @@ export default {
                 }
             })
         }
-    },
+    }
 }
 </script>
-
-<style>
-    .text-right{
-        text-align: right;
-    }
-</style>

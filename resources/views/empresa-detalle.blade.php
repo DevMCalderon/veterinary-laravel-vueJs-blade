@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="card ">
+
     <div class="card-header pb-0 row">
         <a href="/">
             <button type="button" class="btn btn-sm">
@@ -11,123 +12,24 @@
                 <span></span>
             </button>
         </a>
+        
         <h2 class="text-primary fs-1 text-center">Información de empresa</h2>
  
     </div>
 
     <hr>
 
-    <div class="card-body px-8 py-0 ">
-        <div class="row ">
+    @if(Auth::check()) 
+            <empresa-detalle user-id-prop="{{Auth::user()->getId()}}" empresa-id-prop="{{Auth::user()->getEmpresaId()}}"/>
+    @endif 
 
-            <h5 class="sub-categoria-titulo text-start">Empresa</h5>
-
-            <div class=" d-flex justify-content-between">
-            </div>
-
-            <div class="col-md-10 col-lg-6 mb-3">
-                <label for="logo" class="text-secondary">Logo</label>
-                <label class=" texto-datos">
-                    
-                </label>
-            </div>
-            
-            <div class="col-md-10 col-lg-6 mb-3">
-                <label for="nombre" class="text-secondary">Nombre</label>
-                <label class=" texto-datos">
-                    
-                </label>
-            </div>
-
-            <div class="col-md-10 col-lg-6 mb-3">
-                <label for="razon_social" class="text-secondary">Razon social</label>
-                <label class=" texto-datos">
-                    
-                </label>
-            </div>
-            <div class="col-md-10 col-lg-6 mb-3">
-                <label for="phone">Teléfono</label>
-                <label class=" texto-datos">
-                    
-                </label>
-            </div>
-            <div class="col-md-10 col-lg-6 mb-3">
-                <label for="address">Dirección</label>
-                <label class=" texto-datos">
-                    
-                </label>
-            </div>
-            <div class="col-md-10 col-lg-6 mb-3">
-                <label for="rfc">RFC</label>
-                <label class=" texto-datos">
-               
-                </label>
-            </div>
-            <div class="col-md-10 col-lg-6 mb-3">
-                <label for="state">Estado</label>
-                <label class=" texto-datos">
-               
-                </label>
-            </div>
-            <div class="col-md-10 col-lg-6 mb-3">
-                <label for="city">Ciudad</label>
-                <label class=" texto-datos">
-               
-                </label>
-            </div>
-        </div>
-    </div>
-
-    <hr>
-                       
-    <div class="card-body px-8 py-0 ">
-        <div class="row ">
-        <h5 class="sub-categoria-titulo text-start">Usuario Administrador</h5>
-            <div class="col-md-10 col-lg-6 mb-3">
-                <label for="city">Nombre</label>
-                <label class=" texto-datos">
-            
-                </label>
-            </div>
-        </div>
-    </div>
-
-    <div class="card-body px-8 py-0">
-        <div class="row">
-            <div class="d-flex justify-content-between vw-100">
-                <div class="vw-100">
-                    <div class="d-flex justify-content-between">
-                       
-                        
-                    </div>
-                    
-                </div>
-            </div>
-
-
-            <div class=" row d-flex vw-100 ">
-                <div class="">
-                    
-                </div>
-            </div>
-
-
-            <div style="padding: 1rem 1.25rem;">
-                <div class="row">
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
 
 </div>
 @endsection
 
-@section('scripts')
 
-
-
-@endsection
 
 <style scoped>
     .texto-datos{

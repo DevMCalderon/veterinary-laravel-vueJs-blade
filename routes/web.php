@@ -6,6 +6,7 @@ use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\SocialAuthController;
+use App\Http\Controllers\SucursalController;
 use App\Http\Controllers\VentaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -62,15 +63,22 @@ Route::group(['middleware' => 'auth'], function () {
     /** LISTA DE ESPERA */
     Route::get('listEspera', [HomeController::class, 'esperaList'])->name('espera-list');
     Route::get('espera/crear', [HomeController::class, 'esperaCrear'])->name('lista-espera-crear');
-
+    
     /** CONSULTA */
     Route::get('consulta/{waitingList?}', [HomeController::class, 'consulta'])->name('consulta');
-
-     /** EMPRESA */
-    Route::get('empresa/editar', [EmpresaController::class, 'empresaUpdate'])->name('empresa-update');
+    
+    /** EMPRESA */
     Route::get('empresa', [EmpresaController::class, 'showOne'])->name('empresa');
-
-
+    Route::get('empresa/editar', [EmpresaController::class, 'empresaUpdate'])->name('empresa-update');
+    
+    /* SUCURSAL */
+    Route::get('sucursals', [SucursalController::class, 'sucursalList'])->name('sucursal-list');
+    
+    // IMAGENES
+    // Route::controller(ImageController::class)->group(function(){
+    //     Route::get('/image-upload', 'index')->name('image.form');
+    //     Route::post('/upload-image', 'storeImage')->name('image.store');
+    // });
 
 
 });

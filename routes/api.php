@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\RazaController;
 use App\Http\Controllers\StateController;
+use App\Http\Controllers\SucursalController;
 use App\Http\Controllers\WaitingListController;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
@@ -64,7 +65,14 @@ Route::post('/consulta', [ConsultaController::class, 'store']);
 
 Route::post('/waiting-list', [WaitingListController::class, 'store']);
 
-// Empresa
+// Empresas
 Route::post('/empresa', [EmpresaController::class, 'store']);
+Route::get('/empresa/{empresa}', [EmpresaController::class, 'show']);
 Route::post('/empresa/{empresa}', [EmpresaController::class, 'update']);
-Route::get('/empresa/{empresa}', [EmpresaController::class, 'index']);
+
+//SUCURSALS
+Route::post('/sucursal', [SucursalController::class, 'store']);
+Route::delete('/sucursal/{sucursal}', [SucursalController::class, 'destroy']);
+Route::get('/sucursal/{sucursal}', [SucursalController::class, 'show']);
+Route::get('/sucursals', [SucursalController::class, 'index']);
+Route::post('/sucursal/{sucursal}', [SucursalController::class, 'update']);

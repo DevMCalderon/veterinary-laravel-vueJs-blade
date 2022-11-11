@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'role_id',
         'password',
+        'empresa_id',
         'google_id',
         'fb_id',
     ];
@@ -48,4 +49,17 @@ class User extends Authenticatable
     public function sucursales(){
         return $this->belongsToMany(Sucursal::class);
     }
+
+
+    
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getEmpresaId()
+    {
+        return $this-> empresa_id;
+    }
+    
 }

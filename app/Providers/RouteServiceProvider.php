@@ -18,7 +18,7 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/';
-    public const ONBOARDING_PAGE = '/empresa/crear';
+    public const ONBOARDING_PAGE = '/empresa/editar';
 
     /**
      * The controller namespace for the application.
