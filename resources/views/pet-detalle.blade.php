@@ -59,6 +59,8 @@
                     <th>Síntomas</th>
                     <th>Diagnóstico</th>
                     <th>Receta</th>
+                    <th>
+                    </th>
                 </tr>
             </thead>
 
@@ -73,6 +75,12 @@
                     <td>{{$consulta->sintomas}}</td>
                     <td>{{$consulta->diagnostico}}</td>
                     <td>{{$consulta->receta}}</td>
+                    <td>
+                        <div class="d-flex pt-2">
+                            <a href="/consulta/{{ $consulta->id }}/imprimir" target="_blank"><i class="far fa-file-pdf text-danger" role="button"></i></a>
+                            <a hred="#"><i class="far fa-envelope text-success ms-3 " role="button"></i></a>
+                        </div>
+                    </td>
                 </tr>
                 @empty
                     <tr>

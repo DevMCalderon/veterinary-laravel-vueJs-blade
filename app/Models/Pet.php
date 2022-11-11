@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -29,6 +30,22 @@ class Pet extends Model
 
     public function consultas(){
         return $this->hasMany(Consulta::class);
+    }
+
+    public function client(){
+        return $this->belongsTo(Client::class);
+    }
+
+    public function edad(){
+
+        $nacimiento = new DateTime($this->fecha_nacimiento);
+        $now = new DateTime(date("Y-m-d"));
+        $diff = $now->diff($nacimiento);
+        if($diff->format("%y") == 0){
+            return $diff->format("%m meses");
+        }else{
+            return $diff->format("%y años, %m meses");
+        }
     }
 
 }

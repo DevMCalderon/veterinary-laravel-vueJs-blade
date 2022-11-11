@@ -21,4 +21,8 @@ class Consulta extends Model
         'receta',
     ];
 
+    public function pet(){
+        return $this->belongsTo(Pet::class);
+    }
+
 }
