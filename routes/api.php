@@ -58,7 +58,7 @@ Route::get('/razaType/{pettype}', [RazaController::class, 'index']);
 
 Route::post('/consulta', [ConsultaController::class, 'store']);
 
-
+Route::post('/consulta/{consulta}/send-mail', [ConsultaController::class, 'sendMail'])->name('consulta-mail');
 /** WAITING LIST */
 
 Route::post('/waiting-list', [WaitingListController::class, 'store']);
