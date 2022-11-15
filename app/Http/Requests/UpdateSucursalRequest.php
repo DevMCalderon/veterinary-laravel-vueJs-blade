@@ -25,10 +25,13 @@ class UpdateSucursalRequest extends FormRequest
     {
         return [
             'name'         => 'required',
-            'address'      => '',
-            'phone'        => '',
-            'email'        => '',
-            'encargado_id' => 'required',
+            'state'        => 'required',
+            'city'         => 'required',
+            'address'      => 'nullable',
+            'phone'        => 'nullable',
+            'email'        => 'nullable',
+            'encargado_id' => '',
+            'empresa_id'   => '',
         ];
     }
 }

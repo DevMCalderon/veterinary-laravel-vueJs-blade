@@ -51,7 +51,7 @@
             <div class="row">
                 <div class="col-md-10 col-lg-6 mb-3">
                     <label for="comentarios">Comentarios</label>
-                    <input type="text" name="comentarios" id="comentarios" class="form-control" v-model="comentarios" required>
+                    <input type="text" name="comentarios" id="comentarios" class="form-control" v-model="comentarios">
                     <small class="text-danger" v-if="errors && errors.comentarios">{{ errors.comentarios[0] }}</small>
                 </div>
             </div>

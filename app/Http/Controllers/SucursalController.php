@@ -9,9 +9,17 @@ use App\Models\Sucursal;
 class SucursalController extends Controller
 {
 
-    public function sucursalList()
-    {
+    public function sucursalList(){
         return view('sucursal-list');
+    }
+    public function sucursalUpdate(Sucursal $sucursal){
+        return view('sucursal-update', compact('sucursal'));
+    }
+    public function showOne(Sucursal $sucursal){
+        return view('sucursal-detalle', compact('sucursal'));
+    }
+    public function sucursalCrear(){
+        return view('sucursal-crear');
     }
 
     /**
@@ -21,7 +29,8 @@ class SucursalController extends Controller
      */
     public function index()
     {
-        $sucusales = Sucursal::all();
+        // $sucusales = Sucursal::where('empresa_id',$id)->with('ciudad')->with('estado')->with('encargado')->get();
+        $sucusales = Sucursal::with('ciudad')->with('estado')->with('encargado')->get();
 
         return response([
             'status'    => true,
@@ -51,6 +60,8 @@ class SucursalController extends Controller
 
         $sucursal = Sucursal::create([
             'name'         => $data['name'],
+            'state'        => $data['state'],
+            'city'         => $data['city'],
             'address'      => $data['address'],
             'phone'        => $data['phone'],
             'email'        => $data['email'],
@@ -78,6 +89,9 @@ class SucursalController extends Controller
      */
     public function show(Sucursal $sucursal)
     {
+
+        $sucursal = Sucursal::with('ciudad')->with('estado')->with('encargado')->where('id', $sucursal->id)->get();
+
         if($sucursal){
             return response([
                 'status'   => true,
@@ -114,10 +128,15 @@ class SucursalController extends Controller
         if($sucursal){
             $data = $request->all();
 
+            // Reemplazar valores "null" por null
+            if ( $data['encargado_id']=="null") $data['encargado_id'] = null; 
+            
             $sucursal->name         = $data['name'];
-            $sucursal->address      = $data['address'];
-            $sucursal->phone        = $data['phone'];
-            $sucursal->email        = $data['email'];
+            $sucursal->state        = $data['state'];
+            $sucursal->city         = $data['city'];
+            $sucursal->address      = $data['address'] ?? '';
+            $sucursal->phone        = $data['phone'] ?? '';
+            $sucursal->email        = $data['email'] ?? '';
             $sucursal->encargado_id = $data['encargado_id'];
 
             if($sucursal->save()){

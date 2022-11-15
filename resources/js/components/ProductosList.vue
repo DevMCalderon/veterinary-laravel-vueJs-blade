@@ -44,10 +44,10 @@
             </tbody>
         </table>
         
-        <p class="text-right">
-
-        <small>{{ products.length }} productos</small>
+        <p class="text-end" v-if="products && products.length > 0">
+            <small>{{ products.length }} productos</small>
         </p>
+
     </div>
 </template>
 
@@ -116,9 +116,6 @@ export default {
 
 
 <style scoped>
-    .text-right{
-        text-align: right
-    }
     .img-product{
         max-width: 80px;
 

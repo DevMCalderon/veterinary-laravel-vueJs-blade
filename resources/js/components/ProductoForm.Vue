@@ -40,7 +40,7 @@
             <div class="row">
                 <div class="col-md-10 col-lg-6 mb-3">
                     <label for="image">Imagen</label><br>
-                    <input type="file" name="" id="image" @change="localSave" ref="image">
+                    <input type="file" name="" id="image" @change="localSave" ref="image"  class="form-control" accept="image/*">
                     <small class="text-danger" v-if="errors && errors.image">{{ errors.image[0] }}</small>
                 </div>
             </div>

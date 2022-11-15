@@ -115,14 +115,16 @@ class EmpresaController extends Controller
         if($empresa){
             $data = $request->all();
 
+            if ($data['logo']!=null) $data['logo'] = hash('md5', $data['logo']);
+            
             $empresa->nombre       = $data['nombre'];
-            $empresa->logo         = hash('md5', $data['logo']);
-            $empresa->razon_social = $data['razon_social'];
-            $empresa->phone        = $data['phone'];
-            $empresa->address      = $data['address'];
-            $empresa->rfc          = $data['rfc'];
-            $empresa->state        = $data['state'];
-            $empresa->city         = $data['city'];
+            $empresa->logo         = $data['logo'] ?? '';
+            $empresa->razon_social = $data['razon_social'] ?? '';
+            $empresa->phone        = $data['phone'] ?? '';
+            $empresa->address      = $data['address'] ?? '';
+            $empresa->rfc          = $data['rfc'] ?? '';
+            $empresa->state        = $data['state'] ?? '';
+            $empresa->city         = $data['city'] ?? '';
             $empresa->admin_id     = $data['admin_id'];
 
             if($empresa->save()){

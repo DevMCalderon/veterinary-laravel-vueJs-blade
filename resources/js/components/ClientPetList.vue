@@ -53,10 +53,10 @@
             </tbody>
         </table>
 
-        <p class="text-end">
-
-        <small>{{ pets.length }} Mascotas</small>
+        <p class="text-end" v-if="pets && pets.length > 0">
+            <small>{{ pets.length }} Mascotas</small>
         </p>
+        
     </div>
 </template>
 <script>

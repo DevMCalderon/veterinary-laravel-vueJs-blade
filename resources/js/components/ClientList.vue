@@ -51,10 +51,10 @@
             </tbody>
         </table>
         
-        <p class="text-right">
-
-        <small>{{ clients.length }} Clientes</small>
+        <p class="text-end" v-if="clients && clients.length > 0">
+            <small>{{ clients.length }} Clientes</small>
         </p>
+
     </div>
 </template>
 <script>
@@ -143,11 +143,4 @@ export default {
 
 
 <style scoped>
-    .text-right{
-        text-align: right
-    }
-    .img-product{
-        max-width: 80px;
-
-    }
 </style>

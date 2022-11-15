@@ -11,9 +11,23 @@ class Sucursal extends Model
 
     protected $fillable = [
         'name',
+        'state',
+        'city',
         'address',
         'phone',
         'email',
         'encargado_id',
+        'empresa_id',
     ];
+
+    public function ciudad(){
+        return $this->hasOne(City::class,'id','city');
+    }
+    public function estado(){
+        return $this->hasOne(State::class,'id','state');
+    }
+    public function encargado()
+    {
+        return $this->hasOne(User::class, 'id', 'encargado_id');
+    }
 }

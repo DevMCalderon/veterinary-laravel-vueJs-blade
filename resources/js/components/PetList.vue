@@ -1,7 +1,6 @@
 <template>
     <div>
-
-        <div v-if="pets.length">
+        <div v-if="pets && pets.length > 0">
             <div class="fs--1 col-md-4" style="display: inline-block;" v-for="pet in pets" v-bind:key="pet.id">
                 <a class="notification" :href="`/pet/${pet.id}`">
                 
@@ -31,6 +30,11 @@
         <div v-else>
             Sin mascotas registradas
         </div>
+
+        <p class="text-end" v-if="pets && pets.length > 0">
+            <small>{{ pets.length }} Mascotas</small>
+        </p>
+        
     </div>
 </template>
 <script>
@@ -92,9 +96,6 @@ export default {
 
 
 <style scoped>
-    .text-right{
-        text-align: right
-    }
     .img-product{
         max-width: 80px;
 

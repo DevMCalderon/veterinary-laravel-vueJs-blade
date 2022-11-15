@@ -20,7 +20,7 @@ class CreateEmpresasTable extends Migration
             $table->string('razon_social',50)->nullable();
             $table->string('phone',20)->nullable();
             $table->string('address')->nullable();
-            $table->string('rfc')->nullable();
+            $table->string('rfc',13)->nullable();
 
             $table->unsignedBigInteger('state')->nullable();
             $table->unsignedBigInteger('city')->nullable();

@@ -11,8 +11,8 @@
                 <span></span>
             </button>
         </a>
-        <h2 class="text-primary fs-1 text-center">Datos de cliente</h2>
-        <label class="client-name  text-secundary text-center">{{ $client->name }}</label>
+        <h2 class="text-primary fs-1 text-center">Información de cliente</h2>
+        <label class="registro-nombre  text-secundary text-center">{{ $client->name }}</label>
     </div>
 
     <hr>
@@ -41,7 +41,7 @@
             <div class="col-md-10 col-lg-6 mb-3">
                 <label for="city">Ciudad</label>
                 <label class=" texto-datos">
-                    {{ $client->city }}
+                    {{ $client->ciudad->name }}
                 </label>
             </div>
             <div class="col-md-10 col-lg-6 mb-3">
@@ -103,7 +103,7 @@
         color: #6a6a6a;
     }
 
-    .client-name {
+    .registro-nombre {
         font-size: 23px;
         color: #a09fab;
     }

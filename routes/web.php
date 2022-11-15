@@ -74,7 +74,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('empresa/editar', [EmpresaController::class, 'empresaUpdate'])->name('empresa-update');
     
     /* SUCURSAL */
+    Route::get('sucursal/crear', [SucursalController::class, 'sucursalCrear'])->name('sucursal-crear');
     Route::get('sucursals', [SucursalController::class, 'sucursalList'])->name('sucursal-list');
+    Route::get('sucursal/{sucursal}', [SucursalController::class, 'showOne'])->name('sucursal');
+    Route::get('sucursal/{sucursal}/editar', [SucursalController::class, 'sucursalUpdate'])->name('sucursal-update');
     
     // IMAGENES
     // Route::controller(ImageController::class)->group(function(){

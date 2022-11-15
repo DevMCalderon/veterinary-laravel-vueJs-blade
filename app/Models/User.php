@@ -57,7 +57,7 @@ class User extends Authenticatable
         return $this->id;
     }
 
-    public function getEmpresaId()
+    public function getUserEmpresaId()
     {
         return $this-> empresa_id;
     }

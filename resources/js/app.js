@@ -38,6 +38,10 @@ Vue.component('empresa-detalle', require('./components/EmpresaDetalle.vue').defa
 
 //Sucursal
 Vue.component('sucursal-list', require('./components/SucursalList.vue').default);
+Vue.component('sucursal-detalle', require('./components/SucursalDetalle.vue').default);
+Vue.component('sucursal-form', require('./components/SucursalForm.vue').default);
+
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

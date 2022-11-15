@@ -6,7 +6,7 @@
                 <div class="col">
                     <div class="row">
                         <div class="col-md-10 mb-3">
-                            <label for="name">Nombre de la empresa</label>
+                            <label for="name">Nombre de la empresa*</label>
                             <input type="text" name="nombre" id="nombre" class="form-control" v-model="nombre" required>
                             <small class="text-danger" v-if="errors && errors.name">{{ errors.name[0] }}</small>
                         </div>
@@ -49,14 +49,14 @@
                     <div class="row">
                         <div class="col-md-10 mb-3">
                             <label for="rfc">RFC</label>
-                            <input type="text" name="rfc" id="rfc" class="form-control" v-model="rfc" maxlength="13">
+                            <input type="number" name="rfc" id="rfc" class="form-control" v-model="rfc" maxlength="13">
                             <small class="text-danger" v-if="errors && errors.rfc">{{ errors.rfc[0] }}</small>
                         </div>
                     </div>
             
                     <div class="row">
                         <div class="col-md-10 mb-3">
-                            <label for="estado">Estado</label>
+                            <label for="estado">Estado*</label>
                             <select id="estado" class="form-control" v-model="state_id" @change="changeEstado" required>
                                 <option value="" selected disabled>Seleccione</option>
                                 <option :value="estado.id" v-for="estado in estados" :key="estado.id">{{ estado.name }}</option>
@@ -66,7 +66,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-10 mb-3">
-                            <label for="estado">Ciudad</label>
+                            <label for="estado">Ciudad*</label>
                             <select id="estado" class="form-control" v-model="city" required>
                                 <option value="" selected disabled>Seleccione</option>
                                 <option :value="ciudad.id" v-for="ciudad in ciudades" :key="ciudad.id">{{ ciudad.name }}</option>
@@ -105,9 +105,7 @@ export default {
             state_id:'',
             estados:[],
             ciudades:[],
-            errors: undefined,
-            image: ''
-
+            errors: undefined
         }
     },
     watch:{

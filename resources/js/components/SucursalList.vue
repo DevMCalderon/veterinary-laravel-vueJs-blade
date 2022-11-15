@@ -4,28 +4,30 @@
             <thead>
                 <tr class="btn-reveal-trigger">
                     <th>Nombre</th>
+                    <th>Ciudad</th>
                     <th>Dirección</th>
                     <th>Teléfono</th>
                     <th>Correo</th>
-                    <th>Encargado de sucursal</th>
+                    <th>Encargado</th>
                     <th class="text-center">Opciones</th>
                 </tr>
             </thead>
-            <tbody v-if="clients && clients.length > 0">
-                <tr class="btn-reveal-trigger" v-for="client in clients" :key="client.id">
+            <tbody v-if="sucursals && sucursals.length > 0">
+                <tr class="btn-reveal-trigger" v-for="sucursal in sucursals" :key="sucursal.id">
                     
-                    <td><a :href="`/cliente/${client.id}`">{{ client.name }}</a></td>
-                    <td class="texto-desborde">{{ client.address }}</td>
-                    <td class="texto-desborde">{{ client.phone }}</td>
-                    <td class="texto-desborde">{{ client.email }}</td>
-                    <td class="texto-desborde">{{ client.encargado_id}}</td>
+                    <td><a :href="`/sucursal/${sucursal.id}`">{{ sucursal.name }}</a></td>
+                    <td class="texto-desborde"><div v-if="!!sucursal.ciudad">{{ sucursal.ciudad.name }}</div></td>
+                    <td class="texto-desborde"><div v-if="!!sucursal.address">{{ sucursal.address }}</div></td>
+                    <td class="texto-desborde">{{ sucursal.phone }}</td>
+                    <td class="texto-desborde">{{ sucursal.email }}</td>
+                    <td class="texto-desborde"><div v-if="!!sucursal.encargado">{{ sucursal.encargado.name}}</div></td>
                     <td class="text-center">
                         <div class="dropdown font-sans-serif position-static">
                             <button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false"><span class="fas fa-ellipsis-h fs--1"></span></button>
                             <div class="dropdown-menu dropdown-menu-end border py-0">
                                 <div class="bg-white py-2">
-                                    <a class="dropdown-item" :href="`/client/${client.id}/editar`">Editar</a>
-                                    <a class="dropdown-item text-danger" @click="confirmDelete(client)" href="#!">Eliminar</a>
+                                    <a class="dropdown-item" :href="`/sucursal/${sucursal.id}/editar`">Editar</a>
+                                    <a class="dropdown-item text-danger" @click="confirmDelete(sucursal)" href="#!">Eliminar</a>
                                 </div>
                             </div>
                         </div>
@@ -34,16 +36,16 @@
             </tbody>
             <tbody v-else>
                 <tr>
-                    <td colspan="6">
-                        <p class="text-center" v-if="clients">No hay clientes</p>
+                    <td colspan="7">
+                        <p class="text-center" v-if="sucursals">No hay sucursales</p>
                         <p class="text-center" v-else>Cargando...</p>
                     </td>
                 </tr>
             </tbody>
         </table>
         
-        <p class="text-right" v-if="clients && clients.length > 0">
-            <small>{{ clients.length }} Clientes</small>
+        <p class="text-end" v-if="sucursals && sucursals.length > 0">
+            <small>{{ sucursals.length }} Sucursales</small>
         </p>
 
     </div>
@@ -52,45 +54,51 @@
 import axios from 'axios'
 
 export default {
+    props: ['empresaIdProp'],
     data(){
         return {
-            clients: undefined,
+            sucursals: undefined,
         }
     },
     mounted(){
-        this.getClients();
+        this.get();
+        // console.log(this.empresaIdProp);
+        // if(this.empresaIdProp){
+        //     this.get();
+        // }   
     },
     methods: {
-        getClients(){
+        get(){
             axios.get('/api/sucursals').then((resp)=>{
                 if(resp.data.status){
                     console.log(resp.data);
-                    this.clients = resp.data.sucursales
+                    this.sucursals = resp.data.sucursales
+                    console.log(resp.data.sucursales);
                 }
             });
         },
-        confirmDelete(client){
+        confirmDelete(sucursal){
             Swal.fire({
-                html: `¿Desea eliminar la sucursal <b>${client.name}</b>?`,
+                html: `¿Desea eliminar la sucursal <b>${sucursal.name}</b>?`,
                 icon: 'warning',
                 showCancelButton: true,
                 cancelButtonText: 'Cancelar',
                 confirmButtonText: 'Eliminar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    this.deleteClient(client)
+                    this.delete(sucursal)
                 }
             })
         },
-        deleteClient(client){
-            axios.delete(`/api/sucursal/${client.id}`).then(resp => {
+        delete(sucursal){
+            axios.delete(`/api/sucursal/${sucursal.id}`).then(resp => {
                 if(resp.data.status){
                     Swal.fire(
                         'Eliminado',
-                        `El cliente <b>${client.name}</b> ha sido eliminado`,
+                        `La sucursal <b>${sucursal.name}</b> ha sido eliminada`,
                         'success'
                     ).then(resp => {
-                        this.getClients();
+                        this.get();
                     })
                 }else{
                     Swal.fire(
@@ -111,11 +119,4 @@ export default {
 
 
 <style scoped>
-    .text-right{
-        text-align: right
-    }
-    .img-product{
-        max-width: 80px;
-
-    }
 </style>
