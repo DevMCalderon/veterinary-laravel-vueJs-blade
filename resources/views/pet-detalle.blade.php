@@ -78,7 +78,7 @@
                     <td>
                         <div class="d-flex pt-2">
                             <a href="/consulta/{{ $consulta->id }}/imprimir" target="_blank"><i class="far fa-file-pdf text-danger" role="button"></i></a>
-                            <a hred="#"><i class="far fa-envelope text-success ms-3 " role="button"></i></a>
+                            <a hred="#"><i class="far fa-envelope text-success ms-3 " role="button" onclick="sendMail('{{ $consulta->id }}')"></i></a>
                         </div>
                     </td>
                 </tr>
@@ -100,6 +100,31 @@
 
 @section('scripts')
 
+<script>
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
 
+    function sendMail(id){
+        Toast.fire({
+                icon: 'info',
+                title: 'Enviando correo...'
+            })
+        axios.post('/api/consulta/'+id+'/send-mail').then(response => {
+            Toast.fire({
+                icon: 'success',
+                title: 'Información enviada'
+            })
+        });
+    }
+</script>
 
 @endsection

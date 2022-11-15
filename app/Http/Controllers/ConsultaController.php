@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreconsultaRequest;
-use App\Http\Requests\UpdateconsultaRequest;
 use App\Models\Consulta;
-
+use App\Notifications\ConsultaNotification;
+use Illuminate\Support\Facades\Storage;
 use PDF;
 
 class ConsultaController extends Controller
@@ -65,51 +65,6 @@ class ConsultaController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\consulta  $consulta
-     * @return \Illuminate\Http\Response
-     */
-    public function show(consulta $consulta)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\consulta  $consulta
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(consulta $consulta)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateconsultaRequest  $request
-     * @param  \App\Models\consulta  $consulta
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateconsultaRequest $request, consulta $consulta)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\consulta  $consulta
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(consulta $consulta)
-    {
-        //
-    }
-
     public function imprimir(Consulta $consulta){
         $data = [
             'consulta' => $consulta,
@@ -119,4 +74,28 @@ class ConsultaController extends Controller
         return PDF::loadView('pdf.consulta', $data)
             ->stream('Historia clinica '.$consulta->pet->name.' '.$consulta->created_at.'.pdf');
     }
+
+    public function sendMail(consulta $consulta)
+    {
+        $data = [
+            'consulta' => $consulta,
+            'client' => $consulta->pet->client
+        ];
+
+
+        $pdf = PDF::loadView('pdf.consulta', $data);
+        $fileName = 'Consulta '.$consulta->pet->name.' '.$consulta->created_at.'.pdf';
+        Storage::put("/public/pdf/$fileName", $pdf->output());
+
+
+
+        $consulta->client->notify(new ConsultaNotification($consulta, $fileName));
+
+        if(Storage::exists("/public/pdf/$fileName")){
+            Storage::delete("/public/pdf/$fileName");
+        }
+
+        return response($consulta);
+    }
+
 }

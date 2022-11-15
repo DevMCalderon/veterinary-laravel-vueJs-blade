@@ -25,4 +25,8 @@ class Consulta extends Model
         return $this->belongsTo(Pet::class);
     }
 
+    public function client(){
+        return $this->belongsTo(Client::class);
+    }
+
 }
