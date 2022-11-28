@@ -33,8 +33,10 @@ Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 Route::get('login/{provider}', [SocialAuthController::class,'redirectTo']);
 Route::get('{provider}/callback', [SocialAuthController::class,'handleCallback']);
 
+Route::get('empresa/editar', [EmpresaController::class, 'empresaUpdate'])->name('empresa-update')->middleware('auth');
 
-Route::group(['middleware' => 'auth'], function () {
+
+    Route::group(['middleware' => 'auth', 'middleware' => 'blank_company'], function () {
 
     Route::get('ticket', [VentaController::class, 'showTicket'])->name('ticket');
     Route::get('vistaCaja', [HomeController::class, 'vistaCaja'])->name('vistaCaja');
@@ -71,19 +73,14 @@ Route::group(['middleware' => 'auth'], function () {
     
     /** EMPRESA */
     Route::get('empresa', [EmpresaController::class, 'showOne'])->name('empresa');
-    Route::get('empresa/editar', [EmpresaController::class, 'empresaUpdate'])->name('empresa-update');
+    
     
     /* SUCURSAL */
     Route::get('sucursal/crear', [SucursalController::class, 'sucursalCrear'])->name('sucursal-crear');
     Route::get('sucursals', [SucursalController::class, 'sucursalList'])->name('sucursal-list');
     Route::get('sucursal/{sucursal}', [SucursalController::class, 'showOne'])->name('sucursal');
     Route::get('sucursal/{sucursal}/editar', [SucursalController::class, 'sucursalUpdate'])->name('sucursal-update');
-    
-    // IMAGENES
-    // Route::controller(ImageController::class)->group(function(){
-    //     Route::get('/image-upload', 'index')->name('image.form');
-    //     Route::post('/upload-image', 'storeImage')->name('image.store');
-    // });
 
 
 });
+

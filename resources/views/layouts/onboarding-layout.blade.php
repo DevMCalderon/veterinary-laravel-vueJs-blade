@@ -1,4 +1,4 @@
-@include('layouts.app-top')
+<!-- @include('layouts.app-top')
 <div id="app">
   <main class="main content" id="top">
     <div class="container-fluid" data-layout="container">
@@ -11,4 +11,4 @@
         </main>
 </div>
 @include('layouts.app-bottom')
-      
+       -->

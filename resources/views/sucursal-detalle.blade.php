@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<sucursal-detalle empresa-id-prop="{{$sucursal->id}}"/>
+<sucursal-detalle sucursal-id-prop="{{$sucursal->id}}"/>
 @endsection
 
 @section('scripts')

@@ -7,7 +7,7 @@
                     <div class="row">
                         <div class="col-md-10 mb-3">
                             <label for="name">Nombre de la empresa*</label>
-                            <input type="text" name="nombre" id="nombre" class="form-control" v-model="nombre" required>
+                            <input type="text" name="nombre" id="nombre" class="form-control" maxlength="40" v-model="nombre" required>
                             <small class="text-danger" v-if="errors && errors.name">{{ errors.name[0] }}</small>
                         </div>
                     </div>
@@ -23,7 +23,7 @@
                     <div class="row">
                         <div class="col-md-10 mb-3">
                             <label for="razon_social">Razón Social</label>
-                            <input type="text" name="razon_social" id="razon_social" class="form-control" v-model="razon_social">
+                            <input type="text" name="razon_social" id="razon_social" class="form-control" maxlength="50" v-model="razon_social">
                             <small class="text-danger" v-if="errors && errors.razon_social">{{ errors.razon_social[0] }}</small>
                         </div>
                     </div>
@@ -31,7 +31,7 @@
                     <div class="row">
                         <div class="col-md-10 mb-3">
                             <label for="phone">Teléfono</label>
-                            <input type="tel" name="phone" id="phone" class="form-control" v-model="phone" min="0" maxlength="10" step="0.01">
+                            <input type="tel" name="phone" id="phone" class="form-control" v-model="phone" min="0" maxlength="10">
                             <small class="text-danger" v-if="errors && errors.phone">{{ errors.phone[0] }}</small>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                     <div class="row">
                         <div class="col-md-10 mb-3">
                             <label for="rfc">RFC</label>
-                            <input type="number" name="rfc" id="rfc" class="form-control" v-model="rfc" maxlength="13">
+                            <input type="tel" name="rfc" id="rfc" class="form-control" v-model="rfc" maxlength="13">
                             <small class="text-danger" v-if="errors && errors.rfc">{{ errors.rfc[0] }}</small>
                         </div>
                     </div>
@@ -159,6 +159,12 @@ export default {
                 if(resp.data.status){
                     console.log(resp.data.empresa[0])
                     let aux=resp.data.empresa[0];
+
+                    if(aux.nombre=='' || aux.state==null){
+                        Swal.fire('',`Por favor registra una empresa antes de continuar`,'warning').then(resp => {
+                        });
+                    }
+
                     this.id          = aux.id;
                     this.nombre        = aux.nombre;
                     this.logo        = aux.logo;

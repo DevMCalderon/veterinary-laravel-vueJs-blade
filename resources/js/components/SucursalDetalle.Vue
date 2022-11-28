@@ -18,9 +18,9 @@
         <div class="card-body px-8 py-0" v-if="sucursal">
             <div class="row ">
     
-                <h5 class="sub-categoria-titulo text-start">Contacto</h5>
-    
                 <div class=" d-flex justify-content-between">
+                    <h5 class="sub-categoria-titulo text-start">Contacto</h5>
+                    <a :href="`/sucursal/${this.sucursalIdProp}/editar`" class="btn btn-secondary btn-sm">Editar</a>
                 </div>
     
                 <div class="col-md-10 col-lg-6 mb-3">
@@ -71,7 +71,6 @@
             <div class="row">
                 <div class="d-flex justify-content-between">
                     <h5 class="sub-categoria-titulo text-start">Usuario Encargado</h5>
-                    <a href="" class="btn btn-secondary btn-sm">Editar</a>
                 </div>
     
                 <div class="col-md-10 col-lg-6 mb-3">
@@ -99,15 +98,15 @@
 import axios from 'axios';
 
 export default {
-    props: ['empresaIdProp'],
+    props: ['sucursalIdProp'],
     data(){
         return {
             sucursal: ''
         }
     },
     mounted() {      
-        if(this.empresaIdProp){
-            this.getData(this.empresaIdProp);
+        if(this.sucursalIdProp){
+            this.getData(this.sucursalIdProp);
         }        
     },
     methods: {

@@ -2623,6 +2623,11 @@ __webpack_require__.r(__webpack_exports__);
         if (resp.data.status) {
           console.log(resp.data.empresa[0]);
           var aux = resp.data.empresa[0];
+
+          if (aux.nombre == '' || aux.state == null) {
+            Swal.fire('', "Por favor registra una empresa antes de continuar", 'warning').then(function (resp) {});
+          }
+
           _this3.id = aux.id;
           _this3.nombre = aux.nombre;
           _this3.logo = aux.logo;
@@ -3452,15 +3457,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['empresaIdProp'],
+  props: ['sucursalIdProp'],
   data: function data() {
     return {
       sucursal: ''
     };
   },
   mounted: function mounted() {
-    if (this.empresaIdProp) {
-      this.getData(this.empresaIdProp);
+    if (this.sucursalIdProp) {
+      this.getData(this.sucursalIdProp);
     }
   },
   methods: {
@@ -4815,12 +4820,7 @@ var staticRenderFns = [function () {
     staticClass: "d-flex justify-content-between"
   }, [_c("h5", {
     staticClass: "sub-categoria-titulo text-start"
-  }, [_vm._v("Usuario Administrador")]), _vm._v(" "), _c("a", {
-    staticClass: "btn btn-secondary btn-sm",
-    attrs: {
-      href: ""
-    }
-  }, [_vm._v("Editar")])]);
+  }, [_vm._v("Usuario Administrador")])]);
 }];
 render._withStripped = true;
 
@@ -4879,6 +4879,7 @@ var render = function render() {
       type: "text",
       name: "nombre",
       id: "nombre",
+      maxlength: "40",
       required: ""
     },
     domProps: {
@@ -4911,7 +4912,8 @@ var render = function render() {
     attrs: {
       type: "text",
       name: "razon_social",
-      id: "razon_social"
+      id: "razon_social",
+      maxlength: "50"
     },
     domProps: {
       value: _vm.razon_social
@@ -4945,8 +4947,7 @@ var render = function render() {
       name: "phone",
       id: "phone",
       min: "0",
-      maxlength: "10",
-      step: "0.01"
+      maxlength: "10"
     },
     domProps: {
       value: _vm.phone
@@ -5010,7 +5011,7 @@ var render = function render() {
     }],
     staticClass: "form-control",
     attrs: {
-      type: "number",
+      type: "tel",
       name: "rfc",
       id: "rfc",
       maxlength: "13"
@@ -6390,11 +6391,16 @@ var render = function render() {
     staticClass: "card-body px-8 py-0"
   }, [_c("div", {
     staticClass: "row"
+  }, [_c("div", {
+    staticClass: "d-flex justify-content-between"
   }, [_c("h5", {
     staticClass: "sub-categoria-titulo text-start"
-  }, [_vm._v("Contacto")]), _vm._v(" "), _c("div", {
-    staticClass: "d-flex justify-content-between"
-  }), _vm._v(" "), _c("div", {
+  }, [_vm._v("Contacto")]), _vm._v(" "), _c("a", {
+    staticClass: "btn btn-secondary btn-sm",
+    attrs: {
+      href: "/sucursal/".concat(this.sucursalIdProp, "/editar")
+    }
+  }, [_vm._v("Editar")])]), _vm._v(" "), _c("div", {
     staticClass: "col-md-10 col-lg-6 mb-3"
   }, [_c("label", {
     staticClass: "text-secondary",
@@ -6469,12 +6475,7 @@ var staticRenderFns = [function () {
     staticClass: "d-flex justify-content-between"
   }, [_c("h5", {
     staticClass: "sub-categoria-titulo text-start"
-  }, [_vm._v("Usuario Encargado")]), _vm._v(" "), _c("a", {
-    staticClass: "btn btn-secondary btn-sm",
-    attrs: {
-      href: ""
-    }
-  }, [_vm._v("Editar")])]);
+  }, [_vm._v("Usuario Encargado")])]);
 }];
 render._withStripped = true;
 

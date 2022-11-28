@@ -1,6 +1,4 @@
-@extends('layouts.onboarding-layout')
-
-@section('title-page','Definir empresa')
+@extends('layouts.app')
 
 @section('content')
 <div class="card">

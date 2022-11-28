@@ -82,7 +82,6 @@
             <div class="row">
                 <div class="d-flex justify-content-between">
                     <h5 class="sub-categoria-titulo text-start">Usuario Administrador</h5>
-                    <a href="" class="btn btn-secondary btn-sm">Editar</a>
                 </div>
 
                 <div class="d-flex justify-content-between" v-if="empresa.user_admin !=null">
