@@ -14,17 +14,17 @@ class UpdateSucursalsTable extends Migration
     public function up()
     {
         Schema::table('sucursals', function (Blueprint $table) {
-            $table->unsignedBigInteger('state')->nullable()->after('name');
-            $table->unsignedBigInteger('city')->nullable()->after('state');
-            $table->string('phone',10)->nullable()->after('address');
-            $table->string('email')->nullable()->after('phone');
-            $table->unsignedBigInteger('encargado_id')->nullable()->after('email');
-            $table->unsignedBigInteger('empresa_id')->nullable()->after('encargado_id');
+            $table->unsignedBigInteger('state')         ->nullable()->after('name');
+            $table->unsignedBigInteger('city')          ->nullable()->after('state');
+            $table->string('phone',10)                  ->nullable()->after('address');
+            $table->string('email')                     ->nullable()->after('phone');
+            $table->unsignedBigInteger('encargado_id')  ->nullable()->after('email');
+            $table->unsignedBigInteger('empresa_id')    ->nullable()->after('encargado_id');
 
-            $table->foreign('state')->references('id')->on('states');
-            $table->foreign('city')->references('id')->on('cities');
-            $table->foreign('encargado_id')->references('id')->on('users');
-            $table->foreign('empresa_id')->references('id')->on('empresas');
+            $table->foreign('state')            ->references('id')->on('states');
+            $table->foreign('city')             ->references('id')->on('cities');
+            $table->foreign('encargado_id')     ->references('id')->on('users');
+            $table->foreign('empresa_id')       ->references('id')->on('empresas');
         });
         
     }
