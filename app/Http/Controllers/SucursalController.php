@@ -89,7 +89,6 @@ class SucursalController extends Controller
      */
     public function show(Sucursal $sucursal)
     {
-
         $sucursal = Sucursal::with('ciudad')->with('estado')->with('encargado')->where('id', $sucursal->id)->get();
 
         if($sucursal){

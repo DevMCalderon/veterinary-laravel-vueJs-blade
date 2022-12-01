@@ -3,6 +3,8 @@
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ConsultaController;
+use App\Http\Controllers\CountryController;
+use App\Http\Controllers\DomicilioController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\PetController;
 use App\Http\Controllers\PetTypeController;
@@ -65,14 +67,24 @@ Route::post('/consulta/{consulta}/send-mail', [ConsultaController::class, 'sendM
 
 Route::post('/waiting-list', [WaitingListController::class, 'store']);
 
-// Empresas
+// Empresas -
 Route::post('/empresa', [EmpresaController::class, 'store']);
 Route::get('/empresa/{empresa}', [EmpresaController::class, 'show']);
 Route::post('/empresa/{empresa}', [EmpresaController::class, 'update']);
 
-//SUCURSALS
+//SUCURSALS -
 Route::post('/sucursal', [SucursalController::class, 'store']);
 Route::delete('/sucursal/{sucursal}', [SucursalController::class, 'destroy']);
 Route::get('/sucursal/{sucursal}', [SucursalController::class, 'show']);
 Route::get('/sucursals', [SucursalController::class, 'index']);
 Route::post('/sucursal/{sucursal}', [SucursalController::class, 'update']);
+
+// COUNTRIES 
+Route::get('/pais', [CountryController::class, 'index']);
+
+// DOMICILIOS -
+Route::post('/domicilio', [DomicilioController::class, 'store']);
+Route::delete('/domicilio/{domicilio}', [DomicilioController::class, 'destroy']);
+Route::get('/domicilio/{domicilio}', [DomicilioController::class, 'show']);
+Route::get('/domicilios', [DomicilioController::class, 'index']);
+Route::post('/domicilio/{domicilio}', [DomicilioController::class, 'update']);

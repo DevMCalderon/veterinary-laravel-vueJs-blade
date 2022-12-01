@@ -20,7 +20,8 @@ class UserSeeder extends Seeder
             'password'=>bcrypt("eber123123"),
             'email_verified_at'=>date('Y-m-d H:i:s'),
             'role_id' => RoleSeeder::SUPERADMIN_ID,
-            'fb_id' => "100005352432767"
+            'fb_id' => "100005352432767",
+            'empresa_id' => "1"
         ]);
         User::create([
             'name'=>"Dueño Empresa A",
@@ -28,7 +29,8 @@ class UserSeeder extends Seeder
             'password'=>bcrypt("123123"),
             'email_verified_at'=>date('Y-m-d H:i:s'),
             'role_id' => RoleSeeder::ADMINISTRADOR_ID,
-            'fb_id' => "100005352432768"
+            'fb_id' => "100005352432768",
+            'empresa_id' => "1"
         ]);
         User::create([
             'name'=>"Dueño Empresa B",
@@ -36,7 +38,8 @@ class UserSeeder extends Seeder
             'password'=>bcrypt("123123"),
             'email_verified_at'=>date('Y-m-d H:i:s'),
             'role_id' => RoleSeeder::ADMINISTRADOR_ID,
-            'fb_id' => "100005352432766"
+            'fb_id' => "100005352432766",
+            'empresa_id' => "4"
         ]);
         User::create([
             'name'=>"Dueño Empresa C",
@@ -44,7 +47,8 @@ class UserSeeder extends Seeder
             'password'=>bcrypt("123123"),
             'email_verified_at'=>date('Y-m-d H:i:s'),
             'role_id' => RoleSeeder::ADMINISTRADOR_ID,
-            'fb_id' => "100005352432765"
+            'fb_id' => "100005352432765",
+            'empresa_id' => "2"
         ]);
         User::create([
             'name'=>"José Rodríguez",
@@ -52,7 +56,8 @@ class UserSeeder extends Seeder
             'password'=>bcrypt("a"),
             'email_verified_at'=>date('Y-m-d H:i:s'),
             'role_id' => RoleSeeder::SUPERADMIN_ID,
-            'fb_id' => "10000535243274"
+            'fb_id' => "10000535243274",
+            'empresa_id' => "2"
         ]);
         User::create([
             'name'=>"José Carlos Gomez",
@@ -60,7 +65,8 @@ class UserSeeder extends Seeder
             'password'=>bcrypt("chiporro"),
             'email_verified_at'=>date('Y-m-d H:i:s'),
             'role_id' => RoleSeeder::SUPERADMIN_ID,
-            'fb_id' => "100005352432763"
+            'fb_id' => "100005352432763",
+            'empresa_id' => "3"
         ]);
         User::create([
             'name'=>"Veterinario",
@@ -68,7 +74,8 @@ class UserSeeder extends Seeder
             'password'=>bcrypt("a"),
             'email_verified_at'=>date('Y-m-d H:i:s'),
             'role_id' => RoleSeeder::VETERINARIO_ID,
-            'fb_id' => "100005352432763"
+            'fb_id' => "100005352432763",
+            'empresa_id' => "4"
         ]);
         User::create([
             'name'=>"Martín Calderon",
@@ -76,7 +83,8 @@ class UserSeeder extends Seeder
             'password'=>bcrypt("123123"),
             'email_verified_at'=>date('Y-m-d H:i:s'),
             'role_id' => RoleSeeder::SUPERADMIN_ID,
-            'fb_id' => "100005352432763"
+            'fb_id' => "100005352432763",
+            'empresa_id' => "4"
         ]);
     }
 }

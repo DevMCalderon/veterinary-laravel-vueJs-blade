@@ -23,10 +23,15 @@ class RedirectIfBlankCompany
                             ->where('id',  Auth::user()->empresa_id)
                             ->first();
 
-        if( $empresa->nombre=="" || $empresa->state==null ){
-            return redirect(RouteServiceProvider::ONBOARDING_PAGE);
+        if($empresa){
+            if( $empresa->nombre=="" || $empresa->state==null ){
+                return redirect(RouteServiceProvider::ONBOARDING_PAGE);
+            }else{
+                return $next($request);
+            }
         }else{
             return $next($request);
         }
+        
     }
 }

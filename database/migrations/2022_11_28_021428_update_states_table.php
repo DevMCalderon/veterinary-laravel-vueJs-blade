@@ -14,7 +14,7 @@ class UpdateStatesTable extends Migration
     public function up()
     {
         Schema::table('states', function (Blueprint $table) {
-            $table->unsignedBigInteger('country_id');
+            $table->unsignedBigInteger('country_id')->after('name');
         });
     }
 

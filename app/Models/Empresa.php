@@ -10,25 +10,30 @@ class Empresa extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nombre',
+        'name',
         'logo',
-        'razon_social',
         'phone',
-        'address',
+        'email',
         'rfc',
-        'state',
-        'city',
+        'razon_social',
         'admin_id',
+        'domicilio_empresa_id',
+        'domicilio_fiscal_id',
     ];
 
-    public function ciudad(){
-        return $this->hasOne(City::class,'id','city');
-    }
-    public function estado(){
-        return $this->hasOne(State::class,'id','state');
-    }
     public function userAdmin()
     {
         return $this->hasOne(User::class, 'id', 'admin_id');
     }
+
+    public function domicilioEmpresa()
+    {
+        return $this->hasOne(Domicilio::class, 'id', 'domicilio_empresa_id');
+    }
+
+    public function domicilioFiscal()
+    {
+        return $this->hasOne(Domicilio::class, 'id', 'domicilio_fiscal_id');
+    }
+
 }

@@ -46,15 +46,15 @@ class EmpresaController extends Controller
         $data = $request->all();
 
         $empresa = Empresa::create([
-            'nombre'       => $data['nombre'],
-            'logo'         => $data['logo'],
-            'razon_social' => $data['razon_social'],
-            'phone'        => $data['phone'],
-            'address'      => $data['address'],
-            'rfc'          => $data['rfc'],
-            'state'        => $data['state'],
-            'city'         => $data['city'],
-            'admin_id'     => $data['admin_id'],
+            'name'                  => $data['name'],
+            'logo'                  => $data['logo'],
+            'phone'                 => $data['phone'],
+            'email'                 => $data['email'],
+            'rfc'                   => $data['rfc'],
+            'razon_social'          => $data['razon_social'],
+            'admin_id'              => $data['admin_id'],
+            'domicilio_empresa_id'  => $data['domicilio_empresa_id'],
+            'domicilio_fiscal_id'   => $data['domicilio_fiscal_id'],
         ]);
 
         if($empresa){
@@ -78,7 +78,7 @@ class EmpresaController extends Controller
      */
     public function show(Empresa $empresa)
     {
-        $empresa = Empresa::with('ciudad')->with('estado')->with('userAdmin')->where('id', $empresa->id)->get();
+        $empresa = Empresa::with('userAdmin')->with('domicilioEmpresa')->with('domicilioFiscal')->where('id', $empresa->id)->get();
 
         if($empresa){
             return response([
@@ -117,15 +117,15 @@ class EmpresaController extends Controller
 
             if ($data['logo']!=null) $data['logo'] = hash('md5', $data['logo']);
             
-            $empresa->nombre       = $data['nombre'];
-            $empresa->logo         = $data['logo'] ?? '';
-            $empresa->razon_social = $data['razon_social'] ?? '';
-            $empresa->phone        = $data['phone'] ?? '';
-            $empresa->address      = $data['address'] ?? '';
-            $empresa->rfc          = $data['rfc'] ?? '';
-            $empresa->state        = $data['state'] ?? '';
-            $empresa->city         = $data['city'] ?? '';
-            $empresa->admin_id     = $data['admin_id'];
+            $empresa->name                  = $data['name'];
+            $empresa->logo                  = $data['logo'] ?? '';
+            $empresa->phone                 = $data['phone'] ?? '';
+            $empresa->email                 = $data['email'] ?? '';
+            $empresa->rfc                   = $data['rfc'] ?? '';
+            $empresa->razon_social          = $data['razon_social'] ?? '';
+            $empresa->admin_id              = $data['admin_id'];
+            $empresa->domicilio_empresa_id  = $data['domicilio_empresa_id'] ?? '';
+            $empresa->domicilio_fiscal_id   = $data['domicilio_fiscal_id'] ?? '';
 
             if($empresa->save()){
                 return response([

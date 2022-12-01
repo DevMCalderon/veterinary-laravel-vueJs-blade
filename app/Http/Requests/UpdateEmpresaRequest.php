@@ -24,15 +24,15 @@ class UpdateEmpresaRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre'      => 'required',
-            'logo'        => '',
-            'razon_social'=> '',
-            'phone'       => '',
-            'address'     => '',
-            'rfc'         => '',
-            'state'       => '',
-            'city'        => '',
-            'admin_id'    => 'required'
+            'name'                  => 'nullable',
+            'logo'                  => 'nullable',
+            'phone'                 => 'nullable',
+            'email'                 => 'nullable',
+            'rfc'                   => 'nullable',
+            'razon_social'          => 'nullable',
+            'admin_id'              => 'nullable',
+            'domicilio_empresa_id'  => 'nullable',
+            'domicilio_fiscal_id'   => 'nullable'
         ];
     }
 }
