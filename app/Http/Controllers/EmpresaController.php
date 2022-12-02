@@ -152,8 +152,18 @@ class EmpresaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Empresa $empresa)
     {
-        //
+        if($empresa->delete()){
+            return response([
+                'status'=> true,
+                'msg'   => "Se ha eliminado la empresa"
+            ]);
+        }else{
+            return response([
+                'status'=> false,
+                'msg'   => "No fue posible eliminar la empresa"
+            ]);
+        }
     }
 }

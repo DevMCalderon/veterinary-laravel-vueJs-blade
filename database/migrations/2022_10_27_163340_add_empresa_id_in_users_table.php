@@ -15,7 +15,7 @@ class AddEmpresaIdInUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->unsignedBigInteger('empresa_id')    ->after('role_id')->nullable();
-            $table->foreign('empresa_id')   ->references('id')->on('empresas');
+                $table->foreign('empresa_id')->references('id')->on('empresas')->nullOnDelete()->cascadeOnUpdate();
         });
     }
 

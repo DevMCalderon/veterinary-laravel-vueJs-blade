@@ -30,8 +30,8 @@ class UpdateSucursalRequest extends FormRequest
             'address'      => 'nullable',
             'phone'        => 'nullable',
             'email'        => 'nullable',
-            'encargado_id' => '',
-            'empresa_id'   => '',
+            'encargado_id' => 'nullable',
+            'empresa_id'   => 'nullable',
         ];
     }
 }

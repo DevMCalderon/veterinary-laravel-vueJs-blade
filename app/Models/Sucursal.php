@@ -11,9 +11,9 @@ class Sucursal extends Model
 
     protected $fillable = [
         'name',
+        'address',
         'state',
         'city',
-        'address',
         'phone',
         'email',
         'encargado_id',

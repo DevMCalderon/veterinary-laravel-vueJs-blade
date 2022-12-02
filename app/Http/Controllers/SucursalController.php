@@ -60,12 +60,13 @@ class SucursalController extends Controller
 
         $sucursal = Sucursal::create([
             'name'         => $data['name'],
+            'address'      => $data['address'],
             'state'        => $data['state'],
             'city'         => $data['city'],
-            'address'      => $data['address'],
             'phone'        => $data['phone'],
             'email'        => $data['email'],
-            'encargado_id' => $data['encargado_id']
+            'encargado_id' => $data['encargado_id'],
+            'empresa_id'   => $data['empresa_id']
         ]);
 
         if($sucursal){
@@ -129,14 +130,16 @@ class SucursalController extends Controller
 
             // Reemplazar valores "null" por null
             if ( $data['encargado_id']=="null") $data['encargado_id'] = null; 
+            if ( $data['empresa_id']=="null") $data['empresa_id'] = null; 
             
             $sucursal->name         = $data['name'];
+            $sucursal->address      = $data['address'] ?? '';
             $sucursal->state        = $data['state'];
             $sucursal->city         = $data['city'];
-            $sucursal->address      = $data['address'] ?? '';
             $sucursal->phone        = $data['phone'] ?? '';
             $sucursal->email        = $data['email'] ?? '';
             $sucursal->encargado_id = $data['encargado_id'];
+            $sucursal->empresa_id = $data['empresa_id'];
 
             if($sucursal->save()){
                 return response([

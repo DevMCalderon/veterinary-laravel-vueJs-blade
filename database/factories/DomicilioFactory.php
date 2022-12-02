@@ -14,7 +14,7 @@ class DomicilioFactory extends Factory
     public function definition()
     {
         return [
-            'street' => $this->faker->sentence(5),
+            'street' => $this->faker->sentence(4),
             'num_interior' => $this->faker->randomNumber(3, true),
             'num_exterior' => $this->faker->randomNumber(3, true),
             'cp' => $this->faker->randomNumber(5, true),

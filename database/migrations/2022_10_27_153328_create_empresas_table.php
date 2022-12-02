@@ -26,13 +26,13 @@ class CreateEmpresasTable extends Migration
             
             $table->unsignedBigInteger('admin_id')
                 ->nullable();
-                $table->foreign('admin_id')->references('id')->on('users');
+                $table->foreign('admin_id')->references('id')->on('users')->nullOnDelete()->cascadeOnUpdate();
             $table->unsignedBigInteger('domicilio_empresa_id')
                 ->nullable();
-                $table->foreign('domicilio_empresa_id')->references('id')->on('domicilios');
+                $table->foreign('domicilio_empresa_id')->references('id')->on('domicilios')->nullOnDelete()->cascadeOnUpdate();
             $table->unsignedBigInteger('domicilio_fiscal_id')   
                 ->nullable();
-                $table->foreign('domicilio_fiscal_id')->references('id')->on('domicilios');
+                $table->foreign('domicilio_fiscal_id')->references('id')->on('domicilios')->nullOnDelete()->cascadeOnUpdate();
 
             $table->timestamps();
         });

@@ -22,11 +22,11 @@ class CreateDomiciliosTable extends Migration
             $table->string('cp',5);
 
             $table->unsignedBigInteger('country');
-                $table->foreign('country')->references('id')->on('countries');
+                $table->foreign('country')->references('id')->on('countries')->cascadeOnUpdate();
             $table->unsignedBigInteger('state');
-                $table->foreign('state')->references('id')->on('states');
+                $table->foreign('state')->references('id')->on('states')->cascadeOnUpdate();
             $table->unsignedBigInteger('city');
-                $table->foreign('city')->references('id')->on('cities');
+                $table->foreign('city')->references('id')->on('cities')->cascadeOnUpdate();
             
             $table->timestamps();
         });

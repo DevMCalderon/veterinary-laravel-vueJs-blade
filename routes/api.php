@@ -67,12 +67,13 @@ Route::post('/consulta/{consulta}/send-mail', [ConsultaController::class, 'sendM
 
 Route::post('/waiting-list', [WaitingListController::class, 'store']);
 
-// Empresas -
+// EMPRESAS 
 Route::post('/empresa', [EmpresaController::class, 'store']);
+Route::delete('/empresa/{empresa}', [EmpresaController::class, 'destroy']);
 Route::get('/empresa/{empresa}', [EmpresaController::class, 'show']);
 Route::post('/empresa/{empresa}', [EmpresaController::class, 'update']);
 
-//SUCURSALS -
+//SUCURSALS 
 Route::post('/sucursal', [SucursalController::class, 'store']);
 Route::delete('/sucursal/{sucursal}', [SucursalController::class, 'destroy']);
 Route::get('/sucursal/{sucursal}', [SucursalController::class, 'show']);
@@ -82,7 +83,7 @@ Route::post('/sucursal/{sucursal}', [SucursalController::class, 'update']);
 // COUNTRIES 
 Route::get('/pais', [CountryController::class, 'index']);
 
-// DOMICILIOS -
+// DOMICILIOS 
 Route::post('/domicilio', [DomicilioController::class, 'store']);
 Route::delete('/domicilio/{domicilio}', [DomicilioController::class, 'destroy']);
 Route::get('/domicilio/{domicilio}', [DomicilioController::class, 'show']);
