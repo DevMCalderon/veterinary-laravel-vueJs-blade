@@ -24,7 +24,7 @@ class RedirectIfBlankCompany
                             ->first();
 
         if($empresa){
-            if( $empresa->name=="" ){
+            if( $empresa->name==null ){
                 return redirect(RouteServiceProvider::ONBOARDING_PAGE);
             }else{
                 return $next($request);

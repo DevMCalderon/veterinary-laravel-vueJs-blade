@@ -2550,21 +2550,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['userIdProp', 'empresaIdProp'],
+  props: ['userIdProp', 'empresaIdProp', 'imgEmpresaProp'],
   data: function data() {
     return {
       id: undefined,
-      nombre: '',
       logo: '',
       razon_social: '',
-      phone: '',
-      address: '',
       rfc: '',
-      city: '',
+      domicilio_fiscal: '',
+      name: '',
+      phone: '',
+      email: '',
+      street: '',
+      num_interior: '',
+      num_exterior: '',
+      country_id: '',
       state_id: '',
+      city_id: '',
+      cp: '',
+      estado: '',
+      ciudad: '',
+      paises: [],
       estados: [],
       ciudades: [],
-      errors: undefined
+      errors: undefined,
+      url: null
     };
   },
   watch: {
@@ -2573,50 +2583,83 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
+    this.getPais();
     this.getEstado();
+    this.url = this.imgEmpresaProp;
 
     if (this.empresaIdProp) {
       this.getEmpresa(this.empresaIdProp);
     }
   },
   methods: {
-    getEstado: function getEstado() {
+    onFileChange: function onFileChange(e) {
+      var file = e.target.files[0];
+      this.url = URL.createObjectURL(file);
+    },
+    getPais: function getPais() {
       var _this = this;
+
+      this.paises = [];
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/pais').then(function (resp) {
+        if (resp.data.status) {
+          _this.paises = resp.data.countries;
+        } else {
+          _this.paises = [];
+        }
+      });
+    },
+    getEstado: function getEstado() {
+      var _this2 = this;
 
       this.estados = [];
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/estado').then(function (resp) {
         if (resp.data.status) {
-          _this.estados = resp.data.estados;
+          _this2.estados = resp.data.estados;
         } else {
-          _this.estados = [];
+          _this2.estados = [];
         }
       });
     },
+    changePais: function changePais() {// this.ciudades = []
+      // axios.get(`/api/ciudades/${this.state_id}`).then(resp => {
+      //     if(resp.data.status){
+      //         this.ciudades = resp.data.ciudades;
+      //     }else{
+      //         this.ciudades = []
+      //     }
+      // })
+    },
     changeEstado: function changeEstado() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.ciudades = [];
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/ciudades/".concat(this.state_id)).then(function (resp) {
         if (resp.data.status) {
-          _this2.ciudades = resp.data.ciudades;
+          _this3.ciudades = resp.data.ciudades;
         } else {
-          _this2.ciudades = [];
+          _this3.ciudades = [];
         }
       });
     },
     clearForm: function clearForm() {
       this.id = undefined;
-      this.nombre = '';
       this.logo = '';
       this.razon_social = '';
-      this.phone = '';
-      this.address = '';
       this.rfc = '';
+      this.name = '';
+      this.phone = '';
+      this.email = '';
+      this.domicilio_fiscal = '';
+      this.street = '';
+      this.num_interior = '';
+      this.num_exterior = '';
+      this.country_id = '';
       this.state_id = '';
-      this.city = '';
+      this.city_id = '';
+      this.cp = '';
     },
     getEmpresa: function getEmpresa(empresaId) {
-      var _this3 = this;
+      var _this4 = this;
 
       this.clearForm();
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/empresa/".concat(empresaId)).then(function (resp) {
@@ -2624,20 +2667,21 @@ __webpack_require__.r(__webpack_exports__);
           console.log(resp.data.empresa[0]);
           var aux = resp.data.empresa[0];
 
-          if (aux.nombre == '' || aux.state == null) {
+          if (aux.name == null) {
             Swal.fire('', "Por favor registra una empresa antes de continuar", 'warning').then(function (resp) {});
           }
 
-          _this3.id = aux.id;
-          _this3.nombre = aux.nombre;
-          _this3.logo = aux.logo;
-          _this3.razon_social = aux.razon_social;
-          _this3.phone = aux.phone;
-          _this3.address = aux.address;
-          _this3.rfc = aux.rfc;
-          _this3.state_id = aux.state;
-          _this3.city = aux.city;
-          _this3.admin_id = aux.admin_id;
+          _this4.id = aux.id;
+          _this4.name = aux.name;
+          _this4.logo = aux.logo;
+          _this4.rfc = aux.rfc;
+          _this4.razon_social = aux.razon_social;
+          _this4.phone = aux.phone;
+          _this4.email = aux.email;
+          _this4.admin_id = aux.admin_id;
+          _this4.domicilio_empresa_id = aux.domicilio_empresa_id;
+          _this4.domicilio_fiscal_id = aux.domicilio_fiscal_id;
+          _this4.street = aux.street;
         } else {
           Swal.fire('Ocurrio un error', resp.data.msg, 'error');
         }
@@ -2655,15 +2699,18 @@ __webpack_require__.r(__webpack_exports__);
         console.log(this.logo);
         this.errors = undefined;
         var formData = new FormData();
-        formData.append('nombre', this.nombre);
+        formData.append('name', this.name);
         formData.append('logo', this.logo);
-        formData.append('razon_social', this.razon_social);
         formData.append('phone', this.phone);
-        formData.append('address', this.address);
+        formData.append('email', this.email);
         formData.append('rfc', this.rfc);
-        formData.append('state', this.state_id);
-        formData.append('city', this.city);
-        formData.append('admin_id', this.userIdProp); // console.log(this.empresaIdProp);
+        formData.append('razon_social', this.razon_social);
+        formData.append('admin_id', this.userIdProp);
+        formData.append('domicilio_empresa_id', this.userIdProp);
+        formData.append('domicilio_fiscal_id', this.userIdProp); // formData.append('address', this.address);
+        // formData.append('state', this.state_id);
+        // formData.append('city', this.city_id);
+        // console.log(this.empresaIdProp);
 
         if (this.empresaIdProp) {
           formData.append('id', this.empresaIdProp);
@@ -2676,7 +2723,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     updateEmpresa: function updateEmpresa(id, empresa) {
-      var _this4 = this;
+      var _this5 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/empresa/' + id, empresa).then(function (resp) {
         if (resp.data.status) {
@@ -2688,7 +2735,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       })["catch"](function (error) {
         if (error.response.status == 422) {
-          _this4.errors = error.response.data.errors;
+          _this5.errors = error.response.data.errors;
         }
       });
     }
@@ -4858,109 +4905,149 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "row align-items-start"
   }, [_c("div", {
-    staticClass: "col"
-  }, [_vm._m(0), _vm._v(" "), _c("div", {
+    staticClass: "col-5"
+  }, [_c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-10 mb-3"
+  }, [_c("div", {
+    staticClass: "image_group text-center"
+  }, [_c("label", [_c("input", {
+    staticClass: "form-control",
+    staticStyle: {
+      display: "none"
+    },
+    attrs: {
+      type: "file",
+      name: "file",
+      id: "logo",
+      accept: "image/*"
+    },
+    on: {
+      change: _vm.onFileChange
+    }
+  }), _vm._v(" "), _c("div", {
+    attrs: {
+      id: "preview"
+    }
+  }, [_vm.url ? _c("img", {
+    attrs: {
+      src: _vm.url
+    }
+  }) : _vm._e()])]), _vm._v(" "), _c("label", {
+    staticClass: "text-start"
+  }, [_vm._v("Para cambiar el icono de la empresa haga click en el")])])])]), _vm._v(" "), _c("hr"), _vm._v(" "), _vm._m(0), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
     staticClass: "col-md-10 mb-3"
   }, [_c("label", {
     attrs: {
-      "for": "name"
+      "for": "razon_social"
     }
-  }, [_vm._v("Nombre de la empresa*")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("Razón Social")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.nombre,
-      expression: "nombre"
+      value: _vm.razon_social,
+      expression: "razon_social"
     }],
     staticClass: "form-control",
     attrs: {
       type: "text",
-      name: "nombre",
-      id: "nombre",
-      maxlength: "40",
-      required: ""
+      name: "razon_social",
+      id: "razon_social",
+      maxlength: "50"
     },
     domProps: {
-      value: _vm.nombre
+      value: _vm.razon_social
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.nombre = $event.target.value;
+        _vm.razon_social = $event.target.value;
       }
     }
-  }), _vm._v(" "), _vm.errors && _vm.errors.name ? _c("small", {
+  }), _vm._v(" "), _vm.errors && _vm.errors.razon_social ? _c("small", {
     staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.name[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+  }, [_vm._v(_vm._s(_vm.errors.razon_social[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
     staticClass: "col-md-10 mb-3"
   }, [_c("label", {
     attrs: {
-      "for": "phone"
+      "for": "rfc"
     }
-  }, [_vm._v("Teléfono")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("RFC")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.phone,
-      expression: "phone"
+      value: _vm.rfc,
+      expression: "rfc"
     }],
     staticClass: "form-control",
     attrs: {
       type: "tel",
-      name: "phone",
-      id: "phone",
-      min: "0",
-      maxlength: "10"
+      name: "rfc",
+      id: "rfc",
+      maxlength: "13"
     },
     domProps: {
-      value: _vm.phone
+      value: _vm.rfc
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.phone = $event.target.value;
+        _vm.rfc = $event.target.value;
       }
     }
-  }), _vm._v(" "), _vm.errors && _vm.errors.phone ? _c("small", {
+  }), _vm._v(" "), _vm.errors && _vm.errors.rfc ? _c("small", {
     staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.phone[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+  }, [_vm._v(_vm._s(_vm.errors.rfc[0]))]) : _vm._e()])]), _vm._v(" "), _vm._m(1), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
     staticClass: "col-md-10 mb-3"
-  }, [_c("label", {
-    attrs: {
-      "for": "email"
-    }
-  }, [_vm._v("Correo")]), _vm._v(" "), _c("input", {
+  }, [_c("div", {
+    staticClass: "form-check"
+  }, [_c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.email,
-      expression: "email"
+      value: _vm.domicilio_fiscal,
+      expression: "domicilio_fiscal"
     }],
-    staticClass: "form-control",
+    staticClass: "form-check-input",
     attrs: {
-      type: "text",
-      name: "email",
-      id: "email",
-      maxlength: "50"
+      type: "checkbox",
+      id: "domicilio_fiscal"
     },
     domProps: {
-      value: _vm.email
+      checked: Array.isArray(_vm.domicilio_fiscal) ? _vm._i(_vm.domicilio_fiscal, null) > -1 : _vm.domicilio_fiscal
     },
     on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.email = $event.target.value;
+      change: function change($event) {
+        var $$a = _vm.domicilio_fiscal,
+            $$el = $event.target,
+            $$c = $$el.checked ? true : false;
+
+        if (Array.isArray($$a)) {
+          var $$v = null,
+              $$i = _vm._i($$a, $$v);
+
+          if ($$el.checked) {
+            $$i < 0 && (_vm.domicilio_fiscal = $$a.concat([$$v]));
+          } else {
+            $$i > -1 && (_vm.domicilio_fiscal = $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
+          }
+        } else {
+          _vm.domicilio_fiscal = $$c;
+        }
       }
     }
-  }), _vm._v(" "), _vm.errors && _vm.errors.email ? _c("small", {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.email[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+  }), _vm._v(" "), _c("label", {
+    attrs: {
+      "for": "domicilio_fiscal "
+    }
+  }, [_vm._v("La dirección de facturación es la misma que la de la empresa")])])])]), _vm._v(" "), _vm.domicilio_fiscal == false ? _c("div", {}, [_c("div", {
     staticClass: "row"
   }, [_c("div", {
     staticClass: "col-md-10 mb-3"
@@ -5069,28 +5156,27 @@ var render = function render() {
     attrs: {
       "for": "country"
     }
-  }, [_vm._v("País*")]), _vm._v(" "), _c("select", {
+  }, [_vm._v("País")]), _vm._v(" "), _c("select", {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.country,
-      expression: "country"
+      value: _vm.country_id,
+      expression: "country_id"
     }],
     staticClass: "form-control",
     attrs: {
-      id: "country",
-      required: ""
+      id: "country"
     },
     on: {
-      change: function change($event) {
+      change: [function ($event) {
         var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
           return o.selected;
         }).map(function (o) {
           var val = "_value" in o ? o._value : o.value;
           return val;
         });
-        _vm.country = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
-      }
+        _vm.country_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
+      }, _vm.changePais]
     }
   }, [_c("option", {
     attrs: {
@@ -5098,13 +5184,13 @@ var render = function render() {
       selected: "",
       disabled: ""
     }
-  }, [_vm._v("Seleccione")]), _vm._v(" "), _vm._l(_vm.countries, function (country) {
+  }, [_vm._v("Seleccione")]), _vm._v(" "), _vm._l(_vm.paises, function (pais) {
     return _c("option", {
-      key: country.id,
+      key: pais.id,
       domProps: {
-        value: country.id
+        value: pais.id
       }
-    }, [_vm._v(_vm._s(country.name))]);
+    }, [_vm._v(_vm._s(pais.name))]);
   })], 2), _vm._v(" "), _vm.errors && _vm.errors.country_id ? _c("small", {
     staticClass: "text-danger"
   }, [_vm._v(_vm._s(_vm.errors.state_id[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
@@ -5115,7 +5201,7 @@ var render = function render() {
     attrs: {
       "for": "estado"
     }
-  }, [_vm._v("Estado / Provincia*")]), _vm._v(" "), _c("select", {
+  }, [_vm._v("Estado / Provincia")]), _vm._v(" "), _c("select", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -5124,8 +5210,7 @@ var render = function render() {
     }],
     staticClass: "form-control",
     attrs: {
-      id: "estado",
-      required: ""
+      id: "estado"
     },
     on: {
       change: [function ($event) {
@@ -5161,17 +5246,16 @@ var render = function render() {
     attrs: {
       "for": "city"
     }
-  }, [_vm._v("Ciudad / Localidad*")]), _vm._v(" "), _c("select", {
+  }, [_vm._v("Ciudad / Localidad")]), _vm._v(" "), _c("select", {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.city,
-      expression: "city"
+      value: _vm.city_id,
+      expression: "city_id"
     }],
     staticClass: "form-control",
     attrs: {
-      id: "city",
-      required: ""
+      id: "city"
     },
     on: {
       change: function change($event) {
@@ -5181,7 +5265,7 @@ var render = function render() {
           var val = "_value" in o ? o._value : o.value;
           return val;
         });
-        _vm.city = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
+        _vm.city_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
       }
     }
   }, [_c("option", {
@@ -5202,7 +5286,7 @@ var render = function render() {
   }, [_vm._v(_vm._s(_vm.errors.city_id[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
-    staticClass: "col-md-10 mb-3"
+    staticClass: "mb-3"
   }, [_c("label", {
     attrs: {
       "for": "cp"
@@ -5233,75 +5317,452 @@ var render = function render() {
     }
   }), _vm._v(" "), _vm.errors && _vm.errors.cp ? _c("small", {
     staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.cp[0]))]) : _vm._e()])])]), _vm._v(" "), _c("div", {
-    staticClass: "col"
-  }, [_c("div", {
+  }, [_vm._v(_vm._s(_vm.errors.cp[0]))]) : _vm._e()])])]) : _vm._e()]), _vm._v(" "), _c("div", {
+    staticClass: "col-7"
+  }, [_vm._m(2), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
-    staticClass: "col-md-10 mb-3"
+    staticClass: "col-md mb-3"
+  }, [_vm.name ? _c("label", {
+    staticClass: "nombre_empresa"
+  }, [_vm._v(" " + _vm._s(_vm.name))]) : _c("label", {
+    staticClass: "nombre_empresa"
+  }, [_vm._v("Sin nombre")])])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-9 mb-3"
   }, [_c("label", {
     attrs: {
-      "for": "razon_social"
+      "for": "name"
     }
-  }, [_vm._v("Razón Social")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("Nombre de empresa*")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.razon_social,
-      expression: "razon_social"
+      value: _vm.name,
+      expression: "name"
     }],
     staticClass: "form-control",
     attrs: {
       type: "text",
-      name: "razon_social",
-      id: "razon_social",
-      maxlength: "50"
+      name: "name",
+      id: "name",
+      maxlength: "40",
+      required: ""
     },
     domProps: {
-      value: _vm.razon_social
+      value: _vm.name
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.razon_social = $event.target.value;
+        _vm.name = $event.target.value;
       }
     }
-  }), _vm._v(" "), _vm.errors && _vm.errors.razon_social ? _c("small", {
+  }), _vm._v(" "), _vm.errors && _vm.errors.name ? _c("small", {
     staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.razon_social[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+  }, [_vm._v(_vm._s(_vm.errors.name[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
-    staticClass: "col-md-10 mb-3"
+    staticClass: "col-md-9 mb-3"
   }, [_c("label", {
     attrs: {
-      "for": "rfc"
+      "for": "phone"
     }
-  }, [_vm._v("RFC")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("Teléfono")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.rfc,
-      expression: "rfc"
+      value: _vm.phone,
+      expression: "phone"
     }],
     staticClass: "form-control",
     attrs: {
       type: "tel",
-      name: "rfc",
-      id: "rfc",
-      maxlength: "13"
+      name: "phone",
+      id: "phone",
+      min: "0",
+      maxlength: "10"
     },
     domProps: {
-      value: _vm.rfc
+      value: _vm.phone
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.rfc = $event.target.value;
+        _vm.phone = $event.target.value;
       }
     }
-  }), _vm._v(" "), _vm.errors && _vm.errors.rfc ? _c("small", {
+  }), _vm._v(" "), _vm.errors && _vm.errors.phone ? _c("small", {
     staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.rfc[0]))]) : _vm._e()])])])])]), _vm._v(" "), _c("hr"), _vm._v(" "), _vm._m(1)]);
+  }, [_vm._v(_vm._s(_vm.errors.phone[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-9 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "email"
+    }
+  }, [_vm._v("Correo")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.email,
+      expression: "email"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      name: "email",
+      id: "email",
+      maxlength: "50"
+    },
+    domProps: {
+      value: _vm.email
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.email = $event.target.value;
+      }
+    }
+  }), _vm._v(" "), _vm.errors && _vm.errors.email ? _c("small", {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.errors.email[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-9 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "street"
+    }
+  }, [_vm._v("Calle")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.street,
+      expression: "street"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      name: "street",
+      id: "street",
+      maxlength: "50"
+    },
+    domProps: {
+      value: _vm.street
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.street = $event.target.value;
+      }
+    }
+  }), _vm._v(" "), _vm.errors && _vm.errors.street ? _c("small", {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.errors.street[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-9 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "num_interior"
+    }
+  }, [_vm._v("Numero interior")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.num_interior,
+      expression: "num_interior"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "tel",
+      name: "num_interior",
+      id: "num_interior",
+      min: "0",
+      maxlength: "10"
+    },
+    domProps: {
+      value: _vm.num_interior
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.num_interior = $event.target.value;
+      }
+    }
+  }), _vm._v(" "), _vm.errors && _vm.errors.num_interior ? _c("small", {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.errors.num_interior[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-9 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "num_exterior"
+    }
+  }, [_vm._v("Numero exterior")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.num_exterior,
+      expression: "num_exterior"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "tel",
+      name: "num_exterior",
+      id: "num_exterior",
+      min: "0",
+      maxlength: "10"
+    },
+    domProps: {
+      value: _vm.num_exterior
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.num_exterior = $event.target.value;
+      }
+    }
+  }), _vm._v(" "), _vm.errors && _vm.errors.num_exterior ? _c("small", {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.errors.num_exterior[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-9 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "country"
+    }
+  }, [_vm._v("País")]), _vm._v(" "), _c("select", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.country_id,
+      expression: "country_id"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      id: "country"
+    },
+    on: {
+      change: [function ($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
+          return o.selected;
+        }).map(function (o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val;
+        });
+        _vm.country_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
+      }, _vm.changePais]
+    }
+  }, [_c("option", {
+    attrs: {
+      value: "",
+      selected: "",
+      disabled: ""
+    }
+  }, [_vm._v("Seleccione")]), _vm._v(" "), _vm._l(_vm.paises, function (pais) {
+    return _c("option", {
+      key: pais.id,
+      domProps: {
+        value: pais.id
+      }
+    }, [_vm._v(_vm._s(pais.name))]);
+  })], 2), _vm._v(" "), _vm.errors && _vm.errors.country_id ? _c("small", {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.errors.state_id[0]))]) : _vm._e()])]), _vm._v(" "), _vm.country_id == 157 ? _c("div", [_c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-9 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "estado"
+    }
+  }, [_vm._v("Estado / Provincia")]), _vm._v(" "), _c("select", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.state_id,
+      expression: "state_id"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      id: "estado"
+    },
+    on: {
+      change: [function ($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
+          return o.selected;
+        }).map(function (o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val;
+        });
+        _vm.state_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
+      }, _vm.changeEstado]
+    }
+  }, [_c("option", {
+    attrs: {
+      value: "",
+      selected: "",
+      disabled: ""
+    }
+  }, [_vm._v("Seleccione")]), _vm._v(" "), _vm._l(_vm.estados, function (estado) {
+    return _c("option", {
+      key: estado.id,
+      domProps: {
+        value: estado.id
+      }
+    }, [_vm._v(_vm._s(estado.name))]);
+  })], 2), _vm._v(" "), _vm.errors && _vm.errors.state_id ? _c("small", {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.errors.state_id[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-9 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "city"
+    }
+  }, [_vm._v("Ciudad / Localidad")]), _vm._v(" "), _c("select", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.city_id,
+      expression: "city_id"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      id: "city"
+    },
+    on: {
+      change: function change($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
+          return o.selected;
+        }).map(function (o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val;
+        });
+        _vm.city_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
+      }
+    }
+  }, [_c("option", {
+    attrs: {
+      value: "",
+      selected: "",
+      disabled: ""
+    }
+  }, [_vm._v("Seleccione")]), _vm._v(" "), _vm._l(_vm.ciudades, function (ciudad) {
+    return _c("option", {
+      key: ciudad.id,
+      domProps: {
+        value: ciudad.id
+      }
+    }, [_vm._v(_vm._s(ciudad.name))]);
+  })], 2), _vm._v(" "), _vm.errors && _vm.errors.city_id ? _c("small", {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.errors.city_id[0]))]) : _vm._e()])])]) : _c("div", [_c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-9 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "estado"
+    }
+  }, [_vm._v("Estado / Provincia")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.estado,
+      expression: "estado"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      name: "estado",
+      id: "estado",
+      maxlength: "60",
+      required: ""
+    },
+    domProps: {
+      value: _vm.estado
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.estado = $event.target.value;
+      }
+    }
+  })])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-9 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "ciudad"
+    }
+  }, [_vm._v("Ciudad / Localidad")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.ciudad,
+      expression: "ciudad"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      name: "ciudad",
+      id: "ciudad",
+      maxlength: "60",
+      required: ""
+    },
+    domProps: {
+      value: _vm.ciudad
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.ciudad = $event.target.value;
+      }
+    }
+  })])])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-9 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "cp"
+    }
+  }, [_vm._v("Código postal")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.cp,
+      expression: "cp"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "tel",
+      name: "cp",
+      id: "cp",
+      min: "0",
+      maxlength: "10"
+    },
+    domProps: {
+      value: _vm.cp
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.cp = $event.target.value;
+      }
+    }
+  }), _vm._v(" "), _vm.errors && _vm.errors.cp ? _c("small", {
+    staticClass: "text-danger"
+  }, [_vm._v(_vm._s(_vm.errors.cp[0]))]) : _vm._e()])])])])]), _vm._v(" "), _c("hr"), _vm._v(" "), _vm._m(3)]);
 };
 
 var staticRenderFns = [function () {
@@ -5312,19 +5773,27 @@ var staticRenderFns = [function () {
     staticClass: "row"
   }, [_c("div", {
     staticClass: "col-md-10 mb-3"
+  }, [_c("label", [_vm._v("Datos de facturación")])])]);
+}, function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-10 mb-3"
+  }, [_c("label", [_vm._v("Domicilio Fiscal")])])]);
+}, function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md"
   }, [_c("label", {
-    attrs: {
-      "for": "logo"
-    }
-  }, [_vm._v("Logo")]), _vm._v(" "), _c("input", {
-    staticClass: "form-control",
-    attrs: {
-      type: "file",
-      name: "file",
-      id: "logo",
-      accept: "image/*"
-    }
-  })])]);
+    staticClass: "titulo_pagina"
+  }, [_vm._v("\r\n                                Editar datos de empresa\r\n                            ")])])]);
 }, function () {
   var _vm = this,
       _c = _vm._self._c;

@@ -18,5 +18,5 @@
     .sub-categoria-titulo {
         font-size: medium;
     }
-    
+
 </style>

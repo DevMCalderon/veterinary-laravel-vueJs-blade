@@ -73,7 +73,7 @@ Route::delete('/empresa/{empresa}', [EmpresaController::class, 'destroy']);
 Route::get('/empresa/{empresa}', [EmpresaController::class, 'show']);
 Route::post('/empresa/{empresa}', [EmpresaController::class, 'update']);
 
-//SUCURSALS 
+//SUCURSALES 
 Route::post('/sucursal', [SucursalController::class, 'store']);
 Route::delete('/sucursal/{sucursal}', [SucursalController::class, 'destroy']);
 Route::get('/sucursal/{sucursal}', [SucursalController::class, 'show']);
