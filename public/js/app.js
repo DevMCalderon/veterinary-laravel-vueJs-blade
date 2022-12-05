@@ -2574,13 +2574,30 @@ __webpack_require__.r(__webpack_exports__);
       estados: [],
       ciudades: [],
       errors: undefined,
-      url: null
+      url: null,
+      name_substr: ''
     };
+  },
+  filters: {
+    truncate: function truncate(data, num) {
+      var reqdString;
+
+      if (data.length > num) {
+        reqdString = data.split("").slice(0, num).join("") + '...';
+      } else {
+        reqdString = data;
+      }
+
+      return reqdString;
+    }
   },
   watch: {
     state_id: function state_id(newVal, oldVal) {
       this.changeEstado();
-    }
+    } // name(newVal, oldVal) {
+    //     this.recortarCaracteres()
+    // },
+
   },
   mounted: function mounted() {
     this.getPais();
@@ -2592,6 +2609,12 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    // recortarCaracteres() {
+    //     this.name_substr = this.name.substr(0, 10)+"...";
+    //     console(name.length)
+    //     if(name.length>10) this.name_substr = this.name.substr(0, 10)+"...";
+    //     else this.name_substr = this.name
+    // },
     onFileChange: function onFileChange(e) {
       var file = e.target.files[0];
       this.url = URL.createObjectURL(file);
@@ -4901,7 +4924,7 @@ var render = function render() {
       submit: _vm.save
     }
   }, [_c("div", {
-    staticClass: "container"
+    staticClass: "container mx-4"
   }, [_c("div", {
     staticClass: "row align-items-start"
   }, [_c("div", {
@@ -5286,7 +5309,7 @@ var render = function render() {
   }, [_vm._v(_vm._s(_vm.errors.city_id[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
-    staticClass: "mb-3"
+    staticClass: "col-md-10 mb-3"
   }, [_c("label", {
     attrs: {
       "for": "cp"
@@ -5318,15 +5341,15 @@ var render = function render() {
   }), _vm._v(" "), _vm.errors && _vm.errors.cp ? _c("small", {
     staticClass: "text-danger"
   }, [_vm._v(_vm._s(_vm.errors.cp[0]))]) : _vm._e()])])]) : _vm._e()]), _vm._v(" "), _c("div", {
-    staticClass: "col-7"
+    staticClass: "col-6"
   }, [_vm._m(2), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
-    staticClass: "col-md mb-3"
+    staticClass: "col-md-9 mb-3"
   }, [_vm.name ? _c("label", {
-    staticClass: "nombre_empresa"
-  }, [_vm._v(" " + _vm._s(_vm.name))]) : _c("label", {
-    staticClass: "nombre_empresa"
+    staticClass: "nombre_empresa text-dark"
+  }, [_vm._v(" " + _vm._s(_vm._f("truncate")(_vm.name, 28)))]) : _c("label", {
+    staticClass: "nombre_empresa text-dark"
   }, [_vm._v("Sin nombre")])])]), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
@@ -5335,7 +5358,9 @@ var render = function render() {
     attrs: {
       "for": "name"
     }
-  }, [_vm._v("Nombre de empresa*")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("Nombre de empresa*")]), _vm._v(" "), _c("div", {
+    staticClass: "input-group"
+  }, [_c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -5359,7 +5384,12 @@ var render = function render() {
         _vm.name = $event.target.value;
       }
     }
-  }), _vm._v(" "), _vm.errors && _vm.errors.name ? _c("small", {
+  }), _vm._v(" "), _c("div", {
+    staticClass: "input-group-text",
+    domProps: {
+      textContent: _vm._s(40 - _vm.name.length)
+    }
+  })]), _vm._v(" "), _vm.errors && _vm.errors.name ? _c("small", {
     staticClass: "text-danger"
   }, [_vm._v(_vm._s(_vm.errors.name[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
     staticClass: "row"

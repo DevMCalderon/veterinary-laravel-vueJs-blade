@@ -1,7 +1,7 @@
 <template>
     <form ref="empresaForm" @submit="save" method="POST" action="" enctype="multipart/form-data">
 
-        <div class="container">
+        <div class="container mx-4">
             <div class="row align-items-start">
                 
                 <div class="col-5">
@@ -117,7 +117,7 @@
                         </div>
                 
                         <div class="row">
-                            <div class=" mb-3">
+                            <div class="col-md-10 mb-3">
                                 <label for="cp">Código postal</label>
                                 <input type="tel" name="cp" id="cp" class="form-control" v-model="cp" min="0" maxlength="10">
                                 <small class="text-danger" v-if="errors && errors.cp">{{ errors.cp[0] }}</small>
@@ -130,7 +130,7 @@
                 </div>
                 
                 
-                <div class="col-7">
+                <div class="col-6">
                     <div class="row">
                         <div class="col-md">
                             <label class="titulo_pagina">
@@ -140,16 +140,19 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md mb-3">
-                            <label class="nombre_empresa" v-if="name"> {{name}}</label>
-                            <label class="nombre_empresa" v-else>Sin nombre</label>
+                        <div class="col-md-9 mb-3">
+                            <label class="nombre_empresa text-dark" v-if="name"> {{name | truncate(28)}}</label>
+                            <label class="nombre_empresa text-dark" v-else>Sin nombre</label>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-9 mb-3">
                             <label for="name">Nombre de empresa*</label>
-                            <input type="text" name="name" id="name" class="form-control" maxlength="40" v-model="name" required>
+                            <div class="input-group">
+                                <input type="text" name="name" id="name" class="form-control" maxlength="40" v-model="name" required>
+                                <div class="input-group-text" v-text="(40 - name.length)"></div>
+                            </div>
                             <small class="text-danger" v-if="errors && errors.name">{{ errors.name[0] }}</small>
                         </div>
                     </div>
@@ -297,12 +300,28 @@ export default {
             ciudades:[],
             errors: undefined,
             url: null,
+            name_substr:'',
+        }
+    },
+    filters: {
+        truncate: function(data,num){
+            let reqdString
+            if(data.length>num){
+                reqdString = 
+                  data.split("").slice(0, num).join("")+'...';
+            }else{
+                reqdString = data;
+            }
+            return reqdString;
         }
     },
     watch:{
         state_id(newVal, oldVal) {
             this.changeEstado();
-        }
+        },
+        // name(newVal, oldVal) {
+        //     this.recortarCaracteres()
+        // },
 
     },
     mounted() {        
@@ -315,6 +334,12 @@ export default {
         }        
     },
     methods: {
+        // recortarCaracteres() {
+        //     this.name_substr = this.name.substr(0, 10)+"...";
+        //     console(name.length)
+        //     if(name.length>10) this.name_substr = this.name.substr(0, 10)+"...";
+        //     else this.name_substr = this.name
+        // },
         onFileChange(e) {
             const file = e.target.files[0];
             this.url = URL.createObjectURL(file);
