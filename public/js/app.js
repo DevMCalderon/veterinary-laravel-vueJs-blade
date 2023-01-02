@@ -2548,6 +2548,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['userIdProp', 'empresaIdProp', 'imgEmpresaProp'],
@@ -2557,24 +2571,11 @@ __webpack_require__.r(__webpack_exports__);
       logo: '',
       razon_social: '',
       rfc: '',
-      domicilio_fiscal: '',
+      mismo_domicilio_fiscal: '',
       name: '',
       phone: '',
       email: '',
-      street: '',
-      num_interior: '',
-      num_exterior: '',
-      country_id: '',
-      state_id: '',
-      city_id: '',
-      cp: '',
-      estado: '',
-      ciudad: '',
-      paises: [],
-      estados: [],
-      ciudades: [],
-      errors: undefined,
-      url: null,
+      img: null,
       name_substr: ''
     };
   },
@@ -2591,34 +2592,172 @@ __webpack_require__.r(__webpack_exports__);
       return reqdString;
     }
   },
-  watch: {
-    state_id: function state_id(newVal, oldVal) {
-      this.changeEstado();
-    } // name(newVal, oldVal) {
-    //     this.recortarCaracteres()
-    // },
-
-  },
   mounted: function mounted() {
-    this.getPais();
-    this.getEstado();
-    this.url = this.imgEmpresaProp;
+    this.img = this.imgEmpresaProp;
 
     if (this.empresaIdProp) {
       this.getEmpresa(this.empresaIdProp);
     }
   },
   methods: {
-    // recortarCaracteres() {
-    //     this.name_substr = this.name.substr(0, 10)+"...";
-    //     console(name.length)
-    //     if(name.length>10) this.name_substr = this.name.substr(0, 10)+"...";
-    //     else this.name_substr = this.name
-    // },
     onFileChange: function onFileChange(e) {
       var file = e.target.files[0];
-      this.url = URL.createObjectURL(file);
+      this.img = URL.createObjectURL(file);
     },
+    clearForm: function clearForm() {
+      this.id = undefined;
+      this.logo = '';
+      this.razon_social = '';
+      this.rfc = '';
+      this.mismo_domicilio_fiscal = '';
+      this.name = '';
+      this.phone = '';
+      this.email = '';
+    },
+    getEmpresa: function getEmpresa(empresaId) {
+      var _this = this;
+
+      this.clearForm();
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/empresa/".concat(empresaId)).then(function (resp) {
+        if (resp.data.status) {
+          console.log(resp.data.empresa[0]);
+          var aux = resp.data.empresa[0];
+
+          if (aux.name == null) {
+            Swal.fire('', "Por favor registra una empresa antes de continuar", 'warning').then(function (resp) {});
+          }
+
+          _this.id = aux.id;
+          _this.logo = aux.logo;
+          _this.razon_social = aux.razon_social;
+          _this.rfc = aux.rfc;
+          _this.name = aux.name;
+          _this.phone = aux.phone;
+          _this.email = aux.email;
+        } else {
+          Swal.fire('Ocurrio un error', resp.data.msg, 'error');
+        }
+      })["catch"](function (error) {
+        console.log({
+          error: error
+        });
+        Swal.fire('', "Ocurrio un error al intentar obtener información de la empresa", 'error');
+      });
+    },
+    save: function save(e) {
+      e.preventDefault();
+
+      if (this.$refs.empresaForm.reportValidity()) {
+        console.log(this.logo);
+        this.errors = undefined;
+        var formData = new FormData();
+        formData.append('logo', this.logo);
+        formData.append('razon_social', this.razon_social);
+        formData.append('rfc', this.rfc);
+        formData.append('name', this.name);
+        formData.append('phone', this.phone);
+        formData.append('email', this.email);
+        formData.append('admin_id', this.userIdProp);
+        formData.append('domicilio_empresa_id', 1);
+        formData.append('domicilio_fiscal_id', 1);
+
+        var _iterator = _createForOfIteratorHelper(formData.entries()),
+            _step;
+
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var _step$value = _slicedToArray(_step.value, 2),
+                key = _step$value[0],
+                value = _step$value[1];
+
+            console.log(key, value);
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
+
+        if (this.empresaIdProp) {
+          formData.append('id', this.empresaIdProp);
+          this.updateEmpresa(this.empresaIdProp, formData);
+        } else {
+          Swal.fire('', "No puedes tener m\xE1s de una empresa", 'error').then(function (resp) {
+            location.href = "/";
+          });
+        }
+      }
+    },
+    updateEmpresa: function updateEmpresa(id, empresa) {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/empresa/' + id, empresa).then(function (resp) {
+        if (resp.data.status) {
+          Swal.fire('', "Informaci\xF3n actualizada", 'success').then(function (resp) {
+            location.href = "/empresa";
+          });
+        } else {
+          Swal.fire('Ocurrio un error', resp.data.msg, 'error');
+        }
+      })["catch"](function (error) {
+        if (error.response.status == 422) {
+          _this2.errors = error.response.data.errors;
+        }
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/EmpresaFormAddress.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/EmpresaFormAddress.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['empresaIdProp', 'mismoDomicilioProp'],
+  data: function data() {
+    return {
+      id: undefined,
+      country_id: '',
+      state_id: '',
+      city_id: '',
+      cp: '',
+      street: '',
+      num_interior: '',
+      num_exterior: '',
+      estado: '',
+      ciudad: '',
+      paises: [],
+      estados: [],
+      ciudades: []
+    };
+  },
+  watch: {
+    state_id: function state_id(newVal, oldVal) {
+      this.changeEstado();
+    }
+  },
+  mounted: function mounted() {
+    this.getPais();
+    this.getEstado();
+    console.log(this.mismoDomicilioProp);
+
+    if (this.empresaIdProp) {
+      this.getEmpresa(this.empresaIdProp);
+    }
+  },
+  methods: {
     getPais: function getPais() {
       var _this = this;
 
@@ -2643,15 +2782,6 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    changePais: function changePais() {// this.ciudades = []
-      // axios.get(`/api/ciudades/${this.state_id}`).then(resp => {
-      //     if(resp.data.status){
-      //         this.ciudades = resp.data.ciudades;
-      //     }else{
-      //         this.ciudades = []
-      //     }
-      // })
-    },
     changeEstado: function changeEstado() {
       var _this3 = this;
 
@@ -2666,101 +2796,63 @@ __webpack_require__.r(__webpack_exports__);
     },
     clearForm: function clearForm() {
       this.id = undefined;
-      this.logo = '';
-      this.razon_social = '';
-      this.rfc = '';
-      this.name = '';
-      this.phone = '';
-      this.email = '';
-      this.domicilio_fiscal = '';
-      this.street = '';
-      this.num_interior = '';
-      this.num_exterior = '';
       this.country_id = '';
       this.state_id = '';
       this.city_id = '';
+      this.street = '';
+      this.num_interior = '';
+      this.num_exterior = '';
       this.cp = '';
     },
-    getEmpresa: function getEmpresa(empresaId) {
-      var _this4 = this;
-
-      this.clearForm();
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/empresa/".concat(empresaId)).then(function (resp) {
-        if (resp.data.status) {
-          console.log(resp.data.empresa[0]);
-          var aux = resp.data.empresa[0];
-
-          if (aux.name == null) {
-            Swal.fire('', "Por favor registra una empresa antes de continuar", 'warning').then(function (resp) {});
-          }
-
-          _this4.id = aux.id;
-          _this4.name = aux.name;
-          _this4.logo = aux.logo;
-          _this4.rfc = aux.rfc;
-          _this4.razon_social = aux.razon_social;
-          _this4.phone = aux.phone;
-          _this4.email = aux.email;
-          _this4.admin_id = aux.admin_id;
-          _this4.domicilio_empresa_id = aux.domicilio_empresa_id;
-          _this4.domicilio_fiscal_id = aux.domicilio_fiscal_id;
-          _this4.street = aux.street;
-        } else {
-          Swal.fire('Ocurrio un error', resp.data.msg, 'error');
-        }
-      })["catch"](function (error) {
-        console.log({
-          error: error
-        });
-        Swal.fire('', "Ocurrio un error al intentar obtener información de la empresa", 'error');
-      });
+    getEmpresa: function getEmpresa(empresaId) {// this.clearForm();
+      // axios.get(`/api/empresa/${empresaId}`).then(resp => {
+      //     if(resp.data.status){
+      //         console.log(resp.data.empresa[0])
+      //         let aux=resp.data.empresa[0];
+      //         if(aux.name==null){
+      //             Swal.fire('',`Por favor registra una empresa antes de continuar`,'warning').then(resp => {
+      //             });
+      //         }
+      //         this.street        = aux.street;
+      //     }else{
+      //         Swal.fire('Ocurrio un error',resp.data.msg,'error')
+      //     }
+      // }).catch(error => {
+      //     console.log({error});
+      //     Swal.fire('',"Ocurrio un error al intentar obtener información de la empresa",'error')
+      // })
     },
-    save: function save(e) {
-      e.preventDefault();
-
-      if (this.$refs.empresaForm.reportValidity()) {
-        console.log(this.logo);
-        this.errors = undefined;
-        var formData = new FormData();
-        formData.append('name', this.name);
-        formData.append('logo', this.logo);
-        formData.append('phone', this.phone);
-        formData.append('email', this.email);
-        formData.append('rfc', this.rfc);
-        formData.append('razon_social', this.razon_social);
-        formData.append('admin_id', this.userIdProp);
-        formData.append('domicilio_empresa_id', this.userIdProp);
-        formData.append('domicilio_fiscal_id', this.userIdProp); // formData.append('address', this.address);
-        // formData.append('state', this.state_id);
-        // formData.append('city', this.city_id);
-        // console.log(this.empresaIdProp);
-
-        if (this.empresaIdProp) {
-          formData.append('id', this.empresaIdProp);
-          this.updateEmpresa(this.empresaIdProp, formData);
-        } else {
-          Swal.fire('', "No puedes tener m\xE1s de una empresa", 'error').then(function (resp) {
-            location.href = "/";
-          });
-        }
-      }
+    save: function save(e) {// e.preventDefault();
+      // if(this.$refs.empresaForm.reportValidity()){
+      //     console.log(this.logo);
+      //     this.errors = undefined;
+      //     const formData = new FormData();
+      //     formData.append('state', this.state_id);
+      //     formData.append('city', this.city_id);
+      //     // console.log(this.empresaIdProp);
+      //     if(this.empresaIdProp){
+      //         formData.append('id', this.empresaIdProp);
+      //         this.updateEmpresa(this.empresaIdProp, formData);
+      //     }else{
+      //         Swal.fire('',`No puedes tener más de una empresa`,'error').then(resp => {
+      //             location.href = "/"
+      //         });
+      //     }
+      // }
     },
-    updateEmpresa: function updateEmpresa(id, empresa) {
-      var _this5 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/empresa/' + id, empresa).then(function (resp) {
-        if (resp.data.status) {
-          Swal.fire('', "Informaci\xF3n actualizada", 'success').then(function (resp) {
-            location.href = "/empresa";
-          });
-        } else {
-          Swal.fire('Ocurrio un error', resp.data.msg, 'error');
-        }
-      })["catch"](function (error) {
-        if (error.response.status == 422) {
-          _this5.errors = error.response.data.errors;
-        }
-      });
+    updateEmpresa: function updateEmpresa(id, empresa) {// axios.post('/api/empresa/'+ id ,empresa).then(resp => {
+      //     if(resp.data.status){
+      //         Swal.fire('',`Información actualizada`,'success').then(resp => {
+      //             location.href = "/empresa"
+      //         });
+      //     }else{
+      //         Swal.fire('Ocurrio un error',resp.data.msg,'error')
+      //     }
+      // }).catch(error => {
+      //     if(error.response.status == 422){
+      //         this.errors = error.response.data.errors
+      //     }
+      // })
     }
   }
 });
@@ -4953,9 +5045,9 @@ var render = function render() {
     attrs: {
       id: "preview"
     }
-  }, [_vm.url ? _c("img", {
+  }, [_vm.img ? _c("img", {
     attrs: {
-      src: _vm.url
+      src: _vm.img
     }
   }) : _vm._e()])]), _vm._v(" "), _c("label", {
     staticClass: "text-start"
@@ -4990,9 +5082,7 @@ var render = function render() {
         _vm.razon_social = $event.target.value;
       }
     }
-  }), _vm._v(" "), _vm.errors && _vm.errors.razon_social ? _c("small", {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.razon_social[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+  })])]), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
     staticClass: "col-md-10 mb-3"
@@ -5023,9 +5113,7 @@ var render = function render() {
         _vm.rfc = $event.target.value;
       }
     }
-  }), _vm._v(" "), _vm.errors && _vm.errors.rfc ? _c("small", {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.rfc[0]))]) : _vm._e()])]), _vm._v(" "), _vm._m(1), _vm._v(" "), _c("div", {
+  })])]), _vm._v(" "), _vm._m(1), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
     staticClass: "col-md-10 mb-3"
@@ -5035,20 +5123,20 @@ var render = function render() {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.domicilio_fiscal,
-      expression: "domicilio_fiscal"
+      value: _vm.mismo_domicilio_fiscal,
+      expression: "mismo_domicilio_fiscal"
     }],
     staticClass: "form-check-input",
     attrs: {
       type: "checkbox",
-      id: "domicilio_fiscal"
+      id: "mismo_domicilio_fiscal"
     },
     domProps: {
-      checked: Array.isArray(_vm.domicilio_fiscal) ? _vm._i(_vm.domicilio_fiscal, null) > -1 : _vm.domicilio_fiscal
+      checked: Array.isArray(_vm.mismo_domicilio_fiscal) ? _vm._i(_vm.mismo_domicilio_fiscal, null) > -1 : _vm.mismo_domicilio_fiscal
     },
     on: {
       change: function change($event) {
-        var $$a = _vm.domicilio_fiscal,
+        var $$a = _vm.mismo_domicilio_fiscal,
             $$el = $event.target,
             $$c = $$el.checked ? true : false;
 
@@ -5057,290 +5145,20 @@ var render = function render() {
               $$i = _vm._i($$a, $$v);
 
           if ($$el.checked) {
-            $$i < 0 && (_vm.domicilio_fiscal = $$a.concat([$$v]));
+            $$i < 0 && (_vm.mismo_domicilio_fiscal = $$a.concat([$$v]));
           } else {
-            $$i > -1 && (_vm.domicilio_fiscal = $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
+            $$i > -1 && (_vm.mismo_domicilio_fiscal = $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
           }
         } else {
-          _vm.domicilio_fiscal = $$c;
+          _vm.mismo_domicilio_fiscal = $$c;
         }
       }
     }
   }), _vm._v(" "), _c("label", {
     attrs: {
-      "for": "domicilio_fiscal "
+      "for": "mismo_domicilio_fiscal "
     }
-  }, [_vm._v("La dirección de facturación es la misma que la de la empresa")])])])]), _vm._v(" "), _vm.domicilio_fiscal == false ? _c("div", {}, [_c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-md-10 mb-3"
-  }, [_c("label", {
-    attrs: {
-      "for": "street"
-    }
-  }, [_vm._v("Calle")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.street,
-      expression: "street"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      type: "text",
-      name: "street",
-      id: "street",
-      maxlength: "50"
-    },
-    domProps: {
-      value: _vm.street
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.street = $event.target.value;
-      }
-    }
-  }), _vm._v(" "), _vm.errors && _vm.errors.street ? _c("small", {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.street[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-md-10 mb-3"
-  }, [_c("label", {
-    attrs: {
-      "for": "num_interior"
-    }
-  }, [_vm._v("Numero interior")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.num_interior,
-      expression: "num_interior"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      type: "tel",
-      name: "num_interior",
-      id: "num_interior",
-      min: "0",
-      maxlength: "10"
-    },
-    domProps: {
-      value: _vm.num_interior
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.num_interior = $event.target.value;
-      }
-    }
-  }), _vm._v(" "), _vm.errors && _vm.errors.num_interior ? _c("small", {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.num_interior[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-md-10 mb-3"
-  }, [_c("label", {
-    attrs: {
-      "for": "num_exterior"
-    }
-  }, [_vm._v("Numero exterior")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.num_exterior,
-      expression: "num_exterior"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      type: "tel",
-      name: "num_exterior",
-      id: "num_exterior",
-      min: "0",
-      maxlength: "10"
-    },
-    domProps: {
-      value: _vm.num_exterior
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.num_exterior = $event.target.value;
-      }
-    }
-  }), _vm._v(" "), _vm.errors && _vm.errors.num_exterior ? _c("small", {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.num_exterior[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-md-10 mb-3"
-  }, [_c("label", {
-    attrs: {
-      "for": "country"
-    }
-  }, [_vm._v("País")]), _vm._v(" "), _c("select", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.country_id,
-      expression: "country_id"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      id: "country"
-    },
-    on: {
-      change: [function ($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
-          return o.selected;
-        }).map(function (o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val;
-        });
-        _vm.country_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
-      }, _vm.changePais]
-    }
-  }, [_c("option", {
-    attrs: {
-      value: "",
-      selected: "",
-      disabled: ""
-    }
-  }, [_vm._v("Seleccione")]), _vm._v(" "), _vm._l(_vm.paises, function (pais) {
-    return _c("option", {
-      key: pais.id,
-      domProps: {
-        value: pais.id
-      }
-    }, [_vm._v(_vm._s(pais.name))]);
-  })], 2), _vm._v(" "), _vm.errors && _vm.errors.country_id ? _c("small", {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.state_id[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-md-10 mb-3"
-  }, [_c("label", {
-    attrs: {
-      "for": "estado"
-    }
-  }, [_vm._v("Estado / Provincia")]), _vm._v(" "), _c("select", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.state_id,
-      expression: "state_id"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      id: "estado"
-    },
-    on: {
-      change: [function ($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
-          return o.selected;
-        }).map(function (o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val;
-        });
-        _vm.state_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
-      }, _vm.changeEstado]
-    }
-  }, [_c("option", {
-    attrs: {
-      value: "",
-      selected: "",
-      disabled: ""
-    }
-  }, [_vm._v("Seleccione")]), _vm._v(" "), _vm._l(_vm.estados, function (estado) {
-    return _c("option", {
-      key: estado.id,
-      domProps: {
-        value: estado.id
-      }
-    }, [_vm._v(_vm._s(estado.name))]);
-  })], 2), _vm._v(" "), _vm.errors && _vm.errors.state_id ? _c("small", {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.state_id[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-md-10 mb-3"
-  }, [_c("label", {
-    attrs: {
-      "for": "city"
-    }
-  }, [_vm._v("Ciudad / Localidad")]), _vm._v(" "), _c("select", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.city_id,
-      expression: "city_id"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      id: "city"
-    },
-    on: {
-      change: function change($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
-          return o.selected;
-        }).map(function (o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val;
-        });
-        _vm.city_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
-      }
-    }
-  }, [_c("option", {
-    attrs: {
-      value: "",
-      selected: "",
-      disabled: ""
-    }
-  }, [_vm._v("Seleccione")]), _vm._v(" "), _vm._l(_vm.ciudades, function (ciudad) {
-    return _c("option", {
-      key: ciudad.id,
-      domProps: {
-        value: ciudad.id
-      }
-    }, [_vm._v(_vm._s(ciudad.name))]);
-  })], 2), _vm._v(" "), _vm.errors && _vm.errors.city_id ? _c("small", {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.city_id[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-md-10 mb-3"
-  }, [_c("label", {
-    attrs: {
-      "for": "cp"
-    }
-  }, [_vm._v("Código postal")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.cp,
-      expression: "cp"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      type: "tel",
-      name: "cp",
-      id: "cp",
-      min: "0",
-      maxlength: "10"
-    },
-    domProps: {
-      value: _vm.cp
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.cp = $event.target.value;
-      }
-    }
-  }), _vm._v(" "), _vm.errors && _vm.errors.cp ? _c("small", {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.cp[0]))]) : _vm._e()])])]) : _vm._e()]), _vm._v(" "), _c("div", {
+  }, [_vm._v("La dirección de facturación es la misma que la de la empresa")])])])]), _vm._v(" "), this.empresaIdProp ? _c("div", [_vm._v("\r\naaa\r\n                    ")]) : _vm._e()]), _vm._v(" "), _c("div", {
     staticClass: "col-6"
   }, [_vm._m(2), _vm._v(" "), _c("div", {
     staticClass: "row"
@@ -5384,14 +5202,7 @@ var render = function render() {
         _vm.name = $event.target.value;
       }
     }
-  }), _vm._v(" "), _c("div", {
-    staticClass: "input-group-text",
-    domProps: {
-      textContent: _vm._s(40 - _vm.name.length)
-    }
-  })]), _vm._v(" "), _vm.errors && _vm.errors.name ? _c("small", {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.name[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+  })])])]), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
     staticClass: "col-md-9 mb-3"
@@ -5423,9 +5234,7 @@ var render = function render() {
         _vm.phone = $event.target.value;
       }
     }
-  }), _vm._v(" "), _vm.errors && _vm.errors.phone ? _c("small", {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.phone[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+  })])]), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
     staticClass: "col-md-9 mb-3"
@@ -5456,113 +5265,73 @@ var render = function render() {
         _vm.email = $event.target.value;
       }
     }
-  }), _vm._v(" "), _vm.errors && _vm.errors.email ? _c("small", {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.email[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+  })])]), _vm._v("\r\n\r\n                    aaaa\r\n\r\n                    \r\n                ")])])]), _vm._v(" "), _c("hr"), _vm._v(" "), _vm._m(3)]);
+};
+
+var staticRenderFns = [function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("div", {
     staticClass: "row"
   }, [_c("div", {
-    staticClass: "col-md-9 mb-3"
+    staticClass: "col-md-10 mb-3"
+  }, [_c("label", [_vm._v("Datos de facturación")])])]);
+}, function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-10 mb-3"
+  }, [_c("label", [_vm._v("Domicilio Fiscal")])])]);
+}, function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md"
   }, [_c("label", {
-    attrs: {
-      "for": "street"
-    }
-  }, [_vm._v("Calle")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.street,
-      expression: "street"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      type: "text",
-      name: "street",
-      id: "street",
-      maxlength: "50"
-    },
-    domProps: {
-      value: _vm.street
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.street = $event.target.value;
-      }
-    }
-  }), _vm._v(" "), _vm.errors && _vm.errors.street ? _c("small", {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.street[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+    staticClass: "titulo_pagina"
+  }, [_vm._v("\r\n                                Editar datos de empresa\r\n                            ")])])]);
+}, function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("div", {
+    staticClass: "text-end"
+  }, [_c("button", {
+    staticClass: "btn btn-sm btn-success ml-3"
+  }, [_vm._v("Guardar")])]);
+}];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/EmpresaFormAddress.vue?vue&type=template&id=3d465872&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/EmpresaFormAddress.vue?vue&type=template&id=3d465872& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function render() {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("div", {}, [_c("div", {
     staticClass: "row"
   }, [_c("div", {
-    staticClass: "col-md-9 mb-3"
-  }, [_c("label", {
-    attrs: {
-      "for": "num_interior"
-    }
-  }, [_vm._v("Numero interior")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.num_interior,
-      expression: "num_interior"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      type: "tel",
-      name: "num_interior",
-      id: "num_interior",
-      min: "0",
-      maxlength: "10"
-    },
-    domProps: {
-      value: _vm.num_interior
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.num_interior = $event.target.value;
-      }
-    }
-  }), _vm._v(" "), _vm.errors && _vm.errors.num_interior ? _c("small", {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.num_interior[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-md-9 mb-3"
-  }, [_c("label", {
-    attrs: {
-      "for": "num_exterior"
-    }
-  }, [_vm._v("Numero exterior")]), _vm._v(" "), _c("input", {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: _vm.num_exterior,
-      expression: "num_exterior"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      type: "tel",
-      name: "num_exterior",
-      id: "num_exterior",
-      min: "0",
-      maxlength: "10"
-    },
-    domProps: {
-      value: _vm.num_exterior
-    },
-    on: {
-      input: function input($event) {
-        if ($event.target.composing) return;
-        _vm.num_exterior = $event.target.value;
-      }
-    }
-  }), _vm._v(" "), _vm.errors && _vm.errors.num_exterior ? _c("small", {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.num_exterior[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-md-9 mb-3"
+    staticClass: "col-md-10 mb-3"
   }, [_c("label", {
     attrs: {
       "for": "country"
@@ -5576,10 +5345,11 @@ var render = function render() {
     }],
     staticClass: "form-control",
     attrs: {
-      id: "country"
+      id: "country",
+      disabled: this.mismoDomicilioProp == true
     },
     on: {
-      change: [function ($event) {
+      change: function change($event) {
         var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
           return o.selected;
         }).map(function (o) {
@@ -5587,7 +5357,7 @@ var render = function render() {
           return val;
         });
         _vm.country_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
-      }, _vm.changePais]
+      }
     }
   }, [_c("option", {
     attrs: {
@@ -5602,9 +5372,7 @@ var render = function render() {
         value: pais.id
       }
     }, [_vm._v(_vm._s(pais.name))]);
-  })], 2), _vm._v(" "), _vm.errors && _vm.errors.country_id ? _c("small", {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.state_id[0]))]) : _vm._e()])]), _vm._v(" "), _vm.country_id == 157 ? _c("div", [_c("div", {
+  })], 2)])]), _vm._v(" "), _vm.country_id === 157 ? _c("div", [_c("div", {
     staticClass: "row"
   }, [_c("div", {
     staticClass: "col-md-9 mb-3"
@@ -5647,9 +5415,7 @@ var render = function render() {
         value: estado.id
       }
     }, [_vm._v(_vm._s(estado.name))]);
-  })], 2), _vm._v(" "), _vm.errors && _vm.errors.state_id ? _c("small", {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.state_id[0]))]) : _vm._e()])]), _vm._v(" "), _c("div", {
+  })], 2)])]), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
     staticClass: "col-md-9 mb-3"
@@ -5692,9 +5458,7 @@ var render = function render() {
         value: ciudad.id
       }
     }, [_vm._v(_vm._s(ciudad.name))]);
-  })], 2), _vm._v(" "), _vm.errors && _vm.errors.city_id ? _c("small", {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.city_id[0]))]) : _vm._e()])])]) : _c("div", [_c("div", {
+  })], 2)])])]) : _c("div", [_c("div", {
     staticClass: "row"
   }, [_c("div", {
     staticClass: "col-md-9 mb-3"
@@ -5761,7 +5525,102 @@ var render = function render() {
   })])])]), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
-    staticClass: "col-md-9 mb-3"
+    staticClass: "col-md-10 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "street"
+    }
+  }, [_vm._v("Calle")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.street,
+      expression: "street"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      name: "street",
+      id: "street",
+      maxlength: "50"
+    },
+    domProps: {
+      value: _vm.street
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.street = $event.target.value;
+      }
+    }
+  })])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-10 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "num_interior"
+    }
+  }, [_vm._v("Numero interior")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.num_interior,
+      expression: "num_interior"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "tel",
+      name: "num_interior",
+      id: "num_interior",
+      min: "0",
+      maxlength: "10"
+    },
+    domProps: {
+      value: _vm.num_interior
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.num_interior = $event.target.value;
+      }
+    }
+  })])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-10 mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "num_exterior"
+    }
+  }, [_vm._v("Numero exterior")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.num_exterior,
+      expression: "num_exterior"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "tel",
+      name: "num_exterior",
+      id: "num_exterior",
+      min: "0",
+      maxlength: "10"
+    },
+    domProps: {
+      value: _vm.num_exterior
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.num_exterior = $event.target.value;
+      }
+    }
+  })])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "col-md-10 mb-3"
   }, [_c("label", {
     attrs: {
       "for": "cp"
@@ -5790,50 +5649,10 @@ var render = function render() {
         _vm.cp = $event.target.value;
       }
     }
-  }), _vm._v(" "), _vm.errors && _vm.errors.cp ? _c("small", {
-    staticClass: "text-danger"
-  }, [_vm._v(_vm._s(_vm.errors.cp[0]))]) : _vm._e()])])])])]), _vm._v(" "), _c("hr"), _vm._v(" "), _vm._m(3)]);
+  })])])]);
 };
 
-var staticRenderFns = [function () {
-  var _vm = this,
-      _c = _vm._self._c;
-
-  return _c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-md-10 mb-3"
-  }, [_c("label", [_vm._v("Datos de facturación")])])]);
-}, function () {
-  var _vm = this,
-      _c = _vm._self._c;
-
-  return _c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-md-10 mb-3"
-  }, [_c("label", [_vm._v("Domicilio Fiscal")])])]);
-}, function () {
-  var _vm = this,
-      _c = _vm._self._c;
-
-  return _c("div", {
-    staticClass: "row"
-  }, [_c("div", {
-    staticClass: "col-md"
-  }, [_c("label", {
-    staticClass: "titulo_pagina"
-  }, [_vm._v("\r\n                                Editar datos de empresa\r\n                            ")])])]);
-}, function () {
-  var _vm = this,
-      _c = _vm._self._c;
-
-  return _c("div", {
-    staticClass: "text-end"
-  }, [_c("button", {
-    staticClass: "btn btn-sm btn-success ml-3"
-  }, [_vm._v("Guardar")])]);
-}];
+var staticRenderFns = [];
 render._withStripped = true;
 
 
@@ -7819,7 +7638,8 @@ Vue.component('lista-espera-client-form', (__webpack_require__(/*! ./components/
 Vue.component('consulta-form', (__webpack_require__(/*! ./components/ConsultaForm.vue */ "./resources/js/components/ConsultaForm.vue")["default"])); // Empresa
 
 Vue.component('empresa-form', (__webpack_require__(/*! ./components/EmpresaForm.vue */ "./resources/js/components/EmpresaForm.vue")["default"]));
-Vue.component('empresa-detalle', (__webpack_require__(/*! ./components/EmpresaDetalle.vue */ "./resources/js/components/EmpresaDetalle.vue")["default"])); //Sucursal
+Vue.component('empresa-detalle', (__webpack_require__(/*! ./components/EmpresaDetalle.vue */ "./resources/js/components/EmpresaDetalle.vue")["default"]));
+Vue.component('empresa-form-address', (__webpack_require__(/*! ./components/EmpresaFormAddress.vue */ "./resources/js/components/EmpresaFormAddress.vue")["default"])); //Sucursal
 
 Vue.component('sucursal-list', (__webpack_require__(/*! ./components/SucursalList.vue */ "./resources/js/components/SucursalList.vue")["default"]));
 Vue.component('sucursal-detalle', (__webpack_require__(/*! ./components/SucursalDetalle.vue */ "./resources/js/components/SucursalDetalle.vue")["default"]));
@@ -23865,6 +23685,45 @@ component.options.__file = "resources/js/components/EmpresaForm.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/EmpresaFormAddress.vue":
+/*!********************************************************!*\
+  !*** ./resources/js/components/EmpresaFormAddress.vue ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _EmpresaFormAddress_vue_vue_type_template_id_3d465872___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EmpresaFormAddress.vue?vue&type=template&id=3d465872& */ "./resources/js/components/EmpresaFormAddress.vue?vue&type=template&id=3d465872&");
+/* harmony import */ var _EmpresaFormAddress_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./EmpresaFormAddress.vue?vue&type=script&lang=js& */ "./resources/js/components/EmpresaFormAddress.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _EmpresaFormAddress_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _EmpresaFormAddress_vue_vue_type_template_id_3d465872___WEBPACK_IMPORTED_MODULE_0__.render,
+  _EmpresaFormAddress_vue_vue_type_template_id_3d465872___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/EmpresaFormAddress.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/EsperaList.vue":
 /*!************************************************!*\
   !*** ./resources/js/components/EsperaList.vue ***!
@@ -24441,6 +24300,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/EmpresaFormAddress.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/EmpresaFormAddress.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EmpresaFormAddress_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./EmpresaFormAddress.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/EmpresaFormAddress.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_EmpresaFormAddress_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/components/EsperaList.vue?vue&type=script&lang=js&":
 /*!*************************************************************************!*\
   !*** ./resources/js/components/EsperaList.vue?vue&type=script&lang=js& ***!
@@ -24731,6 +24606,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_EmpresaForm_vue_vue_type_template_id_19461152___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_EmpresaForm_vue_vue_type_template_id_19461152___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./EmpresaForm.vue?vue&type=template&id=19461152& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/EmpresaForm.vue?vue&type=template&id=19461152&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/EmpresaFormAddress.vue?vue&type=template&id=3d465872&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/EmpresaFormAddress.vue?vue&type=template&id=3d465872& ***!
+  \***************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_EmpresaFormAddress_vue_vue_type_template_id_3d465872___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_EmpresaFormAddress_vue_vue_type_template_id_3d465872___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_EmpresaFormAddress_vue_vue_type_template_id_3d465872___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./EmpresaFormAddress.vue?vue&type=template&id=3d465872& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/EmpresaFormAddress.vue?vue&type=template&id=3d465872&");
 
 
 /***/ }),

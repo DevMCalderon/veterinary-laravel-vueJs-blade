@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', [HomeController::class, 'index'])->name('dashboard');
+Route::get('/', [HomeController::class, 'index'])->name('dashboard')->middleware('blank_company');
 
 Route::get('login/{provider}', [SocialAuthController::class,'redirectTo']);
 Route::get('{provider}/callback', [SocialAuthController::class,'handleCallback']);
@@ -36,7 +36,7 @@ Route::get('{provider}/callback', [SocialAuthController::class,'handleCallback']
 Route::get('empresa/editar', [EmpresaController::class, 'empresaUpdate'])->name('empresa-update')->middleware('auth');
 
 
-    Route::group(['middleware' => 'auth', 'middleware' => 'blank_company'], function () {
+Route::group(['middleware' => 'auth', 'middleware' => 'blank_company'], function () {
 
     Route::get('ticket', [VentaController::class, 'showTicket'])->name('ticket');
     Route::get('vistaCaja', [HomeController::class, 'vistaCaja'])->name('vistaCaja');

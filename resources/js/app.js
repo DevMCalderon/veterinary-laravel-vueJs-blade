@@ -35,6 +35,7 @@ Vue.component('consulta-form',require('./components/ConsultaForm.vue').default);
 // Empresa
 Vue.component('empresa-form', require('./components/EmpresaForm.vue').default);
 Vue.component('empresa-detalle', require('./components/EmpresaDetalle.vue').default);
+Vue.component('empresa-form-address', require('./components/EmpresaFormAddress.vue').default);
 
 //Sucursal
 Vue.component('sucursal-list', require('./components/SucursalList.vue').default);
