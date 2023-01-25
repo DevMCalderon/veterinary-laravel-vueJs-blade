@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', [HomeController::class, 'index'])->name('dashboard')->middleware('blank_company');
+Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
 Route::get('login/{provider}', [SocialAuthController::class,'redirectTo']);
 Route::get('{provider}/callback', [SocialAuthController::class,'handleCallback']);

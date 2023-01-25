@@ -23,10 +23,9 @@ class CreateDomiciliosTable extends Migration
 
             $table->unsignedBigInteger('country');
                 $table->foreign('country')->references('id')->on('countries')->cascadeOnUpdate();
-            $table->unsignedBigInteger('state');
-                $table->foreign('state')->references('id')->on('states')->cascadeOnUpdate();
-            $table->unsignedBigInteger('city');
-                $table->foreign('city')->references('id')->on('cities')->cascadeOnUpdate();
+
+            $table->string('state',50);
+            $table->string('city',50);
             
             $table->timestamps();
         });

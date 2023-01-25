@@ -2548,20 +2548,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['userIdProp', 'empresaIdProp', 'imgEmpresaProp'],
@@ -2571,32 +2557,42 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       logo: '',
       razon_social: '',
       rfc: '',
-      mismo_domicilio_fiscal: '',
+      mismo_domicilio: '',
       name: '',
       phone: '',
       email: '',
       img: null,
-      name_substr: ''
+      name_substr: '',
+      country_id: '',
+      state_id: '',
+      city_id: '',
+      cp: '',
+      street: '',
+      num_interior: '',
+      num_exterior: '',
+      estado: '',
+      ciudad: '',
+      paises: [],
+      estados: [],
+      ciudades: [],
+      domicilio_empresa_id: '',
+      domicilio_fiscal_id: ''
     };
   },
-  filters: {
-    truncate: function truncate(data, num) {
-      var reqdString;
-
-      if (data.length > num) {
-        reqdString = data.split("").slice(0, num).join("") + '...';
-      } else {
-        reqdString = data;
-      }
-
-      return reqdString;
-    }
-  },
   mounted: function mounted() {
-    this.img = this.imgEmpresaProp;
+    // Obtener lista de paises y estados
+    this.getPais();
+    this.getEstado(); // Cargar imagen por defecto
+
+    this.img = this.imgEmpresaProp; // obtener datos de empresa si es que ya existe 
 
     if (this.empresaIdProp) {
       this.getEmpresa(this.empresaIdProp);
+    }
+  },
+  watch: {
+    state_id: function state_id(newVal, oldVal) {
+      this.changeEstado();
     }
   },
   methods: {
@@ -2604,18 +2600,63 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var file = e.target.files[0];
       this.img = URL.createObjectURL(file);
     },
+    getPais: function getPais() {
+      var _this = this;
+
+      this.paises = [];
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/pais').then(function (resp) {
+        if (resp.data.status) {
+          _this.paises = resp.data.countries;
+        } else {
+          _this.paises = [];
+        }
+      });
+    },
+    getEstado: function getEstado() {
+      var _this2 = this;
+
+      this.estados = [];
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/estado').then(function (resp) {
+        if (resp.data.status) {
+          _this2.estados = resp.data.estados;
+        } else {
+          _this2.estados = [];
+        }
+      });
+    },
+    changeEstado: function changeEstado() {
+      var _this3 = this;
+
+      this.ciudades = [];
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/ciudades/".concat(this.state_id)).then(function (resp) {
+        if (resp.data.status) {
+          _this3.ciudades = resp.data.ciudades;
+        } else {
+          _this3.ciudades = [];
+        }
+      });
+    },
     clearForm: function clearForm() {
-      this.id = undefined;
+      this.id = undefined; //datos empresa
+
       this.logo = '';
       this.razon_social = '';
       this.rfc = '';
-      this.mismo_domicilio_fiscal = '';
+      this.mismo_domicilio = '';
       this.name = '';
       this.phone = '';
-      this.email = '';
+      this.email = ''; // domicilio empresa
+
+      this.country_id = '';
+      this.state_id = '';
+      this.city_id = '';
+      this.street = '';
+      this.num_interior = '';
+      this.num_exterior = '';
+      this.cp = '';
     },
     getEmpresa: function getEmpresa(empresaId) {
-      var _this = this;
+      var _this4 = this;
 
       this.clearForm();
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/empresa/".concat(empresaId)).then(function (resp) {
@@ -2627,13 +2668,29 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             Swal.fire('', "Por favor registra una empresa antes de continuar", 'warning').then(function (resp) {});
           }
 
-          _this.id = aux.id;
-          _this.logo = aux.logo;
-          _this.razon_social = aux.razon_social;
-          _this.rfc = aux.rfc;
-          _this.name = aux.name;
-          _this.phone = aux.phone;
-          _this.email = aux.email;
+          _this4.id = aux.id; // datos Empresa
+
+          _this4.logo = aux.logo;
+          _this4.razon_social = aux.razon_social;
+          _this4.rfc = aux.rfc;
+          _this4.name = aux.name;
+          _this4.phone = aux.phone;
+          _this4.email = aux.email; // variables necesarias
+
+          _this4.domicilio_empresa_id = aux.domicilio_empresa_id;
+          _this4.domicilio_fiscal_id = aux.domicilio_fiscal_id;
+          console.log("domicilios:  empresa:" + _this4.domicilio_empresa_id + " | : " + _this4.domicilio_fiscal_id); // domicilio empresa
+
+          if (aux.domicilio_empresa) {
+            var auxDomicilioEmpresa = aux.domicilio_empresa;
+            _this4.country_id = auxDomicilioEmpresa.country;
+            _this4.state_id = auxDomicilioEmpresa.state;
+            _this4.city_id = auxDomicilioEmpresa.city;
+            _this4.street = auxDomicilioEmpresa.street;
+            _this4.num_interior = auxDomicilioEmpresa.num_interior;
+            _this4.num_exterior = auxDomicilioEmpresa.num_exterior;
+            _this4.cp = auxDomicilioEmpresa.cp;
+          }
         } else {
           Swal.fire('Ocurrio un error', resp.data.msg, 'error');
         }
@@ -2649,59 +2706,83 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
       if (this.$refs.empresaForm.reportValidity()) {
         console.log(this.logo);
-        this.errors = undefined;
-        var formData = new FormData();
-        formData.append('logo', this.logo);
-        formData.append('razon_social', this.razon_social);
-        formData.append('rfc', this.rfc);
-        formData.append('name', this.name);
-        formData.append('phone', this.phone);
-        formData.append('email', this.email);
-        formData.append('admin_id', this.userIdProp);
-        formData.append('domicilio_empresa_id', 1);
-        formData.append('domicilio_fiscal_id', 1);
-
-        var _iterator = _createForOfIteratorHelper(formData.entries()),
-            _step;
-
-        try {
-          for (_iterator.s(); !(_step = _iterator.n()).done;) {
-            var _step$value = _slicedToArray(_step.value, 2),
-                key = _step$value[0],
-                value = _step$value[1];
-
-            console.log(key, value);
-          }
-        } catch (err) {
-          _iterator.e(err);
-        } finally {
-          _iterator.f();
-        }
+        var domicilioEmpresaFD = new FormData();
+        domicilioEmpresaFD.append('country', this.country_id);
+        domicilioEmpresaFD.append('state', this.state_id);
+        domicilioEmpresaFD.append('city', this.city_id);
+        domicilioEmpresaFD.append('street', this.street);
+        domicilioEmpresaFD.append('num_interior', this.num_interior);
+        domicilioEmpresaFD.append('num_exterior', this.num_exterior);
+        domicilioEmpresaFD.append('cp', this.cp);
+        var datosEmpresa = new FormData();
+        datosEmpresa.append('logo', this.logo);
+        datosEmpresa.append('razon_social', this.razon_social);
+        datosEmpresa.append('rfc', this.rfc);
+        datosEmpresa.append('name', this.name);
+        datosEmpresa.append('phone', this.phone);
+        datosEmpresa.append('email', this.email);
+        datosEmpresa.append('admin_id', this.userIdProp);
 
         if (this.empresaIdProp) {
-          formData.append('id', this.empresaIdProp);
-          this.updateEmpresa(this.empresaIdProp, formData);
+          //si ya existe empresa
+          if (this.domicilio_empresa_id) {
+            //si ya hay domicilio
+            console.log("Ya existe domicilio ".concat(this.domicilio_empresa_id));
+            domicilioEmpresaFD.append('id', this.domicilio_empresa_id);
+            this.updateDomicilio(this.domicilio_empresa_id, domicilioEmpresaFD);
+            datosEmpresa.append('domicilio_empresa_id', this.domicilio_empresa_id);
+            datosEmpresa.append('domicilio_fiscal_id', 1);
+          } else {
+            // -p CREACION AUTOMATICA TEMPORAL -p
+            datosEmpresa.append('domicilio_empresa_id', 1);
+            datosEmpresa.append('domicilio_fiscal_id', 1);
+            console.log("Nuevo domicilio creado");
+          }
+
+          datosEmpresa.append('id', this.empresaIdProp);
+          this.updateEmpresa(this.empresaIdProp, datosEmpresa);
         } else {
-          Swal.fire('', "No puedes tener m\xE1s de una empresa", 'error').then(function (resp) {
-            location.href = "/";
+          Swal.fire('', "No puedes tener m\xE1s de una empresa", 'error').then(function (resp) {// location.href = "/"
           });
         }
       }
     },
-    updateEmpresa: function updateEmpresa(id, empresa) {
-      var _this2 = this;
+    saveDomicilioEmpresa: function saveDomicilioEmpresa() {
+      if (this.$refs.empresaForm.reportValidity()) {// Imprimir entradas
+        // for (const [key, value] of formData.entries()) {
+        //     console.log(key, value);
+        // }
+      }
+    },
+    updateDomicilio: function updateDomicilio(id, domicilio) {
+      var _this5 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/empresa/' + id, empresa).then(function (resp) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/domicilio/' + id, domicilio).then(function (resp) {
         if (resp.data.status) {
-          Swal.fire('', "Informaci\xF3n actualizada", 'success').then(function (resp) {
-            location.href = "/empresa";
+          Swal.fire('', "Domicilio actualizado", 'success').then(function (resp) {// location.href = "/empresa"
           });
         } else {
           Swal.fire('Ocurrio un error', resp.data.msg, 'error');
         }
       })["catch"](function (error) {
         if (error.response.status == 422) {
-          _this2.errors = error.response.data.errors;
+          _this5.errors = error.response.data.errors;
+        }
+      });
+    },
+    updateEmpresa: function updateEmpresa(id, empresa) {
+      var _this6 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/empresa/' + id, empresa).then(function (resp) {
+        if (resp.data.status) {
+          Swal.fire('', "Informaci\xF3n actualizada", 'success').then(function (resp) {// location.href = "/empresa"
+          });
+        } else {
+          Swal.fire('Ocurrio un error', resp.data.msg, 'error');
+        }
+      })["catch"](function (error) {
+        if (error.response.status == 422) {
+          _this6.errors = error.response.data.errors;
         }
       });
     }
@@ -5020,11 +5101,11 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "row align-items-start"
   }, [_c("div", {
-    staticClass: "col-5"
+    staticClass: "col-4 pe-5"
   }, [_c("div", {
     staticClass: "row"
   }, [_c("div", {
-    staticClass: "col-md-10 mb-3"
+    staticClass: "mb-3"
   }, [_c("div", {
     staticClass: "image_group text-center"
   }, [_c("label", [_c("input", {
@@ -5054,7 +5135,7 @@ var render = function render() {
   }, [_vm._v("Para cambiar el icono de la empresa haga click en el")])])])]), _vm._v(" "), _c("hr"), _vm._v(" "), _vm._m(0), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
-    staticClass: "col-md-10 mb-3"
+    staticClass: "mb-3"
   }, [_c("label", {
     attrs: {
       "for": "razon_social"
@@ -5085,7 +5166,7 @@ var render = function render() {
   })])]), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
-    staticClass: "col-md-10 mb-3"
+    staticClass: "mb-3"
   }, [_c("label", {
     attrs: {
       "for": "rfc"
@@ -5102,7 +5183,8 @@ var render = function render() {
       type: "tel",
       name: "rfc",
       id: "rfc",
-      maxlength: "13"
+      maxlength: "13",
+      required: ""
     },
     domProps: {
       value: _vm.rfc
@@ -5113,30 +5195,32 @@ var render = function render() {
         _vm.rfc = $event.target.value;
       }
     }
-  })])]), _vm._v(" "), _vm._m(1), _vm._v(" "), _c("div", {
+  })])]), _vm._v(" "), _c("div", {
+    staticClass: "bd-example"
+  }, [_vm._m(1), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
-    staticClass: "col-md-10 mb-3"
+    staticClass: "mb-3"
   }, [_c("div", {
     staticClass: "form-check"
   }, [_c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.mismo_domicilio_fiscal,
-      expression: "mismo_domicilio_fiscal"
+      value: _vm.mismo_domicilio,
+      expression: "mismo_domicilio"
     }],
     staticClass: "form-check-input",
     attrs: {
       type: "checkbox",
-      id: "mismo_domicilio_fiscal"
+      id: "mismo_domicilio"
     },
     domProps: {
-      checked: Array.isArray(_vm.mismo_domicilio_fiscal) ? _vm._i(_vm.mismo_domicilio_fiscal, null) > -1 : _vm.mismo_domicilio_fiscal
+      checked: Array.isArray(_vm.mismo_domicilio) ? _vm._i(_vm.mismo_domicilio, null) > -1 : _vm.mismo_domicilio
     },
     on: {
       change: function change($event) {
-        var $$a = _vm.mismo_domicilio_fiscal,
+        var $$a = _vm.mismo_domicilio,
             $$el = $event.target,
             $$c = $$el.checked ? true : false;
 
@@ -5145,33 +5229,362 @@ var render = function render() {
               $$i = _vm._i($$a, $$v);
 
           if ($$el.checked) {
-            $$i < 0 && (_vm.mismo_domicilio_fiscal = $$a.concat([$$v]));
+            $$i < 0 && (_vm.mismo_domicilio = $$a.concat([$$v]));
           } else {
-            $$i > -1 && (_vm.mismo_domicilio_fiscal = $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
+            $$i > -1 && (_vm.mismo_domicilio = $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
           }
         } else {
-          _vm.mismo_domicilio_fiscal = $$c;
+          _vm.mismo_domicilio = $$c;
         }
       }
     }
   }), _vm._v(" "), _c("label", {
     attrs: {
-      "for": "mismo_domicilio_fiscal "
+      "for": "mismo_domicilio "
     }
-  }, [_vm._v("La dirección de facturación es la misma que la de la empresa")])])])]), _vm._v(" "), this.empresaIdProp ? _c("div", [_vm._v("\r\naaa\r\n                    ")]) : _vm._e()]), _vm._v(" "), _c("div", {
-    staticClass: "col-6"
+  }, [_vm._v("La dirección de facturación es la misma que la de la empresa")])])])]), _vm._v(" "), this.mismo_domicilio == false ? _c("div", {}, [_c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "country"
+    }
+  }, [_vm._v("País")]), _vm._v(" "), _c("select", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.country_id,
+      expression: "country_id"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      id: "country",
+      required: ""
+    },
+    on: {
+      change: function change($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
+          return o.selected;
+        }).map(function (o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val;
+        });
+        _vm.country_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
+      }
+    }
+  }, [_c("option", {
+    attrs: {
+      value: "",
+      selected: "",
+      disabled: ""
+    }
+  }, [_vm._v("Seleccione")]), _vm._v(" "), _vm._l(_vm.paises, function (pais) {
+    return _c("option", {
+      key: pais.id,
+      domProps: {
+        value: pais.id
+      }
+    }, [_vm._v(_vm._s(pais.name))]);
+  })], 2)])]), _vm._v(" "), _vm.country_id === 157 ? _c("div", [_c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "estado"
+    }
+  }, [_vm._v("Estado / Provincia")]), _vm._v(" "), _c("select", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.state_id,
+      expression: "state_id"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      id: "estado",
+      required: ""
+    },
+    on: {
+      change: [function ($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
+          return o.selected;
+        }).map(function (o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val;
+        });
+        _vm.state_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
+      }, _vm.changeEstado]
+    }
+  }, [_c("option", {
+    attrs: {
+      value: "",
+      selected: "",
+      disabled: ""
+    }
+  }, [_vm._v("Seleccione")]), _vm._v(" "), _vm._l(_vm.estados, function (estado) {
+    return _c("option", {
+      key: estado.id,
+      domProps: {
+        value: estado.id
+      }
+    }, [_vm._v(_vm._s(estado.name))]);
+  })], 2)])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "city"
+    }
+  }, [_vm._v("Ciudad / Localidad")]), _vm._v(" "), _c("select", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.city_id,
+      expression: "city_id"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      id: "city",
+      required: ""
+    },
+    on: {
+      change: function change($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
+          return o.selected;
+        }).map(function (o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val;
+        });
+        _vm.city_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
+      }
+    }
+  }, [_c("option", {
+    attrs: {
+      value: "",
+      selected: "",
+      disabled: ""
+    }
+  }, [_vm._v("Seleccione")]), _vm._v(" "), _vm._l(_vm.ciudades, function (ciudad) {
+    return _c("option", {
+      key: ciudad.id,
+      domProps: {
+        value: ciudad.id
+      }
+    }, [_vm._v(_vm._s(ciudad.name))]);
+  })], 2)])])]) : _c("div", [_c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "estado"
+    }
+  }, [_vm._v("Estado / Provincia")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.estado,
+      expression: "estado"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      name: "estado",
+      id: "estado",
+      maxlength: "50",
+      required: ""
+    },
+    domProps: {
+      value: _vm.estado
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.estado = $event.target.value;
+      }
+    }
+  })])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "ciudad"
+    }
+  }, [_vm._v("Ciudad / Localidad")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.ciudad,
+      expression: "ciudad"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      name: "ciudad",
+      id: "ciudad",
+      maxlength: "50",
+      required: ""
+    },
+    domProps: {
+      value: _vm.ciudad
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.ciudad = $event.target.value;
+      }
+    }
+  })])])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "street"
+    }
+  }, [_vm._v("Calle")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.street,
+      expression: "street"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      name: "street",
+      id: "street",
+      maxlength: "50"
+    },
+    domProps: {
+      value: _vm.street
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.street = $event.target.value;
+      }
+    }
+  })])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "num_interior"
+    }
+  }, [_vm._v("Numero interior")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.num_interior,
+      expression: "num_interior"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "tel",
+      name: "num_interior",
+      id: "num_interior",
+      min: "0",
+      maxlength: "4",
+      pattern: "[0-9]*",
+      title: "Solo se permiten números en este campo"
+    },
+    domProps: {
+      value: _vm.num_interior
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.num_interior = $event.target.value;
+      }
+    }
+  })])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "num_exterior"
+    }
+  }, [_vm._v("Numero exterior")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.num_exterior,
+      expression: "num_exterior"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "tel",
+      name: "num_exterior",
+      id: "num_exterior",
+      min: "0",
+      maxlength: "4",
+      pattern: "[0-9]*",
+      title: "Solo se permiten números en este campo"
+    },
+    domProps: {
+      value: _vm.num_exterior
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.num_exterior = $event.target.value;
+      }
+    }
+  })])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "cp"
+    }
+  }, [_vm._v("Código postal")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.cp,
+      expression: "cp"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "tel",
+      name: "cp",
+      id: "cp",
+      min: "0",
+      maxlength: "5",
+      pattern: "[0-9]*",
+      title: "Solo se permiten números en este campo"
+    },
+    domProps: {
+      value: _vm.cp
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.cp = $event.target.value;
+      }
+    }
+  })])])]) : _vm._e()])]), _vm._v(" "), _c("div", {
+    staticClass: "col-6 pe-7"
   }, [_vm._m(2), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
-    staticClass: "col-md-9 mb-3"
+    staticClass: "mb-3"
   }, [_vm.name ? _c("label", {
-    staticClass: "nombre_empresa text-dark"
-  }, [_vm._v(" " + _vm._s(_vm._f("truncate")(_vm.name, 28)))]) : _c("label", {
+    staticClass: "nombre_empresa text-primary"
+  }, [_vm._v(" " + _vm._s(_vm.name))]) : _c("label", {
     staticClass: "nombre_empresa text-dark"
   }, [_vm._v("Sin nombre")])])]), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
-    staticClass: "col-md-9 mb-3"
+    staticClass: "mb-3"
   }, [_c("label", {
     attrs: {
       "for": "name"
@@ -5190,7 +5603,7 @@ var render = function render() {
       type: "text",
       name: "name",
       id: "name",
-      maxlength: "40",
+      maxlength: "28",
       required: ""
     },
     domProps: {
@@ -5205,12 +5618,12 @@ var render = function render() {
   })])])]), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
-    staticClass: "col-md-9 mb-3"
+    staticClass: "mb-3"
   }, [_c("label", {
     attrs: {
       "for": "phone"
     }
-  }, [_vm._v("Teléfono")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("Teléfono*")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -5223,7 +5636,10 @@ var render = function render() {
       name: "phone",
       id: "phone",
       min: "0",
-      maxlength: "10"
+      maxlength: "10",
+      pattern: "[0-9]*",
+      title: "Solo se permiten números en este campo",
+      required: ""
     },
     domProps: {
       value: _vm.phone
@@ -5237,12 +5653,12 @@ var render = function render() {
   })])]), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
-    staticClass: "col-md-9 mb-3"
+    staticClass: "mb-3"
   }, [_c("label", {
     attrs: {
       "for": "email"
     }
-  }, [_vm._v("Correo")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("Correo*")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -5254,7 +5670,8 @@ var render = function render() {
       type: "text",
       name: "email",
       id: "email",
-      maxlength: "50"
+      maxlength: "50",
+      required: ""
     },
     domProps: {
       value: _vm.email
@@ -5265,7 +5682,339 @@ var render = function render() {
         _vm.email = $event.target.value;
       }
     }
-  })])]), _vm._v("\r\n\r\n                    aaaa\r\n\r\n                    \r\n                ")])])]), _vm._v(" "), _c("hr"), _vm._v(" "), _vm._m(3)]);
+  })])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "country"
+    }
+  }, [_vm._v("País*")]), _vm._v(" "), _c("select", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.country_id,
+      expression: "country_id"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      id: "country",
+      required: ""
+    },
+    on: {
+      change: function change($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
+          return o.selected;
+        }).map(function (o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val;
+        });
+        _vm.country_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
+      }
+    }
+  }, [_c("option", {
+    attrs: {
+      value: "",
+      selected: "",
+      disabled: ""
+    }
+  }, [_vm._v("Seleccione")]), _vm._v(" "), _vm._l(_vm.paises, function (pais) {
+    return _c("option", {
+      key: pais.id,
+      domProps: {
+        value: pais.id
+      }
+    }, [_vm._v(_vm._s(pais.name))]);
+  })], 2)])]), _vm._v(" "), _vm.country_id === 157 ? _c("div", [_c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "estado"
+    }
+  }, [_vm._v("Estado / Provincia*")]), _vm._v(" "), _c("select", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.state_id,
+      expression: "state_id"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      id: "estado",
+      required: ""
+    },
+    on: {
+      change: [function ($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
+          return o.selected;
+        }).map(function (o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val;
+        });
+        _vm.state_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
+      }, _vm.changeEstado]
+    }
+  }, [_c("option", {
+    attrs: {
+      value: "",
+      selected: "",
+      disabled: ""
+    }
+  }, [_vm._v("Seleccione")]), _vm._v(" "), _vm._l(_vm.estados, function (estado) {
+    return _c("option", {
+      key: estado.id,
+      domProps: {
+        value: estado.id
+      }
+    }, [_vm._v(_vm._s(estado.name))]);
+  })], 2)])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "city"
+    }
+  }, [_vm._v("Ciudad / Localidad*")]), _vm._v(" "), _c("select", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.city_id,
+      expression: "city_id"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      id: "city",
+      required: ""
+    },
+    on: {
+      change: function change($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
+          return o.selected;
+        }).map(function (o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val;
+        });
+        _vm.city_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
+      }
+    }
+  }, [_c("option", {
+    attrs: {
+      value: "",
+      selected: "",
+      disabled: ""
+    }
+  }, [_vm._v("Seleccione")]), _vm._v(" "), _vm._l(_vm.ciudades, function (ciudad) {
+    return _c("option", {
+      key: ciudad.id,
+      domProps: {
+        value: ciudad.id
+      }
+    }, [_vm._v(_vm._s(ciudad.name))]);
+  })], 2)])])]) : _c("div", [_c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "estado"
+    }
+  }, [_vm._v("Estado / Provincia*")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.estado,
+      expression: "estado"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      name: "estado",
+      id: "estado",
+      maxlength: "50",
+      required: ""
+    },
+    domProps: {
+      value: _vm.estado
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.estado = $event.target.value;
+      }
+    }
+  })])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "ciudad"
+    }
+  }, [_vm._v("Ciudad / Localidad*")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.ciudad,
+      expression: "ciudad"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      name: "ciudad",
+      id: "ciudad",
+      maxlength: "50",
+      required: ""
+    },
+    domProps: {
+      value: _vm.ciudad
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.ciudad = $event.target.value;
+      }
+    }
+  })])])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "street"
+    }
+  }, [_vm._v("Calle*")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.street,
+      expression: "street"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "text",
+      name: "street",
+      id: "street",
+      maxlength: "50",
+      required: ""
+    },
+    domProps: {
+      value: _vm.street
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.street = $event.target.value;
+      }
+    }
+  })])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "num_interior"
+    }
+  }, [_vm._v("Numero interior")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.num_interior,
+      expression: "num_interior"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "tel",
+      name: "num_interior",
+      id: "num_interior",
+      min: "0",
+      maxlength: "4",
+      pattern: "[0-9]*",
+      title: "Solo se permiten números en este campo"
+    },
+    domProps: {
+      value: _vm.num_interior
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.num_interior = $event.target.value;
+      }
+    }
+  })])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "num_exterior"
+    }
+  }, [_vm._v("Numero exterior*")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.num_exterior,
+      expression: "num_exterior"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "tel",
+      name: "num_exterior",
+      id: "num_exterior",
+      min: "0",
+      maxlength: "4",
+      pattern: "[0-9]*",
+      title: "Solo se permiten números en este campo",
+      required: ""
+    },
+    domProps: {
+      value: _vm.num_exterior
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.num_exterior = $event.target.value;
+      }
+    }
+  })])]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "mb-3"
+  }, [_c("label", {
+    attrs: {
+      "for": "cp"
+    }
+  }, [_vm._v("Código postal*")]), _vm._v(" "), _c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.cp,
+      expression: "cp"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      type: "tel",
+      name: "cp",
+      id: "cp",
+      min: "0",
+      maxlength: "5",
+      pattern: "[0-9]*",
+      title: "Solo se permiten números en este campo",
+      required: ""
+    },
+    domProps: {
+      value: _vm.cp
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.cp = $event.target.value;
+      }
+    }
+  })])])])])]), _vm._v(" "), _c("hr"), _vm._v(" "), _vm._m(3)]);
 };
 
 var staticRenderFns = [function () {
@@ -5275,8 +6024,8 @@ var staticRenderFns = [function () {
   return _c("div", {
     staticClass: "row"
   }, [_c("div", {
-    staticClass: "col-md-10 mb-3"
-  }, [_c("label", [_vm._v("Datos de facturación")])])]);
+    staticClass: "mb-3"
+  }, [_c("label", [_vm._v("Datos de facturación:")])])]);
 }, function () {
   var _vm = this,
       _c = _vm._self._c;
@@ -5284,8 +6033,8 @@ var staticRenderFns = [function () {
   return _c("div", {
     staticClass: "row"
   }, [_c("div", {
-    staticClass: "col-md-10 mb-3"
-  }, [_c("label", [_vm._v("Domicilio Fiscal")])])]);
+    staticClass: "mb-3"
+  }, [_c("label", [_vm._v("Domicilio Fiscal:")])])]);
 }, function () {
   var _vm = this,
       _c = _vm._self._c;
@@ -5296,7 +6045,7 @@ var staticRenderFns = [function () {
     staticClass: "col-md"
   }, [_c("label", {
     staticClass: "titulo_pagina"
-  }, [_vm._v("\r\n                                Editar datos de empresa\r\n                            ")])])]);
+  }, [_vm._v("\r\n                                Editar datos de empresa:\r\n                            ")])])]);
 }, function () {
   var _vm = this,
       _c = _vm._self._c;

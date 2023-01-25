@@ -13,7 +13,19 @@
 
 <style scoped>
 
-    
+.bd-example {
+    position: relative;
+    margin: 1rem -0.75rem 0;
+    border: solid #dee2e6;
+    border-width: 1px 0 0;
+
+    padding: 1rem;
+    margin-right: 0;
+    margin-left: 0;
+    border-width: 1px;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+}
     .titulo_pagina{
         font-weight: 4px;
         font-size: 13px;
@@ -36,8 +48,8 @@
       }
       
       #preview img {
-        max-width: 18rem;
+        max-width: 100%;
         height: 15rem;
-        border-radius: 100%;
+        border-radius: 0%;
       }
 </style>
