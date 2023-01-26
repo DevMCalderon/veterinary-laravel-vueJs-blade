@@ -112,11 +112,6 @@ class DomicilioController extends Controller
     {
         if($domicilio){
             $data = $request->all();
-
-            // Reemplazar valores "null" por null para foraneas
-            if ( $data['country']=="null") $data['country'] = null; 
-            if ( $data['state']=="null") $data['state'] = null; 
-            if ( $data['city']=="null") $data['city'] = null; 
             
             $domicilio->street          = $data['street'];
             $domicilio->num_interior    = $data['num_interior'] ?? '';

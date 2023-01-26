@@ -2662,27 +2662,34 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/empresa/".concat(empresaId)).then(function (resp) {
         if (resp.data.status) {
           console.log(resp.data.empresa[0]);
-          var aux = resp.data.empresa[0];
+          var _aux = resp.data.empresa[0];
 
-          if (aux.name == null) {
+          if (_aux.name == null) {
             Swal.fire('', "Por favor registra una empresa antes de continuar", 'warning').then(function (resp) {});
           }
 
-          _this4.id = aux.id; // datos Empresa
+          _this4.id = _aux.id; // datos Empresa
 
-          _this4.logo = aux.logo;
-          _this4.razon_social = aux.razon_social;
-          _this4.rfc = aux.rfc;
-          _this4.name = aux.name;
-          _this4.phone = aux.phone;
-          _this4.email = aux.email; // variables necesarias
+          _this4.logo = _aux.logo;
+          _this4.razon_social = _aux.razon_social;
+          _this4.rfc = _aux.rfc;
+          _this4.name = _aux.name;
+          _this4.phone = _aux.phone;
+          _this4.email = _aux.email; // variables necesarias
 
-          _this4.domicilio_empresa_id = aux.domicilio_empresa_id;
-          _this4.domicilio_fiscal_id = aux.domicilio_fiscal_id;
-          console.log("domicilios:  empresa:" + _this4.domicilio_empresa_id + " | : " + _this4.domicilio_fiscal_id); // domicilio empresa
+          _this4.domicilio_empresa_id = _aux.domicilio_empresa_id;
+          _this4.domicilio_fiscal_id = _aux.domicilio_fiscal_id;
+          console.log("domicilios:  empresa:" + _this4.domicilio_empresa_id + " | : " + _this4.domicilio_fiscal_id);
 
-          if (aux.domicilio_empresa) {
-            var auxDomicilioEmpresa = aux.domicilio_empresa;
+          if (_aux.domicilio_empresa_id == _aux.domicilio_fiscal_id) {
+            _this4.mismo_domicilio = true;
+          } else {
+            _this4.mismo_domicilio = false;
+          } // domicilio empresa
+
+
+          if (_aux.domicilio_empresa && _aux.domicilio_fiscal) {
+            var auxDomicilioEmpresa = _aux.domicilio_empresa;
             _this4.country_id = auxDomicilioEmpresa.country;
             _this4.state_id = auxDomicilioEmpresa.state;
             _this4.city_id = auxDomicilioEmpresa.city;
@@ -2714,44 +2721,43 @@ __webpack_require__.r(__webpack_exports__);
         domicilioEmpresaFD.append('num_interior', this.num_interior);
         domicilioEmpresaFD.append('num_exterior', this.num_exterior);
         domicilioEmpresaFD.append('cp', this.cp);
-        var datosEmpresa = new FormData();
-        datosEmpresa.append('logo', this.logo);
-        datosEmpresa.append('razon_social', this.razon_social);
-        datosEmpresa.append('rfc', this.rfc);
-        datosEmpresa.append('name', this.name);
-        datosEmpresa.append('phone', this.phone);
-        datosEmpresa.append('email', this.email);
-        datosEmpresa.append('admin_id', this.userIdProp);
+        var datosEmpresaFD = new FormData();
+        datosEmpresaFD.append('logo', this.logo);
+        datosEmpresaFD.append('razon_social', this.razon_social);
+        datosEmpresaFD.append('rfc', this.rfc);
+        datosEmpresaFD.append('name', this.name);
+        datosEmpresaFD.append('phone', this.phone);
+        datosEmpresaFD.append('email', this.email);
+        datosEmpresaFD.append('admin_id', this.userIdProp);
 
         if (this.empresaIdProp) {
           //si ya existe empresa
-          if (this.domicilio_empresa_id) {
-            //si ya hay domicilio
-            console.log("Ya existe domicilio ".concat(this.domicilio_empresa_id));
+          if (this.domicilio_empresa_id && this.domicilio_fiscal_id) {
+            //si ya tiene domicilios, actualizar
+            //actualizando domicilios en tabla domicilios
             domicilioEmpresaFD.append('id', this.domicilio_empresa_id);
-            this.updateDomicilio(this.domicilio_empresa_id, domicilioEmpresaFD);
-            datosEmpresa.append('domicilio_empresa_id', this.domicilio_empresa_id);
-            datosEmpresa.append('domicilio_fiscal_id', 1);
+            this.updateDomicilio(this.domicilio_empresa_id, domicilioEmpresaFD); // -p de añadir domicilio fiscal como arribita
+            //actualizando domicilios en tabla empresa
+
+            datosEmpresaFD.append('domicilio_empresa_id', this.domicilio_empresa_id);
+            datosEmpresaFD.append('domicilio_fiscal_id', this.domicilio_fiscal_id);
           } else {
-            // -p CREACION AUTOMATICA TEMPORAL -p
-            datosEmpresa.append('domicilio_empresa_id', 1);
-            datosEmpresa.append('domicilio_fiscal_id', 1);
+            // -p crear nuevos domicilios en la bdd
             console.log("Nuevo domicilio creado");
+
+            if (this.mismo_domicilio == true) {
+              aux.domicilio_fiscal_id = aux.domicilio_empresa_id;
+              datosEmpresaFD.append('domicilio_empresa_id', 1);
+              datosEmpresaFD.append('domicilio_fiscal_id', 1);
+            }
           }
 
-          datosEmpresa.append('id', this.empresaIdProp);
-          this.updateEmpresa(this.empresaIdProp, datosEmpresa);
+          datosEmpresaFD.append('id', this.empresaIdProp);
+          this.updateEmpresa(this.empresaIdProp, datosEmpresaFD);
         } else {
-          Swal.fire('', "No puedes tener m\xE1s de una empresa", 'error').then(function (resp) {// location.href = "/"
+          Swal.fire('', "Error a\xFAn no se ha creado una empresa", 'error').then(function (resp) {// location.href = "/"
           });
         }
-      }
-    },
-    saveDomicilioEmpresa: function saveDomicilioEmpresa() {
-      if (this.$refs.empresaForm.reportValidity()) {// Imprimir entradas
-        // for (const [key, value] of formData.entries()) {
-        //     console.log(key, value);
-        // }
       }
     },
     updateDomicilio: function updateDomicilio(id, domicilio) {
@@ -5580,7 +5586,7 @@ var render = function render() {
   }, [_vm.name ? _c("label", {
     staticClass: "nombre_empresa text-primary"
   }, [_vm._v(" " + _vm._s(_vm.name))]) : _c("label", {
-    staticClass: "nombre_empresa text-dark"
+    staticClass: "nombre_empresa text-primary"
   }, [_vm._v("Sin nombre")])])]), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
@@ -5682,7 +5688,7 @@ var render = function render() {
         _vm.email = $event.target.value;
       }
     }
-  })])]), _vm._v(" "), _c("div", {
+  })])]), _vm._v(" "), _vm._m(3), _vm._v(" "), _c("div", {
     staticClass: "row"
   }, [_c("div", {
     staticClass: "mb-3"
@@ -5826,8 +5832,8 @@ var render = function render() {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.estado,
-      expression: "estado"
+      value: _vm.state_id,
+      expression: "state_id"
     }],
     staticClass: "form-control",
     attrs: {
@@ -5838,12 +5844,12 @@ var render = function render() {
       required: ""
     },
     domProps: {
-      value: _vm.estado
+      value: _vm.state_id
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.estado = $event.target.value;
+        _vm.state_id = $event.target.value;
       }
     }
   })])]), _vm._v(" "), _c("div", {
@@ -5858,8 +5864,8 @@ var render = function render() {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.ciudad,
-      expression: "ciudad"
+      value: _vm.city_id,
+      expression: "city_id"
     }],
     staticClass: "form-control",
     attrs: {
@@ -5870,12 +5876,12 @@ var render = function render() {
       required: ""
     },
     domProps: {
-      value: _vm.ciudad
+      value: _vm.city_id
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.ciudad = $event.target.value;
+        _vm.city_id = $event.target.value;
       }
     }
   })])])]), _vm._v(" "), _c("div", {
@@ -6014,7 +6020,7 @@ var render = function render() {
         _vm.cp = $event.target.value;
       }
     }
-  })])])])])]), _vm._v(" "), _c("hr"), _vm._v(" "), _vm._m(3)]);
+  })])])])])]), _vm._v(" "), _c("hr"), _vm._v(" "), _vm._m(4)]);
 };
 
 var staticRenderFns = [function () {
@@ -6046,6 +6052,15 @@ var staticRenderFns = [function () {
   }, [_c("label", {
     staticClass: "titulo_pagina"
   }, [_vm._v("\r\n                                Editar datos de empresa:\r\n                            ")])])]);
+}, function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("div", {
+    staticClass: "row"
+  }, [_c("div", {
+    staticClass: "mb-3"
+  }, [_c("label", [_vm._v("Dirección de la empresa:")])])]);
 }, function () {
   var _vm = this,
       _c = _vm._self._c;

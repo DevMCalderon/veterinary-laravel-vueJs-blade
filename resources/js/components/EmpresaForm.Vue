@@ -162,7 +162,7 @@
                     <div class="row">
                         <div class="mb-3">
                             <label class="nombre_empresa text-primary" v-if="name"> {{name}}</label>
-                            <label class="nombre_empresa text-dark" v-else>Sin nombre</label>
+                            <label class="nombre_empresa text-primary" v-else>Sin nombre</label>
                         </div>
                     </div>
 
@@ -170,8 +170,7 @@
                         <div class="mb-3">
                             <label for="name">Nombre de empresa*</label>
                             <div class="input-group">
-                                <input type="text" name="name" id="name" class="form-control" maxlength="28" v-model="name" required>
-                                <!-- <div class="input-group-text" v-text="(40 - name.length)"></div> -->
+                                <input type="text" name="name" id="name" class="form-control" maxlength="28" v-model="name" required/>
                             </div>
                         </div>
                     </div>
@@ -186,13 +185,17 @@
                     <div class="row">
                         <div class="mb-3">
                             <label for="email">Correo*</label>
-                            <input type="text" name="email" id="email" class="form-control" maxlength="50" v-model="email" required>
+                            <input type="text" name="email" id="email" class="form-control" maxlength="50" v-model="email" required/>
                         </div>
                     </div>
 
                    
 
-                    
+                    <div class="row">
+                        <div class="mb-3">
+                            <label>Dirección de la empresa:</label>
+                        </div>
+                    </div>
                 
                     <div class="row">
                         <div class="mb-3">
@@ -229,14 +232,14 @@
                         <div class="row">
                             <div class="mb-3">
                                 <label for="estado">Estado / Provincia*</label>
-                                <input type="text" name="estado" id="estado" class="form-control" maxlength="50" v-model="estado" required>
+                                <input type="text" name="estado" id="estado" class="form-control" maxlength="50" v-model="state_id" required>
                             </div>
                         </div>
             
                         <div class="row">
                             <div class="mb-3">
                                 <label for="ciudad">Ciudad / Localidad*</label>
-                                <input type="text" name="ciudad" id="ciudad" class="form-control" maxlength="50" v-model="ciudad" required>
+                                <input type="text" name="ciudad" id="ciudad" class="form-control" maxlength="50" v-model="city_id" required>
                             </div>
                         </div>
                     </div>
@@ -427,8 +430,15 @@ export default {
                     
                     console.log("domicilios:  empresa:"+this.domicilio_empresa_id+" | : "+this.domicilio_fiscal_id)
                     
+                    if(aux.domicilio_empresa_id==aux.domicilio_fiscal_id){
+                        this.mismo_domicilio=true;
+                    }else{
+                        this.mismo_domicilio=false;
+                    }
+                    
                     // domicilio empresa
-                    if(aux.domicilio_empresa){
+                    if(aux.domicilio_empresa && aux.domicilio_fiscal){
+
                         let auxDomicilioEmpresa=aux.domicilio_empresa;
                         this.country_id = auxDomicilioEmpresa.country;
                         this.state_id = auxDomicilioEmpresa.state;
@@ -438,6 +448,8 @@ export default {
                         this.num_exterior = auxDomicilioEmpresa.num_exterior;
                         this.cp = auxDomicilioEmpresa.cp;
                     }
+
+                    
 
                     
 
@@ -463,51 +475,46 @@ export default {
                 domicilioEmpresaFD.append('num_exterior', this.num_exterior);
                 domicilioEmpresaFD.append('cp', this.cp);
 
-                const datosEmpresa = new FormData();
-                datosEmpresa.append('logo', this.logo);
-                datosEmpresa.append('razon_social', this.razon_social);
-                datosEmpresa.append('rfc', this.rfc);
-                datosEmpresa.append('name', this.name);
-                datosEmpresa.append('phone', this.phone);
-                datosEmpresa.append('email', this.email);
-                datosEmpresa.append('admin_id', this.userIdProp);
+                const datosEmpresaFD = new FormData();
+                datosEmpresaFD.append('logo', this.logo);
+                datosEmpresaFD.append('razon_social', this.razon_social);
+                datosEmpresaFD.append('rfc', this.rfc);
+                datosEmpresaFD.append('name', this.name);
+                datosEmpresaFD.append('phone', this.phone);
+                datosEmpresaFD.append('email', this.email);
+                datosEmpresaFD.append('admin_id', this.userIdProp);
+
                 
                 if(this.empresaIdProp){ //si ya existe empresa
 
-                    if(this.domicilio_empresa_id){//si ya hay domicilio
-                        console.log(`Ya existe domicilio ${this.domicilio_empresa_id}`)
-                        
+                    if(this.domicilio_empresa_id && this.domicilio_fiscal_id){ //si ya tiene domicilios, actualizar
+                        //actualizando domicilios en tabla domicilios
                         domicilioEmpresaFD.append('id', this.domicilio_empresa_id);
                         this.updateDomicilio(this.domicilio_empresa_id, domicilioEmpresaFD);
                         
-                        datosEmpresa.append('domicilio_empresa_id', this.domicilio_empresa_id);
-                        datosEmpresa.append('domicilio_fiscal_id', 1);
+                        // -p de añadir domicilio fiscal como arribita
+                        
+                        //actualizando domicilios en tabla empresa
+                        datosEmpresaFD.append('domicilio_empresa_id', this.domicilio_empresa_id);
+                        datosEmpresaFD.append('domicilio_fiscal_id', this.domicilio_fiscal_id);
                     }else{
-                        // -p CREACION AUTOMATICA TEMPORAL -p
-                        datosEmpresa.append('domicilio_empresa_id', 1);
-                        datosEmpresa.append('domicilio_fiscal_id', 1);
+                        // -p crear nuevos domicilios en la bdd
+
                         console.log("Nuevo domicilio creado")
+                        if(this.mismo_domicilio==true){
+                            aux.domicilio_fiscal_id=aux.domicilio_empresa_id
+                            datosEmpresaFD.append('domicilio_empresa_id', 1);
+                            datosEmpresaFD.append('domicilio_fiscal_id', 1);
+                        }
                     }
 
-                    datosEmpresa.append('id', this.empresaIdProp);
-                    this.updateEmpresa(this.empresaIdProp, datosEmpresa);
+                    datosEmpresaFD.append('id', this.empresaIdProp);
+                    this.updateEmpresa(this.empresaIdProp, datosEmpresaFD);
                 }else{
-                    Swal.fire('',`No puedes tener más de una empresa`,'error').then(resp => {
+                    Swal.fire('',`Error aún no se ha creado una empresa`,'error').then(resp => {
                         // location.href = "/"
                     });
                 }
-            }
-        },
-        saveDomicilioEmpresa(){
-            if(this.$refs.empresaForm.reportValidity()){
-                
-
-                // Imprimir entradas
-                // for (const [key, value] of formData.entries()) {
-                //     console.log(key, value);
-                // }
-
-                
             }
         },
         updateDomicilio(id, domicilio){
