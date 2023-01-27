@@ -2562,21 +2562,27 @@ __webpack_require__.r(__webpack_exports__);
       phone: '',
       email: '',
       img: null,
-      name_substr: '',
+      domicilio_empresa_id: '',
+      domicilio_fiscal_id: '',
       country_id: '',
       state_id: '',
       city_id: '',
-      cp: '',
       street: '',
       num_interior: '',
       num_exterior: '',
+      cp: '',
+      df_country_id: '',
+      df_state_id: '',
+      df_city_id: '',
+      df_street: '',
+      df_num_interior: '',
+      df_num_exterior: '',
+      df_cp: '',
       estado: '',
       ciudad: '',
       paises: [],
       estados: [],
-      ciudades: [],
-      domicilio_empresa_id: '',
-      domicilio_fiscal_id: ''
+      ciudades: []
     };
   },
   mounted: function mounted() {
@@ -2592,7 +2598,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     state_id: function state_id(newVal, oldVal) {
-      this.changeEstado();
+      this.changeEstado(this.state_id);
     }
   },
   methods: {
@@ -2624,11 +2630,11 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    changeEstado: function changeEstado() {
+    changeEstado: function changeEstado(state_id) {
       var _this3 = this;
 
       this.ciudades = [];
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/ciudades/".concat(this.state_id)).then(function (resp) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/ciudades/".concat(state_id)).then(function (resp) {
         if (resp.data.status) {
           _this3.ciudades = resp.data.ciudades;
         } else {
@@ -2653,7 +2659,15 @@ __webpack_require__.r(__webpack_exports__);
       this.street = '';
       this.num_interior = '';
       this.num_exterior = '';
-      this.cp = '';
+      this.cp = ''; // domicilio fiscal
+
+      this.df_country_id = '';
+      this.df_state_id = '';
+      this.df_city_id = '';
+      this.df_street = '';
+      this.df_num_interior = '';
+      this.df_num_exterior = '';
+      this.df_cp = '';
     },
     getEmpresa: function getEmpresa(empresaId) {
       var _this4 = this;
@@ -2662,41 +2676,50 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/empresa/".concat(empresaId)).then(function (resp) {
         if (resp.data.status) {
           console.log(resp.data.empresa[0]);
-          var _aux = resp.data.empresa[0];
+          var aux = resp.data.empresa[0];
 
-          if (_aux.name == null) {
+          if (aux.name == null) {
             Swal.fire('', "Por favor registra una empresa antes de continuar", 'warning').then(function (resp) {});
           }
 
-          _this4.id = _aux.id; // datos Empresa
+          _this4.id = aux.id; // datos Empresa
 
-          _this4.logo = _aux.logo;
-          _this4.razon_social = _aux.razon_social;
-          _this4.rfc = _aux.rfc;
-          _this4.name = _aux.name;
-          _this4.phone = _aux.phone;
-          _this4.email = _aux.email; // variables necesarias
+          _this4.logo = aux.logo;
+          _this4.razon_social = aux.razon_social;
+          _this4.rfc = aux.rfc;
+          _this4.name = aux.name;
+          _this4.phone = aux.phone;
+          _this4.email = aux.email; // IDs de domicilios
 
-          _this4.domicilio_empresa_id = _aux.domicilio_empresa_id;
-          _this4.domicilio_fiscal_id = _aux.domicilio_fiscal_id;
-          console.log("domicilios:  empresa:" + _this4.domicilio_empresa_id + " | : " + _this4.domicilio_fiscal_id);
+          _this4.domicilio_empresa_id = aux.domicilio_empresa_id;
+          _this4.domicilio_fiscal_id = aux.domicilio_fiscal_id;
 
-          if (_aux.domicilio_empresa_id == _aux.domicilio_fiscal_id) {
+          if (aux.domicilio_empresa_id == aux.domicilio_fiscal_id) {
+            //validar si los domicilios son el mismo
             _this4.mismo_domicilio = true;
           } else {
             _this4.mismo_domicilio = false;
-          } // domicilio empresa
+          }
 
-
-          if (_aux.domicilio_empresa && _aux.domicilio_fiscal) {
-            var auxDomicilioEmpresa = _aux.domicilio_empresa;
+          if (aux.domicilio_empresa && aux.domicilio_fiscal) {
+            // domicilio empresa
+            var auxDomicilioEmpresa = aux.domicilio_empresa;
             _this4.country_id = auxDomicilioEmpresa.country;
             _this4.state_id = auxDomicilioEmpresa.state;
             _this4.city_id = auxDomicilioEmpresa.city;
             _this4.street = auxDomicilioEmpresa.street;
             _this4.num_interior = auxDomicilioEmpresa.num_interior;
             _this4.num_exterior = auxDomicilioEmpresa.num_exterior;
-            _this4.cp = auxDomicilioEmpresa.cp;
+            _this4.cp = auxDomicilioEmpresa.cp; // domicilio empresa
+
+            var auxDomicilioFiscal = aux.domicilio_fiscal;
+            _this4.df_country_id = auxDomicilioFiscal.country;
+            _this4.df_state_id = auxDomicilioFiscal.state;
+            _this4.df_city_id = auxDomicilioFiscal.city;
+            _this4.df_street = auxDomicilioFiscal.street;
+            _this4.df_num_interior = auxDomicilioFiscal.num_interior;
+            _this4.df_num_exterior = auxDomicilioFiscal.num_exterior;
+            _this4.df_cp = auxDomicilioFiscal.cp;
           }
         } else {
           Swal.fire('Ocurrio un error', resp.data.msg, 'error');
@@ -2712,7 +2735,8 @@ __webpack_require__.r(__webpack_exports__);
       e.preventDefault();
 
       if (this.$refs.empresaForm.reportValidity()) {
-        console.log(this.logo);
+        console.log(this.logo); // Datos domicilio empresa
+
         var domicilioEmpresaFD = new FormData();
         domicilioEmpresaFD.append('country', this.country_id);
         domicilioEmpresaFD.append('state', this.state_id);
@@ -2720,7 +2744,17 @@ __webpack_require__.r(__webpack_exports__);
         domicilioEmpresaFD.append('street', this.street);
         domicilioEmpresaFD.append('num_interior', this.num_interior);
         domicilioEmpresaFD.append('num_exterior', this.num_exterior);
-        domicilioEmpresaFD.append('cp', this.cp);
+        domicilioEmpresaFD.append('cp', this.cp); // datos domicilio fiscal
+
+        var domicilioFiscalFD = new FormData();
+        domicilioFiscalFD.append('country', this.df_country_id);
+        domicilioFiscalFD.append('state', this.df_state_id);
+        domicilioFiscalFD.append('city', this.df_city_id);
+        domicilioFiscalFD.append('street', this.df_street);
+        domicilioFiscalFD.append('num_interior', this.df_num_interior);
+        domicilioFiscalFD.append('num_exterior', this.df_num_exterior);
+        domicilioFiscalFD.append('cp', this.df_cp); // Datos empresa
+
         var datosEmpresaFD = new FormData();
         datosEmpresaFD.append('logo', this.logo);
         datosEmpresaFD.append('razon_social', this.razon_social);
@@ -2731,23 +2765,29 @@ __webpack_require__.r(__webpack_exports__);
         datosEmpresaFD.append('admin_id', this.userIdProp);
 
         if (this.empresaIdProp) {
-          //si ya existe empresa
+          //si ya existe empresa, ok
           if (this.domicilio_empresa_id && this.domicilio_fiscal_id) {
             //si ya tiene domicilios, actualizar
             //actualizando domicilios en tabla domicilios
             domicilioEmpresaFD.append('id', this.domicilio_empresa_id);
-            this.updateDomicilio(this.domicilio_empresa_id, domicilioEmpresaFD); // -p de añadir domicilio fiscal como arribita
-            //actualizando domicilios en tabla empresa
-
+            this.updateDomicilio(this.domicilio_empresa_id, domicilioEmpresaFD);
             datosEmpresaFD.append('domicilio_empresa_id', this.domicilio_empresa_id);
-            datosEmpresaFD.append('domicilio_fiscal_id', this.domicilio_fiscal_id);
-          } else {
-            // -p crear nuevos domicilios en la bdd
-            console.log("Nuevo domicilio creado");
 
-            if (this.mismo_domicilio == true) {
-              aux.domicilio_fiscal_id = aux.domicilio_empresa_id;
-              datosEmpresaFD.append('domicilio_empresa_id', 1);
+            if (this.mismo_domicilio == false) {
+              //si el usuario quiere usar domicilio de empresa y fiscal diferentes
+              domicilioFiscalFD.append('id', this.domicilio_fiscal_id);
+              this.updateDomicilio(this.domicilio_fiscal_id, domicilioFiscalFD);
+              datosEmpresaFD.append('domicilio_fiscal_id', this.domicilio_fiscal_id);
+            } else {
+              datosEmpresaFD.append('domicilio_fiscal_id', this.domicilio_empresa_id); //-p borrar domicilio fiscal desuso en la tabla
+            }
+          } else {
+            //si primera vez que crea ambos domicilios
+            this.storeDomicilio(domicilioEmpresaFD);
+            datosEmpresaFD.append('domicilio_empresa_id', 1);
+
+            if (this.mismo_domicilio == false) {
+              this.storeDomicilio(domicilioFiscalFD);
               datosEmpresaFD.append('domicilio_fiscal_id', 1);
             }
           }
@@ -2789,6 +2829,22 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         if (error.response.status == 422) {
           _this6.errors = error.response.data.errors;
+        }
+      });
+    },
+    storeDomicilio: function storeDomicilio(domicilio) {
+      var _this7 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/domicilio', domicilio).then(function (resp) {
+        if (resp.data.status) {
+          console.log(resp.data);
+          Swal.fire('', "El domicilio ha sido agregado", 'success').then(function (resp) {});
+        } else {
+          Swal.fire('Ocurrio un error', resp.data.msg, 'error');
+        }
+      })["catch"](function (error) {
+        if (error.response.status == 422) {
+          _this7.errors = error.response.data.errors;
         }
       });
     }
@@ -5256,12 +5312,12 @@ var render = function render() {
     attrs: {
       "for": "country"
     }
-  }, [_vm._v("País")]), _vm._v(" "), _c("select", {
+  }, [_vm._v("País*")]), _vm._v(" "), _c("select", {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.country_id,
-      expression: "country_id"
+      value: _vm.df_country_id,
+      expression: "df_country_id"
     }],
     staticClass: "form-control",
     attrs: {
@@ -5276,7 +5332,7 @@ var render = function render() {
           var val = "_value" in o ? o._value : o.value;
           return val;
         });
-        _vm.country_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
+        _vm.df_country_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
       }
     }
   }, [_c("option", {
@@ -5292,7 +5348,7 @@ var render = function render() {
         value: pais.id
       }
     }, [_vm._v(_vm._s(pais.name))]);
-  })], 2)])]), _vm._v(" "), _vm.country_id === 157 ? _c("div", [_c("div", {
+  })], 2)])]), _vm._v(" "), _vm.df_country_id === 157 ? _c("div", [_c("div", {
     staticClass: "row"
   }, [_c("div", {
     staticClass: "mb-3"
@@ -5300,12 +5356,12 @@ var render = function render() {
     attrs: {
       "for": "estado"
     }
-  }, [_vm._v("Estado / Provincia")]), _vm._v(" "), _c("select", {
+  }, [_vm._v("Estado / Provincia*")]), _vm._v(" "), _c("select", {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.state_id,
-      expression: "state_id"
+      value: _vm.df_state_id,
+      expression: "df_state_id"
     }],
     staticClass: "form-control",
     attrs: {
@@ -5320,8 +5376,10 @@ var render = function render() {
           var val = "_value" in o ? o._value : o.value;
           return val;
         });
-        _vm.state_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
-      }, _vm.changeEstado]
+        _vm.df_state_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
+      }, function ($event) {
+        return _vm.changeEstado(_vm.df_state_id);
+      }]
     }
   }, [_c("option", {
     attrs: {
@@ -5344,12 +5402,12 @@ var render = function render() {
     attrs: {
       "for": "city"
     }
-  }, [_vm._v("Ciudad / Localidad")]), _vm._v(" "), _c("select", {
+  }, [_vm._v("Ciudad / Localidad*")]), _vm._v(" "), _c("select", {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.city_id,
-      expression: "city_id"
+      value: _vm.df_city_id,
+      expression: "df_city_id"
     }],
     staticClass: "form-control",
     attrs: {
@@ -5364,7 +5422,7 @@ var render = function render() {
           var val = "_value" in o ? o._value : o.value;
           return val;
         });
-        _vm.city_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
+        _vm.df_city_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
       }
     }
   }, [_c("option", {
@@ -5388,12 +5446,12 @@ var render = function render() {
     attrs: {
       "for": "estado"
     }
-  }, [_vm._v("Estado / Provincia")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("Estado / Provincia*")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.estado,
-      expression: "estado"
+      value: _vm.df_state_id,
+      expression: "df_state_id"
     }],
     staticClass: "form-control",
     attrs: {
@@ -5404,12 +5462,12 @@ var render = function render() {
       required: ""
     },
     domProps: {
-      value: _vm.estado
+      value: _vm.df_state_id
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.estado = $event.target.value;
+        _vm.df_state_id = $event.target.value;
       }
     }
   })])]), _vm._v(" "), _c("div", {
@@ -5420,12 +5478,12 @@ var render = function render() {
     attrs: {
       "for": "ciudad"
     }
-  }, [_vm._v("Ciudad / Localidad")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("Ciudad / Localidad*")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.ciudad,
-      expression: "ciudad"
+      value: _vm.df_city_id,
+      expression: "df_city_id"
     }],
     staticClass: "form-control",
     attrs: {
@@ -5436,12 +5494,12 @@ var render = function render() {
       required: ""
     },
     domProps: {
-      value: _vm.ciudad
+      value: _vm.df_city_id
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.ciudad = $event.target.value;
+        _vm.df_city_id = $event.target.value;
       }
     }
   })])])]), _vm._v(" "), _c("div", {
@@ -5452,27 +5510,28 @@ var render = function render() {
     attrs: {
       "for": "street"
     }
-  }, [_vm._v("Calle")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("Calle*")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.street,
-      expression: "street"
+      value: _vm.df_street,
+      expression: "df_street"
     }],
     staticClass: "form-control",
     attrs: {
       type: "text",
       name: "street",
       id: "street",
-      maxlength: "50"
+      maxlength: "50",
+      required: ""
     },
     domProps: {
-      value: _vm.street
+      value: _vm.df_street
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.street = $event.target.value;
+        _vm.df_street = $event.target.value;
       }
     }
   })])]), _vm._v(" "), _c("div", {
@@ -5487,8 +5546,8 @@ var render = function render() {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.num_interior,
-      expression: "num_interior"
+      value: _vm.df_num_interior,
+      expression: "df_num_interior"
     }],
     staticClass: "form-control",
     attrs: {
@@ -5501,12 +5560,12 @@ var render = function render() {
       title: "Solo se permiten números en este campo"
     },
     domProps: {
-      value: _vm.num_interior
+      value: _vm.df_num_interior
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.num_interior = $event.target.value;
+        _vm.df_num_interior = $event.target.value;
       }
     }
   })])]), _vm._v(" "), _c("div", {
@@ -5517,12 +5576,12 @@ var render = function render() {
     attrs: {
       "for": "num_exterior"
     }
-  }, [_vm._v("Numero exterior")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("Numero exterior*")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.num_exterior,
-      expression: "num_exterior"
+      value: _vm.df_num_exterior,
+      expression: "df_num_exterior"
     }],
     staticClass: "form-control",
     attrs: {
@@ -5532,15 +5591,16 @@ var render = function render() {
       min: "0",
       maxlength: "4",
       pattern: "[0-9]*",
-      title: "Solo se permiten números en este campo"
+      title: "Solo se permiten números en este campo",
+      required: ""
     },
     domProps: {
-      value: _vm.num_exterior
+      value: _vm.df_num_exterior
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.num_exterior = $event.target.value;
+        _vm.df_num_exterior = $event.target.value;
       }
     }
   })])]), _vm._v(" "), _c("div", {
@@ -5551,12 +5611,12 @@ var render = function render() {
     attrs: {
       "for": "cp"
     }
-  }, [_vm._v("Código postal")]), _vm._v(" "), _c("input", {
+  }, [_vm._v("Código postal*")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: _vm.cp,
-      expression: "cp"
+      value: _vm.df_cp,
+      expression: "df_cp"
     }],
     staticClass: "form-control",
     attrs: {
@@ -5566,15 +5626,16 @@ var render = function render() {
       min: "0",
       maxlength: "5",
       pattern: "[0-9]*",
-      title: "Solo se permiten números en este campo"
+      title: "Solo se permiten números en este campo",
+      required: ""
     },
     domProps: {
-      value: _vm.cp
+      value: _vm.df_cp
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.cp = $event.target.value;
+        _vm.df_cp = $event.target.value;
       }
     }
   })])])]) : _vm._e()])]), _vm._v(" "), _c("div", {
@@ -5761,7 +5822,9 @@ var render = function render() {
           return val;
         });
         _vm.state_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
-      }, _vm.changeEstado]
+      }, function ($event) {
+        return _vm.changeEstado(_vm.state_id);
+      }]
     }
   }, [_c("option", {
     attrs: {

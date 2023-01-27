@@ -116,7 +116,9 @@ class EmpresaController extends Controller
             $data = $request->all();
 
             if ($data['logo']!=null) $data['logo'] = hash('md5', $data['logo']);
-            
+            if ( $data['domicilio_empresa_id']=="null") $data['domicilio_empresa_id'] = null; 
+            if ( $data['domicilio_fiscal_id']=="null") $data['domicilio_fiscal_id'] = null; 
+                        
             $empresa->name                  = $data['name'];
             $empresa->logo                  = $data['logo'] ?? '';
             $empresa->phone                 = $data['phone'] ?? '';
@@ -124,8 +126,8 @@ class EmpresaController extends Controller
             $empresa->rfc                   = $data['rfc'] ?? '';
             $empresa->razon_social          = $data['razon_social'] ?? '';
             $empresa->admin_id              = $data['admin_id'];
-            $empresa->domicilio_empresa_id  = $data['domicilio_empresa_id'] ?? '';
-            $empresa->domicilio_fiscal_id   = $data['domicilio_fiscal_id'] ?? '';
+            $empresa->domicilio_empresa_id  = $data['domicilio_empresa_id'];
+            $empresa->domicilio_fiscal_id   = $data['domicilio_fiscal_id'];
 
             if($empresa->save()){
                 return response([

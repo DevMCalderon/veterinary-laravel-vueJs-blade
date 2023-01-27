@@ -70,28 +70,28 @@
                         <div class="" v-if="this.mismo_domicilio == false">
                             <div class="row">
                                 <div class="mb-3">
-                                    <label for="country">País</label>
-                                    <select id="country" class="form-control" v-model="country_id" required>
+                                    <label for="country">País*</label>
+                                    <select id="country" class="form-control" v-model="df_country_id" required>
                                         <option value="" selected disabled>Seleccione</option>
                                         <option :value="pais.id" v-for="pais in paises" :key="pais.id">{{ pais.name }}</option>
                                     </select>
                                 </div>
                             </div>
                     
-                            <div v-if="(country_id===157)">
+                            <div v-if="(df_country_id===157)">
                                 <div class="row">
-                                    <div class=" mb-3">
-                                        <label for="estado">Estado / Provincia</label>
-                                        <select id="estado" class="form-control" v-model="state_id" @change="changeEstado" required> 
+                                    <div class="mb-3">
+                                        <label for="estado">Estado / Provincia*</label>
+                                        <select id="estado" class="form-control" v-model="df_state_id" @change="changeEstado(df_state_id)" required> 
                                             <option value="" selected disabled>Seleccione</option>
                                             <option :value="estado.id" v-for="estado in estados" :key="estado.id">{{ estado.name }}</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class=" mb-3">
-                                        <label for="city">Ciudad / Localidad</label>
-                                        <select id="city" class="form-control" v-model="city_id" required>
+                                    <div class="mb-3">
+                                        <label for="city">Ciudad / Localidad*</label>
+                                        <select id="city" class="form-control" v-model="df_city_id" required>
                                             <option value="" selected disabled>Seleccione</option>
                                             <option :value="ciudad.id" v-for="ciudad in ciudades" :key="ciudad.id">{{ ciudad.name }}</option>
                                         </select>
@@ -102,44 +102,44 @@
                             <div v-else>
                                 <div class="row">
                                     <div class="mb-3">
-                                        <label for="estado">Estado / Provincia</label>
-                                        <input type="text" name="estado" id="estado" class="form-control" maxlength="50" v-model="estado" required>
+                                        <label for="estado">Estado / Provincia*</label>
+                                        <input type="text" name="estado" id="estado" class="form-control" maxlength="50" v-model="df_state_id" required>
                                     </div>
                                 </div>
                     
                                 <div class="row">
                                     <div class="mb-3">
-                                        <label for="ciudad">Ciudad / Localidad</label>
-                                        <input type="text" name="ciudad" id="ciudad" class="form-control" maxlength="50" v-model="ciudad" required>
+                                        <label for="ciudad">Ciudad / Localidad*</label>
+                                        <input type="text" name="ciudad" id="ciudad" class="form-control" maxlength="50" v-model="df_city_id" required>
                                     </div>
                                 </div>
                             </div>
                     
                             <div class="row">
                                 <div class="mb-3">
-                                    <label for="street">Calle</label>
-                                    <input type="text" name="street" id="street" class="form-control" maxlength="50" v-model="street">
+                                    <label for="street">Calle*</label>
+                                    <input type="text" name="street" id="street" class="form-control" maxlength="50" v-model="df_street" required>
                                 </div>
                             </div>
                     
                             <div class="row">
                                 <div class="mb-3">
                                     <label for="num_interior">Numero interior</label>
-                                    <input type="tel" name="num_interior" id="num_interior" class="form-control" v-model="num_interior" min="0" maxlength="4" pattern="[0-9]*" title="Solo se permiten números en este campo"/>
+                                    <input type="tel" name="num_interior" id="num_interior" class="form-control" v-model="df_num_interior" min="0" maxlength="4" pattern="[0-9]*" title="Solo se permiten números en este campo"/>
                                 </div>
                             </div>
                     
                             <div class="row">
                                 <div class="mb-3">
-                                    <label for="num_exterior">Numero exterior</label>
-                                    <input type="tel" name="num_exterior" id="num_exterior" class="form-control" v-model="num_exterior" min="0" maxlength="4" pattern="[0-9]*" title="Solo se permiten números en este campo"/>
+                                    <label for="num_exterior">Numero exterior*</label>
+                                    <input type="tel" name="num_exterior" id="num_exterior" class="form-control" v-model="df_num_exterior" min="0" maxlength="4" pattern="[0-9]*" title="Solo se permiten números en este campo" required/>
                                 </div>
                             </div>
                     
                             <div class="row">
                                 <div class="mb-3">
-                                    <label for="cp">Código postal</label>
-                                    <input type="tel" name="cp" id="cp" class="form-control" v-model="cp" min="0" maxlength="5" pattern="[0-9]*" title="Solo se permiten números en este campo"/>
+                                    <label for="cp">Código postal*</label>
+                                    <input type="tel" name="cp" id="cp" class="form-control" v-model="df_cp" min="0" maxlength="5" pattern="[0-9]*" title="Solo se permiten números en este campo" required/>
                                 </div>
                             </div>
                         </div>
@@ -211,7 +211,7 @@
                         <div class="row">
                             <div class="mb-3">
                                 <label for="estado">Estado / Provincia*</label>
-                                <select id="estado" class="form-control" v-model="state_id" @change="changeEstado" required> 
+                                <select id="estado" class="form-control" v-model="state_id" @change="changeEstado(state_id)" required> 
                                     <option value="" selected disabled>Seleccione</option>
                                     <option :value="estado.id" v-for="estado in estados" :key="estado.id">{{ estado.name }}</option>
                                 </select>
@@ -307,34 +307,40 @@ export default {
             email: '',
 
             img: null,
-            name_substr:'',
+            domicilio_empresa_id:'',
+            domicilio_fiscal_id:'',
 
             country_id: '',
             state_id:'',
             city_id: '',
-            cp: '',
             street: '',
             num_interior: '',
             num_exterior: '',
+            cp: '',
+
+            df_country_id: '',
+            df_state_id:'',
+            df_city_id: '',
+            df_street: '',
+            df_num_interior: '',
+            df_num_exterior: '',
+            df_cp: '',
             
             estado:'',
             ciudad:'',
             paises:[],
             estados:[],
-            ciudades:[],
-
-            domicilio_empresa_id:'',
-            domicilio_fiscal_id:'',
+            ciudades:[],   
         }
     },
     mounted() {        
         // Obtener lista de paises y estados
         this.getPais();
         this.getEstado();
-
+        
         // Cargar imagen por defecto
         this.img =this.imgEmpresaProp;
-
+        
         // obtener datos de empresa si es que ya existe 
         if(this.empresaIdProp){
             this.getEmpresa(this.empresaIdProp);
@@ -342,7 +348,7 @@ export default {
     },
     watch:{
         state_id(newVal, oldVal) {
-            this.changeEstado();
+            this.changeEstado(this.state_id);
         },
     },
     methods: {
@@ -370,9 +376,9 @@ export default {
                 }
             })
         },
-        changeEstado(){
+        changeEstado(state_id){
             this.ciudades = []
-            axios.get(`/api/ciudades/${this.state_id}`).then(resp => {
+            axios.get(`/api/ciudades/${state_id}`).then(resp => {
                 if(resp.data.status){
                     this.ciudades = resp.data.ciudades;
                 }else{
@@ -400,6 +406,15 @@ export default {
             this.num_interior = '';
             this.num_exterior = '';
             this.cp = '';
+
+            // domicilio fiscal
+            this.df_country_id = '';
+            this.df_state_id = '';
+            this.df_city_id = '';
+            this.df_street = '';
+            this.df_num_interior = '';
+            this.df_num_exterior = '';
+            this.df_cp = '';
         },
         getEmpresa(empresaId){
             this.clearForm();
@@ -424,21 +439,19 @@ export default {
                     this.phone        = aux.phone;
                     this.email        = aux.email;
                     
-                    // variables necesarias
+                    // IDs de domicilios
                     this.domicilio_empresa_id = aux.domicilio_empresa_id;
                     this.domicilio_fiscal_id = aux.domicilio_fiscal_id;
-                    
-                    console.log("domicilios:  empresa:"+this.domicilio_empresa_id+" | : "+this.domicilio_fiscal_id)
-                    
-                    if(aux.domicilio_empresa_id==aux.domicilio_fiscal_id){
+                                        
+                    if(aux.domicilio_empresa_id==aux.domicilio_fiscal_id){ //validar si los domicilios son el mismo
                         this.mismo_domicilio=true;
                     }else{
                         this.mismo_domicilio=false;
                     }
                     
-                    // domicilio empresa
                     if(aux.domicilio_empresa && aux.domicilio_fiscal){
-
+                        
+                        // domicilio empresa
                         let auxDomicilioEmpresa=aux.domicilio_empresa;
                         this.country_id = auxDomicilioEmpresa.country;
                         this.state_id = auxDomicilioEmpresa.state;
@@ -447,11 +460,18 @@ export default {
                         this.num_interior = auxDomicilioEmpresa.num_interior;
                         this.num_exterior = auxDomicilioEmpresa.num_exterior;
                         this.cp = auxDomicilioEmpresa.cp;
+
+                        // domicilio empresa
+                        let auxDomicilioFiscal=aux.domicilio_fiscal;
+                        this.df_country_id = auxDomicilioFiscal.country;
+                        this.df_state_id = auxDomicilioFiscal.state;
+                        this.df_city_id = auxDomicilioFiscal.city;
+                        this.df_street = auxDomicilioFiscal.street;
+                        this.df_num_interior = auxDomicilioFiscal.num_interior;
+                        this.df_num_exterior = auxDomicilioFiscal.num_exterior;
+                        this.df_cp = auxDomicilioFiscal.cp;
                     }
 
-                    
-
-                    
 
                 }else{
                     Swal.fire('Ocurrio un error',resp.data.msg,'error')
@@ -466,6 +486,7 @@ export default {
             if(this.$refs.empresaForm.reportValidity()){
                 console.log(this.logo);
 
+                // Datos domicilio empresa
                 const domicilioEmpresaFD = new FormData();
                 domicilioEmpresaFD.append('country', this.country_id);
                 domicilioEmpresaFD.append('state', this.state_id);
@@ -475,6 +496,17 @@ export default {
                 domicilioEmpresaFD.append('num_exterior', this.num_exterior);
                 domicilioEmpresaFD.append('cp', this.cp);
 
+                // datos domicilio fiscal
+                const domicilioFiscalFD = new FormData();
+                domicilioFiscalFD.append('country', this.df_country_id);
+                domicilioFiscalFD.append('state', this.df_state_id);
+                domicilioFiscalFD.append('city', this.df_city_id);
+                domicilioFiscalFD.append('street', this.df_street);
+                domicilioFiscalFD.append('num_interior', this.df_num_interior);
+                domicilioFiscalFD.append('num_exterior', this.df_num_exterior);
+                domicilioFiscalFD.append('cp', this.df_cp);
+
+                // Datos empresa
                 const datosEmpresaFD = new FormData();
                 datosEmpresaFD.append('logo', this.logo);
                 datosEmpresaFD.append('razon_social', this.razon_social);
@@ -485,25 +517,32 @@ export default {
                 datosEmpresaFD.append('admin_id', this.userIdProp);
 
                 
-                if(this.empresaIdProp){ //si ya existe empresa
+                if(this.empresaIdProp){ //si ya existe empresa, ok
 
                     if(this.domicilio_empresa_id && this.domicilio_fiscal_id){ //si ya tiene domicilios, actualizar
                         //actualizando domicilios en tabla domicilios
+                        
                         domicilioEmpresaFD.append('id', this.domicilio_empresa_id);
                         this.updateDomicilio(this.domicilio_empresa_id, domicilioEmpresaFD);
-                        
-                        // -p de añadir domicilio fiscal como arribita
-                        
-                        //actualizando domicilios en tabla empresa
                         datosEmpresaFD.append('domicilio_empresa_id', this.domicilio_empresa_id);
-                        datosEmpresaFD.append('domicilio_fiscal_id', this.domicilio_fiscal_id);
-                    }else{
-                        // -p crear nuevos domicilios en la bdd
+                        
+                        if(this.mismo_domicilio==false){//si el usuario quiere usar domicilio de empresa y fiscal diferentes
+                            domicilioFiscalFD.append('id', this.domicilio_fiscal_id);   
+                            this.updateDomicilio(this.domicilio_fiscal_id, domicilioFiscalFD);
+                            
+                            datosEmpresaFD.append('domicilio_fiscal_id', this.domicilio_fiscal_id);
+                        }else{
+                            datosEmpresaFD.append('domicilio_fiscal_id', this.domicilio_empresa_id);
+                            //-p borrar domicilio fiscal desuso en la tabla
+                        }
+                        
 
-                        console.log("Nuevo domicilio creado")
-                        if(this.mismo_domicilio==true){
-                            aux.domicilio_fiscal_id=aux.domicilio_empresa_id
-                            datosEmpresaFD.append('domicilio_empresa_id', 1);
+                    }else{//si primera vez que crea ambos domicilios
+                        this.storeDomicilio(domicilioEmpresaFD);
+                        datosEmpresaFD.append('domicilio_empresa_id', 1);
+
+                        if(this.mismo_domicilio==false){
+                            this.storeDomicilio(domicilioFiscalFD);
                             datosEmpresaFD.append('domicilio_fiscal_id', 1);
                         }
                     }
@@ -551,8 +590,31 @@ export default {
                 }
             })
         },
+        storeDomicilio(domicilio){
+            axios.post('/api/domicilio',domicilio).then(resp => {
+                if(resp.data.status){
+                    console.log(resp.data);
+                    Swal.fire('',
+                        `El domicilio ha sido agregado`,
+                        'success'
+                    ).then(resp => {})
+                }else{
+                    Swal.fire('Ocurrio un error',resp.data.msg,'error')
+                }
+            }).catch(error => {
+                if(error.response.status == 422){
+                    this.errors = error.response.data.errors
+                }
+            })
+        }
     }
 }
 
 </script>
 
+
+
+<!-- 
+    Pendiente
+    Trabajar con las ciudades y estados, desvincularlas df_ de las normales
+ -->
