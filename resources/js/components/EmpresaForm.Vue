@@ -82,7 +82,7 @@
                                 <div class="row">
                                     <div class="mb-3">
                                         <label for="estado">Estado / Provincia*</label>
-                                        <select id="estado" class="form-control" v-model="df_state_id" @change="changeEstado(df_state_id)" required> 
+                                        <select id="estado" class="form-control" v-model="df_state_id" @change="changeEstado(df_state_id,'df_state_id')" required> 
                                             <option value="" selected disabled>Seleccione</option>
                                             <option :value="estado.id" v-for="estado in estados" :key="estado.id">{{ estado.name }}</option>
                                         </select>
@@ -93,7 +93,7 @@
                                         <label for="city">Ciudad / Localidad*</label>
                                         <select id="city" class="form-control" v-model="df_city_id" required>
                                             <option value="" selected disabled>Seleccione</option>
-                                            <option :value="ciudad.id" v-for="ciudad in ciudades" :key="ciudad.id">{{ ciudad.name }}</option>
+                                            <option :value="ciudad.id" v-for="ciudad in df_ciudades" :key="ciudad.id">{{ ciudad.name }}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -211,7 +211,7 @@
                         <div class="row">
                             <div class="mb-3">
                                 <label for="estado">Estado / Provincia*</label>
-                                <select id="estado" class="form-control" v-model="state_id" @change="changeEstado(state_id)" required> 
+                                <select id="estado" class="form-control" v-model="state_id" @change="changeEstado(state_id,'state_id')" required> 
                                     <option value="" selected disabled>Seleccione</option>
                                     <option :value="estado.id" v-for="estado in estados" :key="estado.id">{{ estado.name }}</option>
                                 </select>
@@ -331,6 +331,7 @@ export default {
             paises:[],
             estados:[],
             ciudades:[],   
+            df_ciudades:[],   
         }
     },
     mounted() {        
@@ -348,7 +349,10 @@ export default {
     },
     watch:{
         state_id(newVal, oldVal) {
-            this.changeEstado(this.state_id);
+            this.changeEstado(this.state_id,'state_id');
+        },
+        df_state_id(newVal, oldVal) {
+            this.changeEstado(this.df_state_id,'df_state_id');
         },
     },
     methods: {
@@ -376,13 +380,19 @@ export default {
                 }
             })
         },
-        changeEstado(state_id){
-            this.ciudades = []
+        changeEstado(state_id, var_name){
             axios.get(`/api/ciudades/${state_id}`).then(resp => {
                 if(resp.data.status){
-                    this.ciudades = resp.data.ciudades;
-                }else{
-                    this.ciudades = []
+                    if(var_name=='state_id'){
+                        console.log("state_id")
+                        this.ciudades = []
+                        this.ciudades = resp.data.ciudades;
+                    }
+                    else if(var_name=='df_state_id'){
+                        console.log("df_state_id")
+                        this.df_ciudades = []
+                        this.df_ciudades = resp.data.ciudades;
+                    }
                 }
             })
         },
@@ -560,9 +570,7 @@ export default {
             axios.post('/api/domicilio/'+ id ,domicilio).then(resp => {
                 if(resp.data.status){
 
-                    Swal.fire('',`Domicilio actualizado`,'success').then(resp => {
-                        // location.href = "/empresa"
-                    });
+                    console.log("Domicilio actualizado")
 
                 }else{
                     Swal.fire('Ocurrio un error',resp.data.msg,'error')
@@ -616,5 +624,11 @@ export default {
 
 <!-- 
     Pendiente
-    Trabajar con las ciudades y estados, desvincularlas df_ de las normales
+    
+    -borrar el otro domicilio fiscal de la tabla tras seleccionar  la opcion de usar mismo domicilio, se quita de la tabla de empresa pero se mantiene en la tabla domicilios
+
+    -al crear un nuevo domicilio fical, obtener el id de este tras ser creado y añadirlo en la tabla empresas
+    
+    -validar si se añaden a la tabla de domicilios fiscales los nuevos domicilios fiscales tras deseleccionar mismo domicilio
+
  -->

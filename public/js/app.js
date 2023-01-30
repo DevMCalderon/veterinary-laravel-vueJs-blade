@@ -2582,7 +2582,8 @@ __webpack_require__.r(__webpack_exports__);
       ciudad: '',
       paises: [],
       estados: [],
-      ciudades: []
+      ciudades: [],
+      df_ciudades: []
     };
   },
   mounted: function mounted() {
@@ -2598,7 +2599,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     state_id: function state_id(newVal, oldVal) {
-      this.changeEstado(this.state_id);
+      this.changeEstado(this.state_id, 'state_id');
+    },
+    df_state_id: function df_state_id(newVal, oldVal) {
+      this.changeEstado(this.df_state_id, 'df_state_id');
     }
   },
   methods: {
@@ -2630,15 +2634,20 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    changeEstado: function changeEstado(state_id) {
+    changeEstado: function changeEstado(state_id, var_name) {
       var _this3 = this;
 
-      this.ciudades = [];
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/ciudades/".concat(state_id)).then(function (resp) {
         if (resp.data.status) {
-          _this3.ciudades = resp.data.ciudades;
-        } else {
-          _this3.ciudades = [];
+          if (var_name == 'state_id') {
+            console.log("state_id");
+            _this3.ciudades = [];
+            _this3.ciudades = resp.data.ciudades;
+          } else if (var_name == 'df_state_id') {
+            console.log("df_state_id");
+            _this3.df_ciudades = [];
+            _this3.df_ciudades = resp.data.ciudades;
+          }
         }
       });
     },
@@ -2805,8 +2814,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/domicilio/' + id, domicilio).then(function (resp) {
         if (resp.data.status) {
-          Swal.fire('', "Domicilio actualizado", 'success').then(function (resp) {// location.href = "/empresa"
-          });
+          console.log("Domicilio actualizado");
         } else {
           Swal.fire('Ocurrio un error', resp.data.msg, 'error');
         }
@@ -5378,7 +5386,7 @@ var render = function render() {
         });
         _vm.df_state_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
       }, function ($event) {
-        return _vm.changeEstado(_vm.df_state_id);
+        return _vm.changeEstado(_vm.df_state_id, "df_state_id");
       }]
     }
   }, [_c("option", {
@@ -5431,7 +5439,7 @@ var render = function render() {
       selected: "",
       disabled: ""
     }
-  }, [_vm._v("Seleccione")]), _vm._v(" "), _vm._l(_vm.ciudades, function (ciudad) {
+  }, [_vm._v("Seleccione")]), _vm._v(" "), _vm._l(_vm.df_ciudades, function (ciudad) {
     return _c("option", {
       key: ciudad.id,
       domProps: {
@@ -5823,7 +5831,7 @@ var render = function render() {
         });
         _vm.state_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
       }, function ($event) {
-        return _vm.changeEstado(_vm.state_id);
+        return _vm.changeEstado(_vm.state_id, "state_id");
       }]
     }
   }, [_c("option", {
