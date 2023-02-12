@@ -2548,6 +2548,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return generator._invoke = function (innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; }(innerFn, self, context), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == _typeof(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; this._invoke = function (method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); }; } function maybeInvokeDelegate(delegate, context) { var method = delegate.iterator[context.method]; if (undefined === method) { if (context.delegate = null, "throw" === context.method) { if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel; context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method"); } return ContinueSentinel; } var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) { if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; } return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (object) { var keys = []; for (var key in object) { keys.push(key); } return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) { "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); } }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['userIdProp', 'empresaIdProp', 'imgEmpresaProp'],
@@ -2583,7 +2597,8 @@ __webpack_require__.r(__webpack_exports__);
       paises: [],
       estados: [],
       ciudades: [],
-      df_ciudades: []
+      df_ciudades: [],
+      id_dom_aux: ''
     };
   },
   mounted: function mounted() {
@@ -2637,14 +2652,15 @@ __webpack_require__.r(__webpack_exports__);
     changeEstado: function changeEstado(state_id, var_name) {
       var _this3 = this;
 
+      //función que recibe los estados y detecta a que formulario pertenece en base al nombre de la variable indicado
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/ciudades/".concat(state_id)).then(function (resp) {
         if (resp.data.status) {
           if (var_name == 'state_id') {
-            console.log("state_id");
+            //para domicilio empresa
             _this3.ciudades = [];
             _this3.ciudades = resp.data.ciudades;
           } else if (var_name == 'df_state_id') {
-            console.log("df_state_id");
+            //para domicilio fiscal
             _this3.df_ciudades = [];
             _this3.df_ciudades = resp.data.ciudades;
           }
@@ -2688,6 +2704,7 @@ __webpack_require__.r(__webpack_exports__);
           var aux = resp.data.empresa[0];
 
           if (aux.name == null) {
+            //si la empresa aun no está rellanada 
             Swal.fire('', "Por favor registra una empresa antes de continuar", 'warning').then(function (resp) {});
           }
 
@@ -2703,14 +2720,14 @@ __webpack_require__.r(__webpack_exports__);
           _this4.domicilio_empresa_id = aux.domicilio_empresa_id;
           _this4.domicilio_fiscal_id = aux.domicilio_fiscal_id;
 
-          if (aux.domicilio_empresa_id == aux.domicilio_fiscal_id) {
-            //validar si los domicilios son el mismo
+          if (aux.domicilio_empresa_id === aux.domicilio_fiscal_id && !!aux.domicilio_empresa_id) {
+            //validar si los domicilios son el mismo y que no sean null
             _this4.mismo_domicilio = true;
           } else {
             _this4.mismo_domicilio = false;
           }
 
-          if (aux.domicilio_empresa && aux.domicilio_fiscal) {
+          if (aux.domicilio_empresa) {
             // domicilio empresa
             var auxDomicilioEmpresa = aux.domicilio_empresa;
             _this4.country_id = auxDomicilioEmpresa.country;
@@ -2719,8 +2736,11 @@ __webpack_require__.r(__webpack_exports__);
             _this4.street = auxDomicilioEmpresa.street;
             _this4.num_interior = auxDomicilioEmpresa.num_interior;
             _this4.num_exterior = auxDomicilioEmpresa.num_exterior;
-            _this4.cp = auxDomicilioEmpresa.cp; // domicilio empresa
+            _this4.cp = auxDomicilioEmpresa.cp;
+          }
 
+          if (aux.domicilio_fiscal) {
+            // domicilio fiscal
             var auxDomicilioFiscal = aux.domicilio_fiscal;
             _this4.df_country_id = auxDomicilioFiscal.country;
             _this4.df_state_id = auxDomicilioFiscal.state;
@@ -2740,78 +2760,204 @@ __webpack_require__.r(__webpack_exports__);
         Swal.fire('', "Ocurrio un error al intentar obtener información de la empresa", 'error');
       });
     },
-    save: function save(e) {
-      e.preventDefault();
-
-      if (this.$refs.empresaForm.reportValidity()) {
-        console.log(this.logo); // Datos domicilio empresa
-
-        var domicilioEmpresaFD = new FormData();
-        domicilioEmpresaFD.append('country', this.country_id);
-        domicilioEmpresaFD.append('state', this.state_id);
-        domicilioEmpresaFD.append('city', this.city_id);
-        domicilioEmpresaFD.append('street', this.street);
-        domicilioEmpresaFD.append('num_interior', this.num_interior);
-        domicilioEmpresaFD.append('num_exterior', this.num_exterior);
-        domicilioEmpresaFD.append('cp', this.cp); // datos domicilio fiscal
-
-        var domicilioFiscalFD = new FormData();
-        domicilioFiscalFD.append('country', this.df_country_id);
-        domicilioFiscalFD.append('state', this.df_state_id);
-        domicilioFiscalFD.append('city', this.df_city_id);
-        domicilioFiscalFD.append('street', this.df_street);
-        domicilioFiscalFD.append('num_interior', this.df_num_interior);
-        domicilioFiscalFD.append('num_exterior', this.df_num_exterior);
-        domicilioFiscalFD.append('cp', this.df_cp); // Datos empresa
-
-        var datosEmpresaFD = new FormData();
-        datosEmpresaFD.append('logo', this.logo);
-        datosEmpresaFD.append('razon_social', this.razon_social);
-        datosEmpresaFD.append('rfc', this.rfc);
-        datosEmpresaFD.append('name', this.name);
-        datosEmpresaFD.append('phone', this.phone);
-        datosEmpresaFD.append('email', this.email);
-        datosEmpresaFD.append('admin_id', this.userIdProp);
-
-        if (this.empresaIdProp) {
-          //si ya existe empresa, ok
-          if (this.domicilio_empresa_id && this.domicilio_fiscal_id) {
-            //si ya tiene domicilios, actualizar
-            //actualizando domicilios en tabla domicilios
-            domicilioEmpresaFD.append('id', this.domicilio_empresa_id);
-            this.updateDomicilio(this.domicilio_empresa_id, domicilioEmpresaFD);
-            datosEmpresaFD.append('domicilio_empresa_id', this.domicilio_empresa_id);
-
-            if (this.mismo_domicilio == false) {
-              //si el usuario quiere usar domicilio de empresa y fiscal diferentes
-              domicilioFiscalFD.append('id', this.domicilio_fiscal_id);
-              this.updateDomicilio(this.domicilio_fiscal_id, domicilioFiscalFD);
-              datosEmpresaFD.append('domicilio_fiscal_id', this.domicilio_fiscal_id);
-            } else {
-              datosEmpresaFD.append('domicilio_fiscal_id', this.domicilio_empresa_id); //-p borrar domicilio fiscal desuso en la tabla
-            }
-          } else {
-            //si primera vez que crea ambos domicilios
-            this.storeDomicilio(domicilioEmpresaFD);
-            datosEmpresaFD.append('domicilio_empresa_id', 1);
-
-            if (this.mismo_domicilio == false) {
-              this.storeDomicilio(domicilioFiscalFD);
-              datosEmpresaFD.append('domicilio_fiscal_id', 1);
-            }
-          }
-
-          datosEmpresaFD.append('id', this.empresaIdProp);
-          this.updateEmpresa(this.empresaIdProp, datosEmpresaFD);
-        } else {
-          Swal.fire('', "Error a\xFAn no se ha creado una empresa", 'error').then(function (resp) {// location.href = "/"
-          });
-        }
-      }
-    },
-    updateDomicilio: function updateDomicilio(id, domicilio) {
+    storeDomicilio: function storeDomicilio(domicilio) {
       var _this5 = this;
 
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+        var resp;
+        return _regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/domicilio', domicilio).then(function (resp) {
+                  _this5.id_dom_aux = null;
+
+                  if (resp.data.status) {
+                    // console.log( resp.data.domicilio.id);
+                    // return resp.data.domicilio.id;
+                    _this5.id_dom_aux = resp.data.domicilio.id;
+                    console.log("dentro " + _this5.id_dom_aux);
+                  } else {
+                    Swal.fire('Ocurrio un error', resp.data.msg, 'error');
+                  }
+                })["catch"](function (error) {
+                  if (resp.response.status == 422) {
+                    console.error(error);
+                  }
+                });
+
+              case 2:
+                resp = _context.sent;
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    save: function save(e) {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+        var domicilioEmpresaFD, domicilioFiscalFD, datosEmpresaFD, _iterator, _step, pair;
+
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                e.preventDefault();
+
+                if (!_this6.$refs.empresaForm.reportValidity()) {
+                  _context2.next = 65;
+                  break;
+                }
+
+                console.log(_this6.logo); // Datos domicilio empresa
+
+                domicilioEmpresaFD = new FormData();
+                domicilioEmpresaFD.append('country', _this6.country_id);
+                domicilioEmpresaFD.append('state', _this6.state_id);
+                domicilioEmpresaFD.append('city', _this6.city_id);
+                domicilioEmpresaFD.append('street', _this6.street);
+                domicilioEmpresaFD.append('num_interior', _this6.num_interior);
+                domicilioEmpresaFD.append('num_exterior', _this6.num_exterior);
+                domicilioEmpresaFD.append('cp', _this6.cp); // datos domicilio fiscal
+
+                domicilioFiscalFD = new FormData();
+                domicilioFiscalFD.append('country', _this6.df_country_id);
+                domicilioFiscalFD.append('state', _this6.df_state_id);
+                domicilioFiscalFD.append('city', _this6.df_city_id);
+                domicilioFiscalFD.append('street', _this6.df_street);
+                domicilioFiscalFD.append('num_interior', _this6.df_num_interior);
+                domicilioFiscalFD.append('num_exterior', _this6.df_num_exterior);
+                domicilioFiscalFD.append('cp', _this6.df_cp); // Datos empresa
+
+                datosEmpresaFD = new FormData();
+                datosEmpresaFD.append('logo', _this6.logo);
+                datosEmpresaFD.append('razon_social', _this6.razon_social);
+                datosEmpresaFD.append('rfc', _this6.rfc);
+                datosEmpresaFD.append('name', _this6.name);
+                datosEmpresaFD.append('phone', _this6.phone);
+                datosEmpresaFD.append('email', _this6.email);
+                datosEmpresaFD.append('admin_id', _this6.userIdProp);
+
+                if (!_this6.empresaIdProp) {
+                  _context2.next = 64;
+                  break;
+                }
+
+                if (!(_this6.domicilio_empresa_id && _this6.domicilio_fiscal_id)) {
+                  _context2.next = 50;
+                  break;
+                }
+
+                //si ya tiene domicilios, actualizar
+                //actualizando domicilios en tabla domicilios
+                domicilioEmpresaFD.append('id', _this6.domicilio_empresa_id);
+
+                _this6.updateDomicilio(_this6.domicilio_empresa_id, domicilioEmpresaFD);
+
+                datosEmpresaFD.append('domicilio_empresa_id', _this6.domicilio_empresa_id);
+
+                if (!(_this6.mismo_domicilio === false)) {
+                  _context2.next = 46;
+                  break;
+                }
+
+                //si el usuario quiere usar domicilio de empresa y fiscal diferentes
+                console.log("dif dom 2");
+                domicilioFiscalFD.append('id', _this6.domicilio_fiscal_id); //validar que  ambos domicilios apunten a distintos registros
+
+                if (!(_this6.domicilio_empresa_id === _this6.domicilio_fiscal_id)) {
+                  _context2.next = 42;
+                  break;
+                }
+
+                _context2.next = 38;
+                return _this6.storeDomicilio(domicilioFiscalFD);
+
+              case 38:
+                _this6.domicilio_fiscal_id = _this6.id_dom_aux;
+                datosEmpresaFD.append('domicilio_fiscal_id', _this6.domicilio_fiscal_id);
+                _context2.next = 44;
+                break;
+
+              case 42:
+                // De lo contrario solo sea actualiza el dom fiscal referenciado
+                _this6.updateDomicilio(_this6.domicilio_fiscal_id, domicilioFiscalFD);
+
+                datosEmpresaFD.append('domicilio_fiscal_id', _this6.domicilio_fiscal_id);
+
+              case 44:
+                _context2.next = 48;
+                break;
+
+              case 46:
+                console.log("mismo dom 2");
+                datosEmpresaFD.append('domicilio_fiscal_id', _this6.domicilio_empresa_id); //-p borrar domicilio fiscal desuso en la tabla
+
+              case 48:
+                _context2.next = 57;
+                break;
+
+              case 50:
+                //si primera vez que crea ambos domicilios
+                console.log("primera vez ambos");
+                _context2.next = 53;
+                return _this6.storeDomicilio(domicilioEmpresaFD);
+
+              case 53:
+                _this6.domicilio_empresa_id = _this6.id_dom_aux;
+                datosEmpresaFD.append('domicilio_empresa_id', _this6.domicilio_empresa_id);
+                console.log("fuera " + _this6.id_dom_aux);
+
+                if (_this6.mismo_domicilio === false) {
+                  console.log("dif dom");
+                  _this6.domicilio_fiscal_id = _this6.id_dom_aux;
+                  datosEmpresaFD.append('domicilio_fiscal_id', _this6.domicilio_fiscal_id);
+                } else {
+                  console.log("mismo dom");
+                  datosEmpresaFD.append('domicilio_fiscal_id', _this6.domicilio_empresa_id);
+                }
+
+              case 57:
+                console.log("------ Imprimiendo datos de empresa -----");
+                _iterator = _createForOfIteratorHelper(datosEmpresaFD.entries());
+
+                try {
+                  for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                    pair = _step.value;
+                    console.log(pair[0] + ', ' + pair[1]);
+                  }
+                } catch (err) {
+                  _iterator.e(err);
+                } finally {
+                  _iterator.f();
+                }
+
+                datosEmpresaFD.append('id', _this6.empresaIdProp);
+
+                _this6.updateEmpresa(_this6.empresaIdProp, datosEmpresaFD);
+
+                _context2.next = 65;
+                break;
+
+              case 64:
+                Swal.fire('', "Error a\xFAn no se ha creado una empresa", 'error').then(function (resp) {// location.href = "/"
+                });
+
+              case 65:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    updateDomicilio: function updateDomicilio(id, domicilio) {
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/domicilio/' + id, domicilio).then(function (resp) {
         if (resp.data.status) {
           console.log("Domicilio actualizado");
@@ -2820,13 +2966,11 @@ __webpack_require__.r(__webpack_exports__);
         }
       })["catch"](function (error) {
         if (error.response.status == 422) {
-          _this5.errors = error.response.data.errors;
+          console.log(resp.response.data.errors);
         }
       });
     },
     updateEmpresa: function updateEmpresa(id, empresa) {
-      var _this6 = this;
-
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/empresa/' + id, empresa).then(function (resp) {
         if (resp.data.status) {
           Swal.fire('', "Informaci\xF3n actualizada", 'success').then(function (resp) {// location.href = "/empresa"
@@ -2836,23 +2980,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       })["catch"](function (error) {
         if (error.response.status == 422) {
-          _this6.errors = error.response.data.errors;
-        }
-      });
-    },
-    storeDomicilio: function storeDomicilio(domicilio) {
-      var _this7 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/domicilio', domicilio).then(function (resp) {
-        if (resp.data.status) {
-          console.log(resp.data);
-          Swal.fire('', "El domicilio ha sido agregado", 'success').then(function (resp) {});
-        } else {
-          Swal.fire('Ocurrio un error', resp.data.msg, 'error');
-        }
-      })["catch"](function (error) {
-        if (error.response.status == 422) {
-          _this7.errors = error.response.data.errors;
+          console.log(resp.response.data.errors);
         }
       });
     }
