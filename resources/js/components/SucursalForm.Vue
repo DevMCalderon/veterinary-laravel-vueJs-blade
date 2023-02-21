@@ -67,7 +67,7 @@
         <hr/>
         
         <div class="text-end">
-            <a type="button" href="/sucursals" class="btn btn-sm btn-secondary mr-5">Cancelar</a>
+            <a type="button" href="/sucursales" class="btn btn-sm btn-secondary mr-5">Cancelar</a>
             <button class="btn btn-sm btn-success ml-3">Guardar</button>
         </div>
     </form>
@@ -78,7 +78,7 @@
 import axios from 'axios';
 
 export default {
-    props: ['sucursalIdProp'],
+    props: ['sucursalIdProp', 'empresaIdProp'],
     data(){
         return {
             id: undefined,
@@ -89,6 +89,7 @@ export default {
             phone: '',
             email: '',
             encargado_id: '',
+            empresa_id: '',
             estados:[],
             ciudades:[],
             errors: undefined,
@@ -104,7 +105,7 @@ export default {
         this.getEstado();
 
         if(this.sucursalIdProp){
-            this.getData(this.sucursalIdProp);
+            this.getData(this.sucursalIdProp, this.empresaIdProp);
         }        
     },
     methods: {
@@ -138,7 +139,7 @@ export default {
             this.email = '';
             this.encargado_id = '';
         },
-        getData(sucursalId){
+        getData(sucursalId, empresaId){
             this.clearForm();
             axios.get(`/api/sucursal/${sucursalId}`).then(resp => {
                 if(resp.data.status){
@@ -152,6 +153,7 @@ export default {
                     this.phone          = aux.phone;
                     this.email          = aux.email;
                     this.encargado_id   = aux.encargado_id;
+                    this.empresa_id     = empresaId;
                 }else{
                     Swal.fire('Ocurrio un error',resp.data.msg,'error')
                 }
@@ -173,6 +175,7 @@ export default {
                 formData.append('phone',        this.phone);
                 formData.append('email',        this.email);
                 formData.append('encargado_id', this.encargado_id);
+                formData.append('empresa_id',   this.empresa_id);
 
                 if(this.sucursalIdProp){
                     formData.append('id', this.sucursalIdProp);
@@ -186,7 +189,7 @@ export default {
             axios.post('/api/sucursal/'+ id ,data).then(resp => {
                 if(resp.data.status){
                     Swal.fire('',`Información actualizada`,'success').then(resp => {
-                        location.href = "/sucursals"
+                        location.href = "/sucursales"
                     });
                 }else{
                     Swal.fire('Ocurrio un error',resp.data.msg,'error')
@@ -205,7 +208,7 @@ export default {
                         `La sucursal <b>${sucursalName}</b> ha sido agregada`,
                         'success'
                     ).then(resp => {
-                        location.href = "/sucursals"
+                        location.href = "/sucursales"
                     })
                 }else{
                     Swal.fire('Ocurrio un error',resp.data.msg,'error')

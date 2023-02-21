@@ -9,7 +9,9 @@
         <hr>
     </div>
     <div class="card-body pt-0">
-        <sucursal-form/>
+        <sucursal-form
+            empresa-id-prop="{{  Auth::user()->empresa_id }}"
+        />
     </div>
 </div>
 @endsection

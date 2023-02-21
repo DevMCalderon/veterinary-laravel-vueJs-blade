@@ -71,7 +71,7 @@
                             <div class="row">
                                 <div class="mb-3">
                                     <label for="country">País*</label>
-                                    <select id="country" class="form-control" v-model="df_country_id" required>
+                                    <select id="country" class="form-control" v-model="df_country_id" @change="changePais('fiscal_dom')" required>
                                         <option value="" selected disabled>Seleccione</option>
                                         <option :value="pais.id" v-for="pais in paises" :key="pais.id">{{ pais.name }}</option>
                                     </select>
@@ -82,7 +82,7 @@
                                 <div class="row">
                                     <div class="mb-3">
                                         <label for="estado">Estado / Provincia*</label>
-                                        <select id="estado" class="form-control" v-model="df_state_id" @change="changeEstado(df_state_id,'df_state_id')" required> 
+                                        <select id="estado" class="form-control" v-model="df_state_id" @change="changeEstado(df_state_id,'fiscal_dom')" required> 
                                             <option value="" selected disabled>Seleccione</option>
                                             <option :value="estado.id" v-for="estado in estados" :key="estado.id">{{ estado.name }}</option>
                                         </select>
@@ -200,7 +200,7 @@
                     <div class="row">
                         <div class="mb-3">
                             <label for="country">País*</label>
-                            <select id="country" class="form-control" v-model="country_id" required>
+                            <select id="country" class="form-control" v-model="country_id" @change="changePais('empresa_dom')" required>
                                 <option value="" selected disabled>Seleccione</option>
                                 <option :value="pais.id" v-for="pais in paises" :key="pais.id">{{ pais.name }}</option>
                             </select>
@@ -211,7 +211,7 @@
                         <div class="row">
                             <div class="mb-3">
                                 <label for="estado">Estado / Provincia*</label>
-                                <select id="estado" class="form-control" v-model="state_id" @change="changeEstado(state_id,'state_id')" required> 
+                                <select id="estado" class="form-control" v-model="state_id" @change="changeEstado(state_id,'empresa_dom')" required> 
                                     <option value="" selected disabled>Seleccione</option>
                                     <option :value="estado.id" v-for="estado in estados" :key="estado.id">{{ estado.name }}</option>
                                 </select>
@@ -350,10 +350,10 @@ export default {
     },
     watch:{
         state_id(newVal, oldVal) {
-            this.changeEstado(this.state_id,'state_id');
+            this.country_id===157 ? this.changeEstado(this.state_id,'empresa_dom') : undefined;
         },
         df_state_id(newVal, oldVal) {
-            this.changeEstado(this.df_state_id,'df_state_id');
+            this.df_country_id===157 ? this.changeEstado(this.df_state_id,'fiscal_dom') : undefined;
         },
     },
     methods: {
@@ -384,16 +384,36 @@ export default {
         changeEstado(state_id, var_name){ //función que recibe los estados y detecta a que formulario pertenece en base al nombre de la variable indicado
             axios.get(`/api/ciudades/${state_id}`).then(resp => {
                 if(resp.data.status){
-                    if(var_name=='state_id'){ //para domicilio empresa
+                    if(var_name ==='empresa_dom'){ //para domicilio empresa
                         this.ciudades = []
                         this.ciudades = resp.data.ciudades;
                     }
-                    else if(var_name=='df_state_id'){//para domicilio fiscal
+                    else if(var_name ==='fiscal_dom'){//para domicilio fiscal
                         this.df_ciudades = []
                         this.df_ciudades = resp.data.ciudades;
                     }
                 }
             })
+        },
+        changePais(var_name){ 
+            if(var_name==='empresa_dom'){ //para domicilio empresa
+                this.state_id = '';
+                this.city_id = '';
+            }
+            else if(var_name==='fiscal_dom'){//para domicilio fiscal
+                this.df_state_id = '';
+                this.df_city_id = '';
+            }
+        },
+        clearFormFiscal(){
+            // domicilio fiscal
+            this.df_country_id = '';
+            this.df_state_id = '';
+            this.df_city_id = '';
+            this.df_street = '';
+            this.df_num_interior = '';
+            this.df_num_exterior = '';
+            this.df_cp = '';
         },
         clearForm(){
             this.id = undefined;
@@ -429,60 +449,57 @@ export default {
             this.clearForm();
             axios.get(`/api/empresa/${empresaId}`).then(resp => {
                 if(resp.data.status){
-                    console.log(resp.data.empresa[0])
+                    // console.log(resp.data.empresa[0])
                     const aux=resp.data.empresa[0];
                     
                     
-                    if(aux.name==null){//si la empresa aun no está rellanada 
+                    if(aux.name==null){//si la empresa aun no está rellenada muestra petición
                         Swal.fire('',`Por favor registra una empresa antes de continuar`,'warning').then(resp => {
                         });
                     }
                     
-                    this.id          = aux.id;
+                    this.id = aux.id;
                     
                     // datos Empresa
-                    this.logo        = aux.logo;
-                    this.razon_social= aux.razon_social;
-                    this.rfc        =aux.rfc;
-                    this.name        = aux.name;
-                    this.phone        = aux.phone;
-                    this.email        = aux.email;
-                    
+                    this.logo           = aux.logo;
+                    this.razon_social   = aux.razon_social;
+                    this.rfc            = aux.rfc;
+                    this.name           = aux.name;
+                    this.phone          = aux.phone;
+                    this.email          = aux.email;
+
                     // IDs de domicilios
-                    this.domicilio_empresa_id = aux.domicilio_empresa_id;
-                    this.domicilio_fiscal_id = aux.domicilio_fiscal_id;
+                    this.domicilio_empresa_id   = aux.domicilio_empresa_id;
+                    this.domicilio_fiscal_id    = aux.domicilio_fiscal_id;
                                         
+                    if(aux.domicilio_empresa){// domicilio empresa
+                        const aux_dom_empresa       = aux.domicilio_empresa;
+                        this.country_id             = aux_dom_empresa.country;
+                        this.state_id               = aux_dom_empresa.state;
+                        this.city_id                = aux_dom_empresa.city;
+                        this.street                 = aux_dom_empresa.street;
+                        this.num_interior           = aux_dom_empresa.num_interior;
+                        this.num_exterior           = aux_dom_empresa.num_exterior;
+                        this.cp                     = aux_dom_empresa.cp;
+                    }
+
+                    if(aux.domicilio_fiscal){ // domicilio fiscal
+                        const aux_dom_fiscal        = aux.domicilio_fiscal;
+                        this.df_country_id          = aux_dom_fiscal.country;
+                        this.df_state_id            = aux_dom_fiscal.state;
+                        this.df_city_id             = aux_dom_fiscal.city;
+                        this.df_street              = aux_dom_fiscal.street;
+                        this.df_num_interior        = aux_dom_fiscal.num_interior;
+                        this.df_num_exterior        = aux_dom_fiscal.num_exterior;
+                        this.df_cp                  = aux_dom_fiscal.cp;
+                    }
+
                     if(aux.domicilio_empresa_id===aux.domicilio_fiscal_id && !!aux.domicilio_empresa_id){ //validar si los domicilios son el mismo y que no sean null
                         this.mismo_domicilio=true;
+                        this.clearFormFiscal();
                     }else{
                         this.mismo_domicilio=false;
                     }
-                    
-                    if(aux.domicilio_empresa){
-                        
-                        // domicilio empresa
-                        const auxDomicilioEmpresa=aux.domicilio_empresa;
-                        this.country_id = auxDomicilioEmpresa.country;
-                        this.state_id = auxDomicilioEmpresa.state;
-                        this.city_id = auxDomicilioEmpresa.city;
-                        this.street = auxDomicilioEmpresa.street;
-                        this.num_interior = auxDomicilioEmpresa.num_interior;
-                        this.num_exterior = auxDomicilioEmpresa.num_exterior;
-                        this.cp = auxDomicilioEmpresa.cp;
-                    }
-
-                    if(aux.domicilio_fiscal){
-                         // domicilio fiscal
-                        const auxDomicilioFiscal=aux.domicilio_fiscal;
-                        this.df_country_id = auxDomicilioFiscal.country;
-                        this.df_state_id = auxDomicilioFiscal.state;
-                        this.df_city_id = auxDomicilioFiscal.city;
-                        this.df_street = auxDomicilioFiscal.street;
-                        this.df_num_interior = auxDomicilioFiscal.num_interior;
-                        this.df_num_exterior = auxDomicilioFiscal.num_exterior;
-                        this.df_cp = auxDomicilioFiscal.cp;
-                    }
-
 
                 }else{
                     Swal.fire('Ocurrio un error',resp.data.msg,'error')
@@ -492,27 +509,18 @@ export default {
                 Swal.fire('',"Ocurrio un error al intentar obtener información de la empresa",'error')
             })
         },
-        async storeDomicilio(domicilio){
-            const resp= await axios.post('/api/domicilio',domicilio).then(resp => {
-                this.id_dom_aux=null;
-                if(resp.data.status){
-                    // console.log( resp.data.domicilio.id);
-                    // return resp.data.domicilio.id;
-                    this.id_dom_aux=resp.data.domicilio.id;
-                    console.log("dentro "+this.id_dom_aux);
-                }else{
-                    Swal.fire('Ocurrio un error',resp.data.msg,'error')
-                }
-            }).catch(error => {
-                if(resp.response.status == 422){
-                    console.error(error);
-                }
-            })
-        },
         async save(e){
             e.preventDefault();
             if(this.$refs.empresaForm.reportValidity()){
-                console.log(this.logo);
+                 // Datos empresa
+                 let datosEmpresaFD = new FormData();
+                datosEmpresaFD.append('logo', this.logo);
+                datosEmpresaFD.append('razon_social', this.razon_social);
+                datosEmpresaFD.append('rfc', this.rfc);
+                datosEmpresaFD.append('name', this.name);
+                datosEmpresaFD.append('phone', this.phone);
+                datosEmpresaFD.append('email', this.email);
+                datosEmpresaFD.append('admin_id', this.userIdProp);
 
                 // Datos domicilio empresa
                 let domicilioEmpresaFD = new FormData();
@@ -533,83 +541,66 @@ export default {
                 domicilioFiscalFD.append('num_interior', this.df_num_interior);
                 domicilioFiscalFD.append('num_exterior', this.df_num_exterior);
                 domicilioFiscalFD.append('cp', this.df_cp);
-
-                // Datos empresa
-                let datosEmpresaFD = new FormData();
-                datosEmpresaFD.append('logo', this.logo);
-                datosEmpresaFD.append('razon_social', this.razon_social);
-                datosEmpresaFD.append('rfc', this.rfc);
-                datosEmpresaFD.append('name', this.name);
-                datosEmpresaFD.append('phone', this.phone);
-                datosEmpresaFD.append('email', this.email);
-                datosEmpresaFD.append('admin_id', this.userIdProp);
-
-                
+               
                 if(this.empresaIdProp){ //si ya existe empresa, ok
 
-                    if(this.domicilio_empresa_id && this.domicilio_fiscal_id){ //si ya tiene domicilios, actualizar
-                        //actualizando domicilios en tabla domicilios
-                        
+                    if(this.domicilio_empresa_id && this.domicilio_fiscal_id){//si ya tiene domicilios registrados, actualizar registros 
+                        // Primero actualiza el domicilio de la empresa
                         domicilioEmpresaFD.append('id', this.domicilio_empresa_id);
                         this.updateDomicilio(this.domicilio_empresa_id, domicilioEmpresaFD);
+                        
                         datosEmpresaFD.append('domicilio_empresa_id', this.domicilio_empresa_id);
                         
-                        if(this.mismo_domicilio === false){//si el usuario quiere usar domicilio de empresa y fiscal diferentes
-                            console.log("dif dom 2");
+                        if(this.mismo_domicilio === false){//si el usuario desmarcó la opción de usar mismo domicilio, se procede a trabajar en dos domicilios
                             domicilioFiscalFD.append('id', this.domicilio_fiscal_id);
                             
-                            
-                            //validar que  ambos domicilios apunten a distintos registros
                             if(this.domicilio_empresa_id === this.domicilio_fiscal_id){
-                                //si son iguales se crea un registro nuevo para dom fiscal
+                                //si apuntaban al mismo registro, ahora se crea un registro nuevo para dom fiscal, deben ser dos registros distintos ahora.
 
                                 await this.storeDomicilio(domicilioFiscalFD);
-                                this.domicilio_fiscal_id = this.id_dom_aux;
+                                this.domicilio_fiscal_id = this.id_dom_aux; //auxiliar que retorna el id del domicilio guardado desde la funcion storeDomicilio
+
                                 datosEmpresaFD.append('domicilio_fiscal_id', this.domicilio_fiscal_id);
 
                             }else{
-                                // De lo contrario solo sea actualiza el dom fiscal referenciado
+                                // De lo contrario, si apuntaban a domicilios diferentes, solo sea actualizan el dom fiscal referenciado
                                 this.updateDomicilio(this.domicilio_fiscal_id, domicilioFiscalFD);
                             
                                 datosEmpresaFD.append('domicilio_fiscal_id', this.domicilio_fiscal_id);
                             }
                             
                         }else{
-                            console.log("mismo dom 2");
+                            // Si el usuario marcó la casilla para usar el mismo domicilio, se borra el domicilio fiscal viejo y se establecen los id de ambos domicilios referenciando solo al registro de domicilio de empresa
+                            this.deleteDomicilio(this.domicilio_fiscal_id); 
                             datosEmpresaFD.append('domicilio_fiscal_id', this.domicilio_empresa_id);
-                            //-p borrar domicilio fiscal desuso en la tabla
                         }
                         
+                    }else{//si aun no hay domicilios registrados, se crearán nuevos registros
 
-                    }else{//si primera vez que crea ambos domicilios
-                        console.log("primera vez ambos");
-
+                        //se registra el domicilio de la empresa primero
                         await this.storeDomicilio(domicilioEmpresaFD);
-                        this.domicilio_empresa_id = this.id_dom_aux;
+                        this.domicilio_empresa_id = this.id_dom_aux;//auxiliar que retorna el id del domicilio guardado desde la función storeDomicilio
+
                         datosEmpresaFD.append('domicilio_empresa_id', this.domicilio_empresa_id);
                         
-                        console.log("fuera " + this.id_dom_aux);
-                        
-                        if(this.mismo_domicilio === false){
-                            console.log("dif dom");
-
+                        if(this.mismo_domicilio === false){ //si el usuario quiere que ambos domicilios sean diferentes
+                            // validar que aqui no haya error -----------------------
+                            await this.storeDomicilio(domicilioFiscalFD);
                             this.domicilio_fiscal_id = this.id_dom_aux;
                             datosEmpresaFD.append('domicilio_fiscal_id', this.domicilio_fiscal_id)
-                        }else{
-                            console.log("mismo dom");
-
+                        }else{ //si el usuario quiere que ambos domicilios sean iguales se usa el de la empresa
                             datosEmpresaFD.append('domicilio_fiscal_id', this.domicilio_empresa_id);
                         }
                     }
 
-                    console.log("------ Imprimiendo datos de empresa -----");
-                    for (var pair of datosEmpresaFD.entries()) {
-                        console.log(pair[0]+ ', ' + pair[1]);
-                    }
+                    // console.log("------ Imprimiendo datos de empresa -----");
+                    // for (var pair of datosEmpresaFD.entries()) {
+                    //     console.log(pair[0]+ ', ' + pair[1]);
+                    // }
 
                     datosEmpresaFD.append('id', this.empresaIdProp);
                     this.updateEmpresa(this.empresaIdProp, datosEmpresaFD);
-                }else{
+                }else{//si no existe empresa creada se manda error
                     Swal.fire('',`Error aún no se ha creado una empresa`,'error').then(resp => {
                         // location.href = "/"
                     });
@@ -619,9 +610,7 @@ export default {
         updateDomicilio(id, domicilio){
             axios.post('/api/domicilio/'+ id ,domicilio).then(resp => {
                 if(resp.data.status){
-
-                    console.log("Domicilio actualizado")
-
+                    // console.log("Domicilio actualizado")
                 }else{
                     Swal.fire('Ocurrio un error',resp.data.msg,'error')
                 }
@@ -632,14 +621,11 @@ export default {
             })
         },
         updateEmpresa(id, empresa){
-
             axios.post('/api/empresa/'+ id ,empresa).then(resp => {
                 if(resp.data.status){
-
                     Swal.fire('',`Información actualizada`,'success').then(resp => {
-                        // location.href = "/empresa"
+                        location.href = "/empresa"
                     });
-
                 }else{
                     Swal.fire('Ocurrio un error',resp.data.msg,'error')
                 }
@@ -648,28 +634,36 @@ export default {
                     console.log(resp.response.data.errors);
                 }
             })
+        },
+        deleteDomicilio(domicilio){
+            axios.delete(`/api/domicilio/${domicilio}`).then(resp => {
+                if(resp.data.status){
+                    // console.out("Registro de domicilio fiscal eliminado");
+                }else{
+                    Swal.fire(
+                        'Ocurrio un error',
+                        resp.data.msg,
+                        'error'
+                    )
+                }
+            });
+        },
+        async storeDomicilio(domicilio){
+            const resp = await axios.post('/api/domicilio',domicilio).then(resp => {
+                this.id_dom_aux = null;
+                if(resp.data.status){
+                    this.id_dom_aux = resp.data.domicilio.id; //esta variable se utiliza para retornar el valor del id del registro que acaba de ser guardado
+                }else{
+                    Swal.fire('Ocurrio un error', resp.data.msg,'error')
+                }
+            }).catch(error => {
+                if(resp.response.status == 422){
+                    console.error(error);
+                }
+            })
         }
-        
+                
     }
 }
 
 </script>
-
-
-
-<!--
-
-ahora validando que al desmarcar la palomita se agreguen ambos domicilios, porque se sobreescriben
-    ----- 
-    Pendiente
-    
- 
-    -borrar el otro domicilio fiscal de la tabla tras seleccionar  la opcion de usar mismo domicilio, se quita de la tabla de empresa pero se mantiene en la tabla domicilios
-
-    
-    
-    -que si se deselecciona la casilla de usar mismo domicilio, vaciar los campos y hacer que se añadan a la tabla de domicilios fiscales los nuevos domicilios fiscales (sin borrar el domicilio actual de la empresa), desvincularlos
-
-    desvincular casilla mismo domiciolo > que no se cree copia del domicilio de la empresa (se crean 2 y solo debe haber 1 de empresa, debe modificarlo) + el fiscal 
-
- -->
