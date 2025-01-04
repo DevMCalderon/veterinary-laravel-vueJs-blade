@@ -3,7 +3,7 @@
         <div class="toggle-icon-wrapper">
             <button class="btn navbar-toggler-humburger-icon navbar-vertical-toggle" data-bs-toggle="tooltip" data-bs-placement="left" title="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
         </div><a class="navbar-brand" href="/">
-            <div class="d-flex align-items-center py-3"><span class="font-sans-serif">VetSoft</span>
+            <div class="d-flex align-items-center py-3"><span class="font-sans-serif">Veterinaria</span>
             </div>
         </a>
     </div>
