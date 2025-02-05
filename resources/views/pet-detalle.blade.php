@@ -32,10 +32,12 @@
                 <label for="rfc">Tipo mascota</label>
                 {{ $pet->tipoMascota->name }}
             </div>
-            <div class="col-md-10 col-lg-6 mb-3">
-                <label for="rfc">Raza</label>
-                {{ $pet->tipoRaza->name }}
-            </div>
+            @if($pet->tipoRaza)
+                <div class="col-md-10 col-lg-6 mb-3">
+                    <label for="rfc">Raza</label>
+                    {{ $pet->tipoRaza->name }}
+                </div>
+            @endif
         </div>
     </div>
 </div>

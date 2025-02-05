@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreconsultaRequest;
-use App\Models\Consulta;
+use App\Models\consulta;
 use App\Notifications\ConsultaNotification;
 use Illuminate\Support\Facades\Storage;
 use PDF;
