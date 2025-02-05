@@ -88,31 +88,5 @@
 
 @section('styles')
 <style scoped>
-    .texto-datos {
-        font-size: 16px;
-        color: #6d7781;
-    }
-
-    .registro-nombre {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: #606972;
-    }
-    .sub-categoria-titulo {
-        font-size: 1.18rem;
-        font-weight: bold;
-        color: #505962;
-    }
-
-    .list-group-item {
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        padding: 10px 15px;
-    }
-   
-    .bg-light1 {
-        background-color: #e4e6f1;
-        
-    }
 </style>
 @endsection

@@ -2,14 +2,23 @@
 
 @section('content')
 <div class="card">
-    <div class="card-header pb-0">
-        <div class="d-flex justify-content-between">
-            Clientes
-            <a href="{{  route('cliente-crear') }}" class="btn btn-primary btn-sm">Nuevo</a>
+    {{-- Header --}}
+    <div class="card-header bg-primary border-bottom">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <!-- Título centrado -->
+                <div class="col text-center">
+                    <h2 class="text-light fw-bold mb-0">Listado de Clientes</h2>
+                </div>
+                <!-- Botn crear-->
+                <div class="col-auto text-end">
+                    <a href="{{  route('cliente-crear') }}" class="btn btn-outline-light btn-sm">+ Nuevo</a>
+                </div>
+            </div>
         </div>
-        <hr>
     </div>
-    <div class="card-body pt-0">
+
+    <div class="card-body pt-3">
         <div class="table-responsive scrollbar">
             <client-list></client-list>
         </div>
@@ -21,4 +30,9 @@
 
 
 
+@endsection
+
+@section('styles')
+<style scoped>
+</style>
 @endsection
