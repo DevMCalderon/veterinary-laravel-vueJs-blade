@@ -50,3 +50,6 @@ code {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.w-80 {
+    width: 90%;
+}

@@ -1,38 +1,37 @@
 <template>
     <form ref="empresaForm" @submit="save" method="POST" action="" enctype="multipart/form-data">
 
-        <div class="container mx-4">
+        <div class="container x-10 w-80">
             <div class="row align-items-start">
                 
-                <div class="col-4 pe-5 ">
+                <!-- Datos de la empresa -->
+                <div class="col-6 pe-5 ">
 
+                    <!-- Empresa Logo -->
                     <div class="row">
                         <div class="mb-3">
-
                             <div class="image_group text-center">
                                 <label>
                                     <input type="file" name="file" id="logo" class="form-control" accept="image/*" style="display: none;" @change="onFileChange"/>
                                     <div id="preview">
-                                        <img v-if="img" :src="img">  
+                                        <img v-if="img" :src="img">
                                     </div>
-                                    
                                 </label>
-                                <label class="text-start">Para cambiar el icono de la empresa haga click en el</label>
-                                
+                                <label class="text-start mt-2">Para cambiar el icono de la empresa haga click en la imagen</label>
                             </div>
-                          
                         </div>
                     </div>
-
             
                         <hr/>
         
+                        <!-- Datos de facturación -->
                         <div class="row">
                             <div class="mb-3">
                                 <label>Datos de facturación:</label>
                             </div>
                         </div>
 
+                        <!-- Razón social -->
                         <div class="row">
                             <div class="mb-3">
                                 <label for="razon_social">Razón Social</label>
@@ -40,13 +39,15 @@
                             </div>
                         </div>
                 
+                        <!-- RFC -->
                         <div class="row">
                             <div class="mb-3">
                                 <label for="rfc">RFC</label>
                                 <input type="tel" name="rfc" id="rfc" class="form-control" v-model="rfc" maxlength="13" required>
                             </div>
                         </div>
-
+                        
+                        <!-- Domicilio fiscal -->
                         <div class="bd-example">
                         <div class="row">
                             <div class="mb-3">
@@ -54,6 +55,7 @@
                             </div>
                         </div>
 
+                        <!-- Check usar el mismo domicilio para la facturación -->
                         <div class="row">
                             <div class="mb-3">
                                 <div class="form-check">
@@ -66,9 +68,11 @@
 
 
 
-
+                        <!-- en caso de que el domicilio fiscal no sea igual al domicilio de la empresa, se muestran los inputs
+                         de domicilio fiscal -->
                         <div class="" v-if="this.mismo_domicilio == false">
                             <div class="row">
+                                <!-- Pais -->
                                 <div class="mb-3">
                                     <label for="country">País*</label>
                                     <select id="country" class="form-control" v-model="df_country_id" @change="changePais('fiscal_dom')" required>
@@ -78,7 +82,9 @@
                                 </div>
                             </div>
                     
+                            <!-- si el pais es mexico, se muestran los inputs para estado y ciudad como select -->
                             <div v-if="(df_country_id===157)">
+                                <!-- Estado -->
                                 <div class="row">
                                     <div class="mb-3">
                                         <label for="estado">Estado / Provincia*</label>
@@ -88,6 +94,8 @@
                                         </select>
                                     </div>
                                 </div>
+                                
+                                <!-- Ciudad -->
                                 <div class="row">
                                     <div class="mb-3">
                                         <label for="city">Ciudad / Localidad*</label>
@@ -99,7 +107,9 @@
                                 </div>
                             </div>
                     
+                            <!-- si el pais no es mexico, se muestran los inputs para estado y ciudad como input text -->
                             <div v-else>
+                                <!-- Estado -->
                                 <div class="row">
                                     <div class="mb-3">
                                         <label for="estado">Estado / Provincia*</label>
@@ -107,6 +117,7 @@
                                     </div>
                                 </div>
                     
+                                <!-- Ciudad -->
                                 <div class="row">
                                     <div class="mb-3">
                                         <label for="ciudad">Ciudad / Localidad*</label>
@@ -115,20 +126,23 @@
                                 </div>
                             </div>
                     
+                            <!-- Calle -->
                             <div class="row">
                                 <div class="mb-3">
                                     <label for="street">Calle*</label>
                                     <input type="text" name="street" id="street" class="form-control" maxlength="50" v-model="df_street" required>
                                 </div>
                             </div>
-                    
+                            
+                            <!-- Numero interior -->
                             <div class="row">
                                 <div class="mb-3">
                                     <label for="num_interior">Numero interior</label>
                                     <input type="tel" name="num_interior" id="num_interior" class="form-control" v-model="df_num_interior" min="0" maxlength="4" pattern="[0-9]*" title="Solo se permiten números en este campo"/>
                                 </div>
                             </div>
-                    
+                            
+                            <!-- Numero exterior -->
                             <div class="row">
                                 <div class="mb-3">
                                     <label for="num_exterior">Numero exterior*</label>
@@ -136,6 +150,7 @@
                                 </div>
                             </div>
                     
+                            <!-- Codigo postal -->
                             <div class="row">
                                 <div class="mb-3">
                                     <label for="cp">Código postal*</label>
@@ -145,27 +160,29 @@
                         </div>
             
 
-                    </div>        
+                    </div>
                 </div>
                 
-                
-                
+                <!-- DATOS DE EMPRESA -->
                 <div class="col-6 pe-7">
+                    <!-- TITULO de la pagina -->
                     <div class="row">
-                        <div class="col-md">
-                            <label class="titulo_pagina">
-                                Editar datos de empresa:
-                            </label>
+                        <div class="mb-4">
+                            <h3 class="sub-categoria-titulo mb-3 pb-2 border-bottom border-primary text-primary">Editar Datos de Empresa</h3>
                         </div>
                     </div>
-
+                    
+                    <!-- NOMBRE de la empresa -->
+                    
+                    <!-- muestra el nombre de la empresa -->
                     <div class="row">
                         <div class="mb-3">
-                            <label class="nombre_empresa text-primary" v-if="name"> {{name}}</label>
-                            <label class="nombre_empresa text-primary" v-else>Sin nombre</label>
+                            <label class="nombre_empresa" v-if="name"> {{name}}</label>
+                            <label class="nombre_empresa" v-else>Sin nombre</label>
                         </div>
                     </div>
-
+                    
+                    <!-- input Nombre de la empresa -->
                     <div class="row">
                         <div class="mb-3">
                             <label for="name">Nombre de empresa*</label>
@@ -175,6 +192,7 @@
                         </div>
                     </div>
 
+                    <!-- TELEFONO de la empresa -->
                     <div class="row">
                         <div class="mb-3">
                             <label for="phone">Teléfono*</label>
@@ -182,6 +200,7 @@
                         </div>
                     </div>
 
+                    <!-- EMAIL de la empresa -->
                     <div class="row">
                         <div class="mb-3">
                             <label for="email">Correo*</label>
@@ -190,13 +209,14 @@
                     </div>
 
                    
-
+                    <!-- DIRECCION -->
                     <div class="row">
                         <div class="mb-3">
                             <label>Dirección de la empresa:</label>
                         </div>
                     </div>
                 
+                    <!-- PAIS -->
                     <div class="row">
                         <div class="mb-3">
                             <label for="country">País*</label>
@@ -207,7 +227,9 @@
                         </div>
                     </div>
             
+                    <!-- si el pais es mexico, se pide el estado y ciudad como select -->
                     <div v-if="(country_id===157)">
+                        <!-- ESTADO -->
                         <div class="row">
                             <div class="mb-3">
                                 <label for="estado">Estado / Provincia*</label>
@@ -217,6 +239,8 @@
                                 </select>
                             </div>
                         </div>
+                        
+                        <!-- CIUDAD -->
                         <div class="row">
                             <div class="mb-3">
                                 <label for="city">Ciudad / Localidad*</label>
@@ -228,7 +252,10 @@
                         </div>
                     </div>
             
+                    <!-- si el pais no es mexico se pide el estado y ciudad como input text -->
                     <div v-else>
+            
+                        <!-- estado -->
                         <div class="row">
                             <div class="mb-3">
                                 <label for="estado">Estado / Provincia*</label>
@@ -236,6 +263,7 @@
                             </div>
                         </div>
             
+                        <!-- ciudad -->
                         <div class="row">
                             <div class="mb-3">
                                 <label for="ciudad">Ciudad / Localidad*</label>
@@ -244,6 +272,7 @@
                         </div>
                     </div>
             
+                    <!-- CALLE -->
                     <div class="row">
                         <div class="mb-3">
                             <label for="street">Calle*</label>
@@ -251,6 +280,7 @@
                         </div>
                     </div>
             
+                    <!-- NUMERO INTERIOR -->
                     <div class="row">
                         <div class="mb-3">
                             <label for="num_interior">Numero interior</label>
@@ -258,6 +288,7 @@
                         </div>
                     </div>
             
+                    <!-- NUMERO EXTERIOR -->
                     <div class="row">
                         <div class="mb-3">
                             <label for="num_exterior">Numero exterior*</label>
@@ -265,6 +296,7 @@
                         </div>
                     </div>
             
+                    <!-- CODIGO POSTAL -->
                     <div class="row">
                         <div class="mb-3">
                             <label for="cp">Código postal*</label>
@@ -273,13 +305,12 @@
                     </div>
                     
                 </div>
-
-                
             </div>
         </div>    
         
         <hr>
 
+        <!-- BOTON GUARDAR -->
         <div class="text-end">
             <button class="btn btn-sm btn-success ml-3">Guardar</button>
         </div>
