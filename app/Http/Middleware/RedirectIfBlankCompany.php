@@ -19,19 +19,19 @@ class RedirectIfBlankCompany
      */
     public function handle(Request $request, Closure $next)
     {
-        $empresa = DB::table('empresas') 
-                            ->where('id',  Auth::user()->empresa_id)
-                            ->first();
-
-        if($empresa){
-            if( $empresa->name==null ){
-                return redirect(RouteServiceProvider::ONBOARDING_PAGE);
-            }else{
-                return $next($request);
-            }
-        }else{
+        if (!Auth::check()) {
             return $next($request);
         }
-        
+    
+        $empresa = DB::table('empresas')
+            ->where('id', Auth::user()->empresa_id)
+            ->first();
+    
+        // Si la empresa no tiene un nombre, redirigir a la página de onboarding
+        if (optional($empresa)->name === null) {
+            return redirect(RouteServiceProvider::ONBOARDING_PAGE);
+        }
+    
+        return $next($request);
     }
 }

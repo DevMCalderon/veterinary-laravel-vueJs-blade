@@ -73,148 +73,148 @@
 
 
 <script>
-import axios from 'axios';
+    import axios from 'axios';
 
-export default {
-    props: ['clientId'],
-    data(){
-        return {
-            id: undefined,
-            name: '',
-            email: '',
-            phone: '',
-            city: '',
-            address: '',
-            rfc: '',
-            state_id:'',
-            estados:[],
-            ciudades:[],
-            errors: undefined
+    export default {
+        props: ['clientId'],
+        data(){
+            return {
+                id: undefined,
+                name: '',
+                email: '',
+                phone: '',
+                city: '',
+                address: '',
+                rfc: '',
+                state_id:'',
+                estados:[],
+                ciudades:[],
+                errors: undefined
 
-        }
-    },
-    watch:{
-        state_id(newVal, oldVal) {
-            this.changeEstado();
-        }
-
-    },
-    mounted() {
-        this.getEstado();
-
-        if(this.clientId){
-            this.getClient(this.clientId);
-        }
-    },
-    methods: {
-        getEstado(){
-            this.estados = []
-            axios.get('/api/estado').then(resp => {
-                if(resp.data.status){
-                    this.estados = resp.data.estados;
-                }else{
-                    this.estados = []
-                }
-            })
+            }
         },
-        changeEstado(){
-            this.ciudades = []
-            axios.get(`/api/ciudades/${this.state_id}`).then(resp => {
-                if(resp.data.status){
-                    this.ciudades = resp.data.ciudades;
-                }else{
-                    this.ciudades = []
-                }
-            })
-        },
-        clearForm(){
-            this.id = undefined;
-            this.name = '';
-            this.email = '';
-            this.phone = '';
-            this.city = '';
-            this.address = '';
-            this.rfc = '';
-            this.state_id ='';
-        },
-        getClient(clientId){
-            this.clearForm();
-            axios.get(`/api/client/${clientId}`).then(resp => {
-                if(resp.data.status){
-                    this.id          = resp.data.client.id;
-                    this.name        = resp.data.client.name;
-                    this.email        = resp.data.client.email;
-                    this.phone        = resp.data.client.phone;
-                    this.city        = resp.data.client.city;
-                    this.address        = resp.data.client.address;
-                    this.rfc        = resp.data.client.rfc;
-                    this.state_id        = resp.data.client.ciudad.state_id;
-                }else{
-                    Swal.fire('Ocurrio un error',resp.data.msg,'error')
-                }
-            }).catch(error => {
-                console.log({error});
-                Swal.fire('',"Ocurrio un error al intentar obtener información del cliente",'error')
-            })
-
-        },
-        save(e){
-            e.preventDefault();
-            if(this.$refs.clientForm.reportValidity()){
-                this.errors = undefined;
-                const formData = new FormData();
-                formData.append('name', this.name);
-                formData.append('email', this.email);
-                formData.append('phone', this.phone);
-                formData.append('city', this.city);
-                formData.append('address', this.address);
-                formData.append('rfc', this.rfc);
-
-                if(this.clientId){
-                    formData.append('id', this.id);
-                    this.updateProduct(this.id, formData);
-                }else{
-                    this.storeProduct(formData);
-                }
+        watch:{
+            state_id(newVal, oldVal) {
+                this.changeEstado();
             }
 
         },
-        updateProduct(id, client){
-            axios.post('/api/client/'+ id ,client).then(resp => {
-                if(resp.data.status){
+        mounted() {
+            this.getEstado();
 
-                    Swal.fire('',`Información actualizada`,'success').then(resp => {
-                        location.href = "/clientes"
-                    });
-
-                }else{
-                    Swal.fire('Ocurrio un error',resp.data.msg,'error')
-                }
-            }).catch(error => {
-                if(error.response.status == 422){
-                    this.errors = error.response.data.errors
-                }
-            })
+            if(this.clientId){
+                this.getClient(this.clientId);
+            }
         },
-        storeProduct(client){
-            axios.post('/api/client',client).then(resp => {
-                if(resp.data.status){
-                    const clientName = resp.data.client && resp.data.client.name || ""
-                    Swal.fire('',
-                        `El cliente <b>${clientName}</b> ha sido agregado`,
-                        'success'
-                    ).then(resp => {
-                        location.href = "/clientes"
-                    })
-                }else{
-                    Swal.fire('Ocurrio un error',resp.data.msg,'error')
+        methods: {
+            getEstado(){
+                this.estados = []
+                axios.get('/api/estado').then(resp => {
+                    if(resp.data.status){
+                        this.estados = resp.data.estados;
+                    }else{
+                        this.estados = []
+                    }
+                })
+            },
+            changeEstado(){
+                this.ciudades = []
+                axios.get(`/api/ciudades/${this.state_id}`).then(resp => {
+                    if(resp.data.status){
+                        this.ciudades = resp.data.ciudades;
+                    }else{
+                        this.ciudades = []
+                    }
+                })
+            },
+            clearForm(){
+                this.id = undefined;
+                this.name = '';
+                this.email = '';
+                this.phone = '';
+                this.city = '';
+                this.address = '';
+                this.rfc = '';
+                this.state_id ='';
+            },
+            getClient(clientId){
+                this.clearForm();
+                axios.get(`/api/client/${clientId}`).then(resp => {
+                    if(resp.data.status){
+                        this.id          = resp.data.client.id;
+                        this.name        = resp.data.client.name;
+                        this.email       = resp.data.client.email;
+                        this.phone       = resp.data.client.phone;
+                        this.city        = resp.data.client.city;
+                        this.address     = resp.data.client.address;
+                        this.rfc         = resp.data.client.rfc;
+                        this.state_id    = resp.data.client.ciudad.state_id;
+                    }else{
+                        Swal.fire('Ocurrio un error',resp.data.msg,'error')
+                    }
+                }).catch(error => {
+                    console.log({error});
+                    Swal.fire('',"Ocurrio un error al intentar obtener información del cliente",'error')
+                })
+
+            },
+            save(e){
+                e.preventDefault();
+                if(this.$refs.clientForm.reportValidity()){
+                    this.errors = undefined;
+                    const formData = new FormData();
+                    formData.append('name', this.name);
+                    formData.append('email', this.email);
+                    formData.append('phone', this.phone);
+                    formData.append('city', this.city);
+                    formData.append('address', this.address);
+                    formData.append('rfc', this.rfc);
+
+                    if(this.clientId){
+                        formData.append('id', this.id);
+                        this.updateProduct(this.id, formData);
+                    }else{
+                        this.storeProduct(formData);
+                    }
                 }
-            }).catch(error => {
-                if(error.response.status == 422){
-                    this.errors = error.response.data.errors
-                }
-            })
+
+            },
+            updateProduct(id, client){
+                axios.post('/api/client/'+ id ,client).then(resp => {
+                    if(resp.data.status){
+
+                        Swal.fire('',`Información actualizada`,'success').then(resp => {
+                            location.href = "/clientes"
+                        });
+
+                    }else{
+                        Swal.fire('Ocurrio un error',resp.data.msg,'error')
+                    }
+                }).catch(error => {
+                    if(error.response.status == 422){
+                        this.errors = error.response.data.errors
+                    }
+                })
+            },
+            storeProduct(client){
+                axios.post('/api/client',client).then(resp => {
+                    if(resp.data.status){
+                        const clientName = resp.data.client && resp.data.client.name || ""
+                        Swal.fire('',
+                            `El cliente <b>${clientName}</b> ha sido agregado`,
+                            'success'
+                        ).then(resp => {
+                            location.href = "/clientes"
+                        })
+                    }else{
+                        Swal.fire('Ocurrio un error',resp.data.msg,'error')
+                    }
+                }).catch(error => {
+                    if(error.response.status == 422){
+                        this.errors = error.response.data.errors
+                    }
+                })
+            }
         }
     }
-}
 </script>
