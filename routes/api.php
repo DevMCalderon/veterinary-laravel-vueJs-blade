@@ -67,7 +67,7 @@ Route::post('/consulta/{consulta}/send-mail', [ConsultaController::class, 'sendM
 
 Route::post('/waiting-list', [WaitingListController::class, 'store']);
 
-// EMPRESAS 
+// EMPRESAS
 Route::post('/empresa', [EmpresaController::class, 'store']);
 Route::delete('/empresa/{empresa}', [EmpresaController::class, 'destroy']);
 Route::get('/empresa/{empresa}', [EmpresaController::class, 'show']);

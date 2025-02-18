@@ -114,11 +114,12 @@ class EmpresaController extends Controller
     public function update(UpdateEmpresaRequest $request, Empresa $empresa){
         if($empresa){
             $data = $request->all();
+            
+            
+            if (!empty($data['logo'])) $data['logo'] = hash('md5', $data['logo']);
+            if (empty($data['domicilio_empresa_id'])) $data['domicilio_empresa_id'] = null;
+            if (empty($data['domicilio_fiscal_id'])) $data['domicilio_fiscal_id'] = null;
 
-            if ($data['logo']!=null) $data['logo'] = hash('md5', $data['logo']);
-            if ( $data['domicilio_empresa_id']=="null") $data['domicilio_empresa_id'] = null; 
-            if ( $data['domicilio_fiscal_id']=="null") $data['domicilio_fiscal_id'] = null; 
-                        
             $empresa->name                  = $data['name'];
             $empresa->logo                  = $data['logo'] ?? '';
             $empresa->phone                 = $data['phone'] ?? '';

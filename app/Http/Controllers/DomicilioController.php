@@ -114,7 +114,7 @@ class DomicilioController extends Controller
             $data = $request->all();
             
             $domicilio->street          = $data['street'];
-            $domicilio->num_interior    = $data['num_interior'] ?? '';
+            $domicilio->num_interior    = $data['num_interior'];
             $domicilio->num_exterior    = $data['num_exterior'];
             $domicilio->cp              = $data['cp'];
             $domicilio->country         = $data['country'];

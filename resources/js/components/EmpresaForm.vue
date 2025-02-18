@@ -543,8 +543,9 @@ export default {
         async save(e){
             e.preventDefault();
             if(this.$refs.empresaForm.reportValidity()){
-                 // Datos empresa
-                 let datosEmpresaFD = new FormData();
+                // get form data
+                // Datos empresa
+                let datosEmpresaFD = new FormData();
                 datosEmpresaFD.append('logo', this.logo);
                 datosEmpresaFD.append('razon_social', this.razon_social);
                 datosEmpresaFD.append('rfc', this.rfc);
@@ -572,98 +573,107 @@ export default {
                 domicilioFiscalFD.append('num_interior', this.df_num_interior);
                 domicilioFiscalFD.append('num_exterior', this.df_num_exterior);
                 domicilioFiscalFD.append('cp', this.df_cp);
-               
-                if(this.empresaIdProp){ //si ya existe empresa, ok
-
-                    if(this.domicilio_empresa_id && this.domicilio_fiscal_id){//si ya tiene domicilios registrados, actualizar registros 
-                        // Primero actualiza el domicilio de la empresa
+                
+                //si ya existe empresa, ok
+                if(this.empresaIdProp) {
+                    //si ya tiene domicilios registrados, actualizar registros
+                    if(this.domicilio_empresa_id && this.domicilio_fiscal_id) {
+                        // Primero actualiza domicilio_empresa con los campos del formulario
                         domicilioEmpresaFD.append('id', this.domicilio_empresa_id);
                         this.updateDomicilio(this.domicilio_empresa_id, domicilioEmpresaFD);
-                        
                         datosEmpresaFD.append('domicilio_empresa_id', this.domicilio_empresa_id);
-                        
-                        if(this.mismo_domicilio === false){//si el usuario desmarcó la opción de usar mismo domicilio, se procede a trabajar en dos domicilios
+
+                        //si usar mismo domicilio = false >> se trabaja en dos domicilios
+                        if (this.mismo_domicilio === false) {
                             domicilioFiscalFD.append('id', this.domicilio_fiscal_id);
                             
+                            //si apuntaban al mismo registro, ahora se crea un registro nuevo para dom fiscal,
+                            // deben ser dos registros distintos ahora.
                             if(this.domicilio_empresa_id === this.domicilio_fiscal_id){
-                                //si apuntaban al mismo registro, ahora se crea un registro nuevo para dom fiscal, deben ser dos registros distintos ahora.
-
                                 await this.storeDomicilio(domicilioFiscalFD);
-                                this.domicilio_fiscal_id = this.id_dom_aux; //auxiliar que retorna el id del domicilio guardado desde la funcion storeDomicilio
-
+                                //auxiliar que retorna el id del domicilio guardado desde la funcion storeDomicilio
+                                this.domicilio_fiscal_id = this.id_dom_aux; 
                                 datosEmpresaFD.append('domicilio_fiscal_id', this.domicilio_fiscal_id);
 
                             }else{
-                                // De lo contrario, si apuntaban a domicilios diferentes, solo sea actualizan el dom fiscal referenciado
+                                // De lo contrario, si apuntaban a domicilios diferentes, solo sea actualizan el
+                                // dom fiscal referenciado
                                 this.updateDomicilio(this.domicilio_fiscal_id, domicilioFiscalFD);
-                            
                                 datosEmpresaFD.append('domicilio_fiscal_id', this.domicilio_fiscal_id);
                             }
                             
-                        }else{
-                            // Si el usuario marcó la casilla para usar el mismo domicilio, se borra el domicilio fiscal viejo y se establecen los id de ambos domicilios referenciando solo al registro de domicilio de empresa
-                            this.deleteDomicilio(this.domicilio_fiscal_id); 
-                            datosEmpresaFD.append('domicilio_fiscal_id', this.domicilio_empresa_id);
+                        } else {
+                            // si usar mismo domicilio === true >> se trabaja en un domicilio
+                            
+                            // si los campos registrados apuntaban al mismo domicilio >> se guardan los campos con el mismo id
+                            if (this.domicilio_empresa_id === this.domicilio_fiscal_id) {
+                                datosEmpresaFD.append('domicilio_fiscal_id', this.domicilio_empresa_id);
+                            } else {
+                                // si los campos registrados apuntaban a domicilios diferentes >> se debe dejar solo un domicilio
+                                // se borra domicilio_fiscal y se establece domicilio_empresa en ambos campos
+                                this.deleteDomicilio(this.domicilio_fiscal_id);
+                                datosEmpresaFD.append('domicilio_fiscal_id', this.domicilio_empresa_id);
+                                
+                                // se registra el nuevo domicilio empresa
+                                await this.storeDomicilio(domicilioEmpresaFD);
+                                //auxiliar que retorna el id del domicilio guardado mediante la funcion storeDomicilio
+                                this.domicilio_fiscal_id = this.id_dom_aux;
+                                // PENDIENTE IMPLEMENTAR
+                            }
                         }
-                        
-                    }else{//si aun no hay domicilios registrados, se crearán nuevos registros
-
+                    //si aun no hay domicilios registrados, se crearán nuevos registros
+                    } else {
                         //se registra el domicilio de la empresa primero
                         await this.storeDomicilio(domicilioEmpresaFD);
                         this.domicilio_empresa_id = this.id_dom_aux;//auxiliar que retorna el id del domicilio guardado desde la función storeDomicilio
 
                         datosEmpresaFD.append('domicilio_empresa_id', this.domicilio_empresa_id);
                         
-                        if(this.mismo_domicilio === false){ //si el usuario quiere que ambos domicilios sean diferentes
+                        //si el usuario quiere que ambos domicilios sean diferentes
+                        if (this.mismo_domicilio === false) {
                             // validar que aqui no haya error -----------------------
                             await this.storeDomicilio(domicilioFiscalFD);
                             this.domicilio_fiscal_id = this.id_dom_aux;
                             datosEmpresaFD.append('domicilio_fiscal_id', this.domicilio_fiscal_id)
-                        }else{ //si el usuario quiere que ambos domicilios sean iguales se usa el de la empresa
+                        //si el usuario quiere que ambos domicilios sean iguales se usa el de la empresa
+                        }else{
                             datosEmpresaFD.append('domicilio_fiscal_id', this.domicilio_empresa_id);
                         }
                     }
-
                     // console.log("------ Imprimiendo datos de empresa -----");
-                    // for (var pair of datosEmpresaFD.entries()) {
-                    //     console.log(pair[0]+ ', ' + pair[1]);
-                    // }
-
-                    datosEmpresaFD.append('id', this.empresaIdProp);
+                    // datosEmpresaFD.forEach((valor, clave) => {
+                    //     console.log(clave, valor);
+                    // });
                     this.updateEmpresa(this.empresaIdProp, datosEmpresaFD);
-                }else{//si no existe empresa creada se manda error
+                    
+                //si no existe empresa creada se manda error
+                } else {
                     Swal.fire('',`Error aún no se ha creado una empresa`,'error').then(resp => {
                         // location.href = "/"
                     });
                 }
             }
         },
+        
         updateDomicilio(id, domicilio){
             axios.post('/api/domicilio/'+ id ,domicilio).then(resp => {
-                if(resp.data.status){
-                    // console.log("Domicilio actualizado")
-                }else{
-                    Swal.fire('Ocurrio un error',resp.data.msg,'error')
-                }
+                if (resp.data.status) console.log("Domicilio actualizado")
+                else Swal.fire('Ocurrio un error',resp.data.msg,'error')
             }).catch(error => {
-                if(error.response.status == 422){
-                    console.log(resp.response.data.errors);
-                }
+                if (error.response.status == 422) console.log(resp.response.data.errors);
             })
         },
         updateEmpresa(id, empresa){
+            empresa.append('id', this.empresaIdProp);
+            
             axios.post('/api/empresa/'+ id ,empresa).then(resp => {
-                if(resp.data.status){
+                if (resp.data.status){
                     Swal.fire('',`Información actualizada`,'success').then(resp => {
                         location.href = "/empresa"
                     });
-                }else{
-                    Swal.fire('Ocurrio un error',resp.data.msg,'error')
-                }
+                } else Swal.fire('Ocurrio un error',resp.data.msg,'error')
             }).catch(error => {
-                if(error.response.status == 422){
-                    console.log(resp.response.data.errors);
-                }
+                if (error.response.status == 422) console.log(resp.response.data.errors);
             })
         },
         deleteDomicilio(domicilio){
@@ -693,7 +703,6 @@ export default {
                 }
             })
         }
-                
     }
 }
 
